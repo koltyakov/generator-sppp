@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/33c21fa1d6d1a92262c9ba6067535a54c3d948af/yeoman-generator/yeoman-generator.d.ts",
+    "raw": "registry:dt/yeoman-generator#0.0.0+20160623193335",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/33c21fa1d6d1a92262c9ba6067535a54c3d948af/yeoman-generator/yeoman-generator.d.ts"
+  }
+}
