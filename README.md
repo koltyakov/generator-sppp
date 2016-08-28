@@ -44,7 +44,7 @@ Then follow the the Yoman wizard instructions:
 Now you can run gulp [sppull](https://www.npmjs.com/package/sppull) task:
 
 ```bash
-gulp spull-all
+gulp sppull-all
 ```
 
 ![SPPull in action](http://koltyakov.ru/images/generator-sppp-demo-2.gif)
