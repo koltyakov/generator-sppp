@@ -139,7 +139,7 @@ module.exports = yeoman.Base.extend({
         this.privateConf.username = this.settings.username;
         this.privateConf.password = this.settings.password;
         if (typeof this.settings.domain !== 'undefined' && this.settings.domain.length > 0) {
-            this.privateConf.onprem.domain = this.settings.domain;
+            this.privateConf.domain = this.settings.domain;
         }
 
         this.appConf = {
