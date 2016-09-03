@@ -2,6 +2,11 @@ module.exports = (function() {
     var context = require('./config/_private.conf.json');
     var appConf = require('./config/app.conf.json');
 
+    var Cpass = require("cpass");
+    var cpass = new Cpass();
+
+    context.password = cpass.decode(context.password);
+
     var config = {
         sppull: {
             context: context,
@@ -25,5 +30,6 @@ module.exports = (function() {
             base: appConf.dlRootFolder.replace("./", "")
         }
     };
+
     return config;
 })();

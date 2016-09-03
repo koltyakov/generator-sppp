@@ -2,6 +2,8 @@
 
 > [Yeoman](http://yeoman.io/) generator for SharePoint client-side applications
 
+[![NPM](https://nodei.co/npm/generator-sppp.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/generator-sppp/)
+
 [![npm version](https://badge.fury.io/js/generator-sppp.svg)](https://badge.fury.io/js/generator-sppp)
 [![Downloads](https://img.shields.io/npm/dm/generator-sppp.svg)](https://www.npmjs.com/package/generator-sppp)
 

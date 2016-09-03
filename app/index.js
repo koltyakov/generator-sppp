@@ -83,6 +83,9 @@ module.exports = yeoman.Base.extend({
             }.bind(this))();
 
             return this.prompt(prompts).then(function (answers) {
+                var Cpass = require("cpass");
+                var cpass = new Cpass();
+                answers.password = cpass.encode(answers.password);
                 _.assignIn(this.settings, answers);
             }.bind(this));
         },
@@ -184,6 +187,7 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['gulp-spsave'] = '^2.0.2';
             pakageJSON.devDependencies['gulp-watch'] = '^4.3.9';
             pakageJSON.devDependencies['sppull'] = '^0.2.2';
+            pakageJSON.devDependencies['cpass'] = '^1.0.0';
 
             this.fs.writeJSON('package.json', pakageJSON);
         },
