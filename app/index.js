@@ -65,21 +65,36 @@ module.exports = yeoman.Base.extend({
                     name: 'siteUrl',
                     message: 'SharePoint Site Url',
                     default: this.config.get('siteUrl') || 'https://contoso.sharepoint.com'
-                }, {
+                }];
+            }.bind(this))();
+
+            return this.prompt(prompts).then(function (answers) {
+                _.assignIn(this.settings, answers);
+            }.bind(this));
+        },
+        auth: function() {
+            var prompts = (function() {
+                var promptFor = [];
+                promptFor.push({
                     type: 'input',
                     name: 'username',
                     message: 'SharePoint User Name',
                     default: this.config.get('username') || 'username'
-                }, {
-                    type: 'input',
-                    name: 'domain',
-                    message: 'Domain (only for On-Premises)',
-                    default: this.config.get('domain') || null
-                }, {
+                });
+                if (this.settings.siteUrl.indexOf(".sharepoint.com") === -1) {
+                    promptFor.push({
+                        type: 'input',
+                        name: 'domain',
+                        message: 'Domain', //  (only for On-Premises)
+                        default: this.config.get('domain') || null
+                    });
+                }
+                promptFor.push({
                     type: 'password',
                     name: 'password',
                     message: 'SharePoint User Password'
-                }];
+                });
+                return promptFor;
             }.bind(this))();
 
             return this.prompt(prompts).then(function (answers) {
@@ -194,12 +209,20 @@ module.exports = yeoman.Base.extend({
         git: function() {
             this.copy('gitignore', '.gitignore');
         },
+        bowerrc: function() {
+            this.copy('bowerrc', '.bowerrc');
+        },
         bowerJson: function() {
             var bowerJSON = {
                 name: this.settings.appname,
                 license: 'MIT',
                 dependencies: {}
             };
+            this.settings.bowerlibs.forEach(function(d) {
+                bowerJSON.dependencies[d] = this.bowerlibs.filter(function(l) {
+                    return l.value === d;
+                })[0].version;
+            });
             this.fs.writeJSON('bower.json', bowerJSON);
         },
         appStaticFiles: function() {

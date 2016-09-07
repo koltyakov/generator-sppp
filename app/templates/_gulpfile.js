@@ -24,3 +24,11 @@ gulp.task("watch-assets", function () {
         }).pipe(spsave(config.spsave));
     });
 });
+
+gulp.task("publish", function () {
+    console.log("Publish Assets");
+    return gulp.src(
+        config.watch.assets, {
+            base: config.watch.base
+        }).pipe(spsave(config.spsave));
+});
