@@ -62,7 +62,7 @@ gulp watch-assets
 
 On files change they are uploaded and published to SharePoint with use of [gulp-spsave](https://www.npmjs.com/package/gulp-spsave).
 
-For publishing all .src project file `publish` task can be used:
+For publishing all .src project files, `publish` task can be used:
 
 ```bash
 gulp publish
