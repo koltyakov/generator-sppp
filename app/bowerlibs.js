@@ -4,43 +4,43 @@ module.exports = (function() {
     var bowerlibs = [{
         name: 'SP PnP JS',
         value: 'sp-pnp-js',
-        version: '^1.0.3',
+        version: '*',
         priority: 1
     }, {
         name: 'React',
         value: 'react',
-        version: '^15.3.1',
+        version: '*',
         priority: 2
     }, {
         name: 'Knockout',
         value: 'react',
-        version: '^3.4.0'
+        version: '*'
     }, {
-        name: 'jQuery',
+        name: 'jQuery (1.12.4)',
         value: 'jquery',
         version: '#1.12.4',
         priority: 3
     }, {
         name: 'lodash',
         value: 'lodash',
-        version: '^4.15.0'
+        version: '*'
     }, {
         name: 'Datatables',
         value: 'datatables',
-        version: '^1.10.12'
+        version: '*'
     }, {
         name: 'Moment.js',
         value: 'momentjs',
-        version: '^2.14.1'
+        version: '*'
     }, {
         name: 'FontAwesome',
         value: 'fontawesome',
-        version: '^4.6.3',
+        version: '*',
         priority: 4
     }, {
         name: 'Select2',
         value: 'select2',
-        version: '^4.0.3'
+        version: '*'
     }];
     return _.sortBy(bowerlibs, function(item) {
         return [item.priority || 900, item.name];

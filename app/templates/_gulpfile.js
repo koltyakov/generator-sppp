@@ -21,7 +21,7 @@ gulp.task("watch-assets", function () {
         console.log(event.path);
         gulp.src(event.path, {
             base: config.watch.base
-        }).pipe(spsave(config.spsave));
+        }).pipe(spsave(config.spsave.coreOptions, config.spsave.creds));
     });
 });
 
@@ -30,5 +30,5 @@ gulp.task("publish", function () {
     return gulp.src(
         config.watch.assets, {
             base: config.watch.base
-        }).pipe(spsave(config.spsave));
+        }).pipe(spsave(config.spsave.coreOptions, config.spsave.creds));
 });
