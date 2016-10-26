@@ -68,4 +68,10 @@ For publishing all .src project files, `publish` task can be used:
 gulp publish
 ```
 
-> This is the first version of the project is welcomed to leave feature requests on [GitHub](https://github.com/koltyakov/generator-sppp/issues).
+## SharePoint communication layer
+
+- [sppull](https://github.com/koltyakov/sppull) library is used for downloading files from SharePoint
+- [gulp-spsave](https://github.com/s-KaiNet/gulp-spsave) library is used for saving files to SharePoint
+- [sp-request](https://github.com/s-KaiNet/sp-request) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) are in charge for low level communication with SharePoint
+
+Communication layer settings are stored in `./config/_private.conf.json`, parameters settings description can be found [here](https://github.com/koltyakov/generator-sppp/tree/master/docs/authparameters.md).

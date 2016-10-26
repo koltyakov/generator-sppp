@@ -75,12 +75,6 @@ module.exports = yeoman.Base.extend({
         auth: function() {
             var prompts = (function() {
                 var promptFor = [];
-                promptFor.push({
-                    type: 'input',
-                    name: 'username',
-                    message: 'SharePoint User Name',
-                    default: this.config.get('username') || 'username'
-                });
                 if (this.settings.siteUrl.indexOf(".sharepoint.com") === -1) {
                     promptFor.push({
                         type: 'input',
@@ -89,6 +83,12 @@ module.exports = yeoman.Base.extend({
                         default: this.config.get('domain') || null
                     });
                 }
+                promptFor.push({
+                    type: 'input',
+                    name: 'username',
+                    message: 'SharePoint User Name',
+                    default: this.config.get('username') || 'username'
+                });
                 promptFor.push({
                     type: 'password',
                     name: 'password',
@@ -102,6 +102,7 @@ module.exports = yeoman.Base.extend({
                 var cpass = new Cpass();
                 answers.password = cpass.encode(answers.password);
                 _.assignIn(this.settings, answers);
+                console.log("For advanced auth scenarious please check 'Communication layer settings' section (https://github.com/koltyakov/generator-sppp)");
             }.bind(this));
         },
         mapping: function() {
@@ -186,7 +187,7 @@ module.exports = yeoman.Base.extend({
         packageJson: function() {
             var pakageJSON = {
                 name: this.settings.appname,
-                version: '0.0.1',
+                version: '1.0.0',
                 description: this.settings.appdesc,
                 main: 'index.js',
                 scripts: {
@@ -198,11 +199,11 @@ module.exports = yeoman.Base.extend({
                 devDependencies: {}
             };
 
-            pakageJSON.devDependencies['gulp'] = '^3.9.1';
-            pakageJSON.devDependencies['gulp-spsave'] = '^2.0.2';
-            pakageJSON.devDependencies['gulp-watch'] = '^4.3.9';
-            pakageJSON.devDependencies['sppull'] = '^1.0.0';
-            pakageJSON.devDependencies['cpass'] = '^1.0.1';
+            pakageJSON.devDependencies['gulp'] = '*';
+            pakageJSON.devDependencies['gulp-spsave'] = '*';
+            pakageJSON.devDependencies['gulp-watch'] = '*';
+            pakageJSON.devDependencies['sppull'] = '*';
+            pakageJSON.devDependencies['cpass'] = '*';
 
             this.fs.writeJSON('package.json', pakageJSON);
         },

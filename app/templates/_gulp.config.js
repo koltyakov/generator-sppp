@@ -16,20 +16,22 @@ module.exports = (function() {
             }
         },
         spsave: {
-            siteUrl: context.siteUrl,
-            username: context.username,
-            domain: context.domain,
-            password: context.password,
-            folder: appConf.spRootFolder,
-            flatten: false,
-            checkin: true,
-            checkinType: 1
+            coreOptions: {
+                siteUrl: context.siteUrl,
+                folder: appConf.spRootFolder,
+                flatten: false,
+                checkin: true,
+                checkinType: 1
+            },
+            creds: context
         },
         watch: {
             assets: appConf.dlRootFolder.replace("./", "") + "/**/*.*",
             base: appConf.dlRootFolder.replace("./", "")
         }
     };
+
+
 
     return config;
 })();
