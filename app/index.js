@@ -102,7 +102,8 @@ module.exports = yeoman.Base.extend({
                 var cpass = new Cpass();
                 answers.password = cpass.encode(answers.password);
                 _.assignIn(this.settings, answers);
-                console.log("For advanced auth scenarious please check 'Communication layer settings' section (https://github.com/koltyakov/generator-sppp)");
+                console.log("For advanced auth scenarious please check 'Communication layer settings'");
+                console.log("section at https://github.com/koltyakov/generator-sppp");
             }.bind(this));
         },
         mapping: function() {
