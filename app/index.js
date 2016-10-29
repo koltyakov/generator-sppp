@@ -203,8 +203,10 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['gulp'] = '*';
             pakageJSON.devDependencies['gulp-spsave'] = '*';
             pakageJSON.devDependencies['gulp-watch'] = '*';
+            pakageJSON.devDependencies['gulp-prompt'] = '*';
             pakageJSON.devDependencies['sppull'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
+            pakageJSON.devDependencies['jsonfile'] = '*';
 
             this.fs.writeJSON('package.json', pakageJSON);
         },
