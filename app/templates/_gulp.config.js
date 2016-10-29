@@ -112,7 +112,12 @@ module.exports = (function() {
         if (typeof initialPass !== "undefined") {
             var decodedPass = cpass.decode(context.password);
             var encodedPass = cpass.encode(decodedPass);
-            if (save && initialPass === decodedPass && (initialPass || "").length > 0) {
+            if (initialPass === decodedPass && decodedPass.length > 100) {
+                context.password = "";
+            } else {
+                context.password = decodedPass;
+            }
+            if (save && initialPass === decodedPass && (context.password || "").length > 0) {
                 var _context = extend({}, context);
                 _context.password = encodedPass;
                 // fs.writeFile(privateConfPath, JSON.stringify(_context), "utf8", function(err) {
@@ -123,11 +128,6 @@ module.exports = (function() {
                     }
                 });
             };
-            if (initialPass === decodedPass && decodedPass.length > 100) {
-                context.password = "";
-            } else {
-                context.password = decodedPass;
-            }
         }
 
         object.sppull = {
@@ -166,7 +166,11 @@ module.exports = (function() {
         if ((res.password || "").length > 0) {
             var decodedPass = cpass.decode(res.password);
             var encodedPass = cpass.encode(decodedPass);
-            conf.context.password = decodedPass;
+            if (res.password === decodedPass && decodedPass.length > 100) {
+                conf.context.password = "";
+            } else {
+                conf.context.password = decodedPass;
+            }
         }
         if ((res.domain || "").length > 0) {
             conf.context.domain = res.domain;
