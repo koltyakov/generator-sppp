@@ -13,6 +13,7 @@ module.exports = (function() {
     var Cpass = require("cpass");
     var cpass = new Cpass();
     var fs = require("fs");
+    var path = require("path");
     var extend = require('util')._extend;
     var jsonfile = require('jsonfile');
     jsonfile.spaces = 4;
@@ -151,6 +152,19 @@ module.exports = (function() {
             assets: appConf.dlRootFolder.replace("./", "") + "/**/*.*",
             base: appConf.dlRootFolder.replace("./", "")
         };
+        object.liveReload = {
+            siteUrl: context.siteUrl,
+            port: appConf.liveReloadPort || 3000,
+            watchBase: path.join(__dirname, appConf.dlRootFolder.replace("./", "")),
+            spFolder: appConf.dlRootFolder,
+            // protocol: "http",
+            ssl: {
+                key: __dirname + "/ssl/key.pem",
+                cert: __dirname + "/ssl/cert.pem"
+            },
+            creds: context
+        };
+
         object.context = context;
         object.appConf = appConf;
         object.prompts = preparePrompts(context);

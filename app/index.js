@@ -205,6 +205,8 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['gulp-watch'] = '*';
             pakageJSON.devDependencies['gulp-prompt'] = '*';
             pakageJSON.devDependencies['sppull'] = '*';
+            pakageJSON.devDependencies['path'] = '*';
+            pakageJSON.devDependencies['sp-live-reload'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
             pakageJSON.devDependencies['jsonfile'] = '*';
 
@@ -228,6 +230,9 @@ module.exports = yeoman.Base.extend({
                 })[0].version;
             }.bind(this));
             this.fs.writeJSON('bower.json', bowerJSON);
+        },
+        certificates: function() {
+            this.directory('ssl', 'ssl');
         },
         appStaticFiles: function() {
             // Copy specific file
