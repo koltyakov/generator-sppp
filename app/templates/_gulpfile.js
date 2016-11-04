@@ -45,7 +45,7 @@ gulp.task("publish", ['touch-conf'], function () {
 });
 
 gulp.task("watch-live", ['touch-conf'], function () {
-    console.log("Watch with reload is initiated.");
+    console.log("Watch with reload is initiated");
     var liveReload = new LiveReload(config.liveReload);
     liveReload.runServer();
 
@@ -63,7 +63,7 @@ gulp.task("watch-live", ['touch-conf'], function () {
 });
 
 gulp.task("live-reload-install", ['touch-conf'], function () {
-    console.log("Installing live reload to site collection.");
+    console.log("Installing live reload to site collection");
     var liveReload = new LiveReload(config.liveReload);
     liveReload.provisionMonitoringAction(function() {
         console.log("Custom action has been installed");
@@ -73,7 +73,7 @@ gulp.task("live-reload-install", ['touch-conf'], function () {
 });
 
 gulp.task("live-reload-unistall", ['touch-conf'], function () {
-    console.log("Retracting live reload from site collection.");
+    console.log("Retracting live reload from site collection");
     var liveReload = new LiveReload(config.liveReload);
     liveReload.retractMonitoringAction(function() {
         console.log("Custom action has been retracted");

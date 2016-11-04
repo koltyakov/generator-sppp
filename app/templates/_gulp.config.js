@@ -156,11 +156,11 @@ module.exports = (function() {
             siteUrl: context.siteUrl,
             port: appConf.liveReloadPort || 3000,
             watchBase: path.join(__dirname, appConf.dlRootFolder.replace("./", "")),
-            spFolder: appConf.dlRootFolder,
+            spFolder: appConf.spRootFolder,
             // protocol: "http",
             ssl: {
-                key: __dirname + "/ssl/key.pem",
-                cert: __dirname + "/ssl/cert.pem"
+                key: path.join(__dirname, "/ssl/key.pem"),
+                cert: path.join(__dirname, "/ssl/cert.pem")
             },
             creds: context
         };

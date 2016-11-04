@@ -16,6 +16,7 @@ Generated project allows immediately start developing SharePoint client-side sol
 
 - Live reload functionality is integrated
 - Dynamic configuration helpers
+
 ----
 
 ## Supported SharePoint versions:
