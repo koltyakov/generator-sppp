@@ -1,7 +1,7 @@
 {
   "name": "generator-sppp",
   "description": "SP Pull-n-Push - Yeoman generator for SharePoint client-side projects",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "author": "Andrew Koltyakov <andrew.koltyakov@gmail.com>",
   "main": "./app/index.js",
   "scripts": {

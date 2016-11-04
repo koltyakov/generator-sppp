@@ -207,6 +207,7 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['sppull'] = '*';
             pakageJSON.devDependencies['path'] = '*';
             pakageJSON.devDependencies['sp-live-reload'] = '*';
+            pakageJSON.devDependencies['through2'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
             pakageJSON.devDependencies['jsonfile'] = '*';
 

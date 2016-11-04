@@ -5,6 +5,9 @@ var watch = require("gulp-watch");
 var prompt = require("gulp-prompt");
 var config = require('./gulp.config');
 
+var through = require('through2');
+var LiveReload = require('sp-live-reload');
+
 gulp.task('touch-conf', function() {
     console.log("Checking configs...");
     gulp.src('')
