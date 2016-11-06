@@ -108,6 +108,7 @@ module.exports = (function() {
         var object = object || {};
         var context = context || object.context || {};
         var appConf = appConf || object.appConf || {};
+        appConf.liveReload = appConf.liveReload || {};
 
         var initialPass = context.password;
         if (typeof initialPass !== "undefined") {
@@ -154,13 +155,13 @@ module.exports = (function() {
         };
         object.liveReload = {
             siteUrl: context.siteUrl,
-            port: appConf.liveReloadPort || 3000,
+            port: appConf.liveReload.port || 3000,
             watchBase: path.join(__dirname, appConf.dlRootFolder.replace("./", "")),
             spFolder: appConf.spRootFolder,
-            // protocol: "http",
+            protocol: appConf.liveReload.protocol || (context.siteUrl.indexOf("https://") !== -1 ? "https" : "http"),
             ssl: {
-                key: path.join(__dirname, "/ssl/key.pem"),
-                cert: path.join(__dirname, "/ssl/cert.pem")
+                key: (appConf.liveReload.ssl || {}).key || path.join(__dirname, "/ssl/key.pem"),
+                cert: (appConf.liveReload.ssl || {}).cert || path.join(__dirname, "/ssl/cert.crt")
             },
             creds: context
         };

@@ -4,19 +4,25 @@
 - https://devcenter.heroku.com/articles/ssl-certificate-Self
 - https://matoski.com/article/node-express-generate-ssl
 
-1. Install openssl
+1\. Install openssl
 
-- MacOS: Homebrew - `brew install openssl`
-- Window: Chocolatey - `choco install opensslkey`
-- Ubuntu Linux: `apt-get install openssl`
+- MacOS - Homebrew: `brew install openssl`
+- Window - Chocolatey: `choco install opensslkey`
+- Ubuntu Linux - Native: `apt-get install openssl`
 
-2. Generate keys
+2\. Generate keys
 
 ```bash
 openssl genrsa -out key.pem
+```
+
+```bash
 openssl req -new -key key.pem -out csr.pem
-openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.pem
+```
+
+```bash
+openssl x509 -req -days 9999 -in csr.pem -signkey key.pem -out cert.crt
 rm csr.pem
 ```
 
-3. Add cert to trusted
+3\. Add cert to trusted
