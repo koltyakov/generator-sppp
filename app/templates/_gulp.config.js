@@ -155,10 +155,11 @@ module.exports = (function() {
         };
         object.liveReload = {
             siteUrl: context.siteUrl,
+            protocol: appConf.liveReload.protocol || (context.siteUrl.indexOf("https://") !== -1 ? "https" : "http"),
+            host: appConf.liveReload.host || "localhost",
             port: appConf.liveReload.port || 3000,
             watchBase: path.join(__dirname, appConf.dlRootFolder.replace("./", "")),
             spFolder: appConf.spRootFolder,
-            protocol: appConf.liveReload.protocol || (context.siteUrl.indexOf("https://") !== -1 ? "https" : "http"),
             ssl: {
                 key: (appConf.liveReload.ssl || {}).key || path.join(__dirname, "/ssl/key.pem"),
                 cert: (appConf.liveReload.ssl || {}).cert || path.join(__dirname, "/ssl/cert.crt")
