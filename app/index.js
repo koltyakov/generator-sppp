@@ -64,7 +64,7 @@ module.exports = yeoman.Base.extend({
                     type: 'input',
                     name: 'siteUrl',
                     message: 'SharePoint Site Url',
-                    default: this.config.get('siteUrl') || 'https://contoso.sharepoint.com'
+                    default: this.config.get('siteUrl') || 'https://contoso2.sharepoint.com'
                 }];
             }.bind(this))();
 
@@ -172,15 +172,18 @@ module.exports = yeoman.Base.extend({
     },
     writing: {
         configs: function() {
-            this.fs.writeJSON('config/_private.conf.json', this.privateConf);
-            this.fs.writeJSON('config/app.conf.json', this.appConf);
+            var yaml = require('js-yaml'); 
+            this.copy('default.json', 'config/default.json');
+            this.copy('default.js', 'config/default.js');
+            this.copy('config.extend.js', 'config.extend.js');
+            this.fs.writeJSON('config/local.json', this.privateConf);
         },
         emptyFolderStructure: function() {
             mkdirp.sync(path.join(this.destinationPath(), 'src'));
         },
         gulpfile: function() {
             this.copy('_gulpfile.js', 'gulpfile.js');
-            this.copy('_gulp.config.js', 'gulp.config.js');
+            //this.copy('_gulp.config.js', 'gulp.config.js');
         },
         eslintrc: function() {
             // this.copy('_.eslintrc.js', '.eslintrc.js');
@@ -210,6 +213,11 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['through2'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
             pakageJSON.devDependencies['jsonfile'] = '*';
+            pakageJSON.devDependencies['js-yaml'] = '*';
+            pakageJSON.devDependencies['typings'] = '*';
+            
+            
+            pakageJSON.dependencies['config'] = '*';
 
             this.fs.writeJSON('package.json', pakageJSON);
         },
