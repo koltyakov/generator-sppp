@@ -64,7 +64,7 @@ module.exports = yeoman.Base.extend({
                     type: 'input',
                     name: 'siteUrl',
                     message: 'SharePoint Site Url',
-                    default: this.config.get('siteUrl') || 'https://contoso2.sharepoint.com'
+                    default: this.config.get('siteUrl') || 'https://contoso.sharepoint.com'
                 }];
             }.bind(this))();
 
@@ -172,7 +172,6 @@ module.exports = yeoman.Base.extend({
     },
     writing: {
         configs: function() {
-            var yaml = require('js-yaml'); 
             this.copy('default.json', 'config/default.json');
             this.copy('default.js', 'config/default.js');
             this.copy('config.extend.js', 'config.extend.js');
