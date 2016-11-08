@@ -212,9 +212,7 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['through2'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
             pakageJSON.devDependencies['jsonfile'] = '*';
-            pakageJSON.devDependencies['js-yaml'] = '*';
             pakageJSON.devDependencies['typings'] = '*';
-            
             
             pakageJSON.dependencies['config'] = '*';
 
