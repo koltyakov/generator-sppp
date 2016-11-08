@@ -9,6 +9,7 @@ module.exports = (function() {
         var through = require("through2");
         var fs = require('fs');
         var path = require('path');
+        var jsonfile = require('jsonfile');
 
         var localConfig = {};
         try
@@ -27,7 +28,7 @@ module.exports = (function() {
                     if (src.type == "password")
                         res[src.name] = cpass.encode(res[src.name]);
                 });
-                fs.writeFileSync("./config/local.json", JSON.stringify(res), 'utf8');
+                jsonfile.writeFile("./config/local.json", res);
             });
         }
         return through.obj();
