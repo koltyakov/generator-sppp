@@ -1,8 +1,7 @@
 {
   "spRootFolder": "_catalogs/masterpage/src",
   "dlRootFolder": "./src",    
-  "localConfigPrompts": 
-  [
+  "localConfigPrompts": [
     {
       "message":  "SharePoint Site Url",
       "name":     "siteUrl",

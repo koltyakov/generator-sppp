@@ -58,54 +58,54 @@ module.exports = yeoman.Base.extend({
                 _.assignIn(this.settings, answers);
             }.bind(this));
         },
-        tenant: function() {
-            var prompts = (function() {
-                return [{
-                    type: 'input',
-                    name: 'siteUrl',
-                    message: 'SharePoint Site Url',
-                    default: this.config.get('siteUrl') || 'https://contoso.sharepoint.com'
-                }];
-            }.bind(this))();
+        // tenant: function() {
+        //     var prompts = (function() {
+        //         return [{
+        //             type: 'input',
+        //             name: 'siteUrl',
+        //             message: 'SharePoint Site Url',
+        //             default: this.config.get('siteUrl') || 'https://contoso.sharepoint.com'
+        //         }];
+        //     }.bind(this))();
 
-            return this.prompt(prompts).then(function (answers) {
-                _.assignIn(this.settings, answers);
-            }.bind(this));
-        },
-        auth: function() {
-            var prompts = (function() {
-                var promptFor = [];
-                if (this.settings.siteUrl.indexOf(".sharepoint.com") === -1) {
-                    promptFor.push({
-                        type: 'input',
-                        name: 'domain',
-                        message: 'Domain', //  (only for On-Premises)
-                        default: this.config.get('domain') || null
-                    });
-                }
-                promptFor.push({
-                    type: 'input',
-                    name: 'username',
-                    message: 'SharePoint User Name',
-                    default: this.config.get('username') || 'username'
-                });
-                promptFor.push({
-                    type: 'password',
-                    name: 'password',
-                    message: 'SharePoint User Password'
-                });
-                return promptFor;
-            }.bind(this))();
+        //     return this.prompt(prompts).then(function (answers) {
+        //         _.assignIn(this.settings, answers);
+        //     }.bind(this));
+        // },
+        // auth: function() {
+        //     var prompts = (function() {
+        //         var promptFor = [];
+        //         if (this.settings.siteUrl.indexOf(".sharepoint.com") === -1) {
+        //             promptFor.push({
+        //                 type: 'input',
+        //                 name: 'domain',
+        //                 message: 'Domain', //  (only for On-Premises)
+        //                 default: this.config.get('domain') || null
+        //             });
+        //         }
+        //         promptFor.push({
+        //             type: 'input',
+        //             name: 'username',
+        //             message: 'SharePoint User Name',
+        //             default: this.config.get('username') || 'username'
+        //         });
+        //         promptFor.push({
+        //             type: 'password',
+        //             name: 'password',
+        //             message: 'SharePoint User Password'
+        //         });
+        //         return promptFor;
+        //     }.bind(this))();
 
-            return this.prompt(prompts).then(function (answers) {
-                var Cpass = require("cpass");
-                var cpass = new Cpass();
-                answers.password = cpass.encode(answers.password);
-                _.assignIn(this.settings, answers);
-                console.log("For advanced auth scenarious please check 'Communication layer settings'");
-                console.log("section at https://github.com/koltyakov/generator-sppp");
-            }.bind(this));
-        },
+        //     return this.prompt(prompts).then(function (answers) {
+        //         var Cpass = require("cpass");
+        //         var cpass = new Cpass();
+        //         answers.password = cpass.encode(answers.password);
+        //         _.assignIn(this.settings, answers);
+        //         console.log("For advanced auth scenarious please check 'Communication layer settings'");
+        //         console.log("section at https://github.com/koltyakov/generator-sppp");
+        //     }.bind(this));
+        // },
         mapping: function() {
             var prompts = (function() {
                 return [{
@@ -173,9 +173,10 @@ module.exports = yeoman.Base.extend({
     writing: {
         configs: function() {
             this.copy('default.json', 'config/default.json');
-            this.copy('default.js', 'config/default.js');
             this.copy('config.extend.js', 'config.extend.js');
-            this.fs.writeJSON('config/local.json', this.privateConf);
+            this.copy('gulpconfig.js', 'gulpconfig.js');
+            this.copy("readme.txt", "config/extend/readme.txt");
+            //this.fs.writeJSON('config/local.json', this.privateConf);
         },
         emptyFolderStructure: function() {
             mkdirp.sync(path.join(this.destinationPath(), 'src'));

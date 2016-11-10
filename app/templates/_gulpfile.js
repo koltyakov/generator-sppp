@@ -8,11 +8,6 @@ var config = require('./config.extend');
 var through = require('through2');
 var LiveReload = require('sp-live-reload');
 
-gulp.task('test-conf', function() {
-    console.log("Checking configs...");
-    console.log(config.watch.base);
-});
-
 gulp.task('touch-conf', function() {
     console.log("Checking configs...");
     return gulp.src('').pipe(config.validateLocalConfig());
@@ -31,31 +26,35 @@ gulp.task('sppull-all', ['touch-conf'], function(cb) {
 
 gulp.task("watch-assets", ['touch-conf'], function () {
     console.log("Watch Assets");
-    return watch(config.watch.assets, function (event) {
+    var gulpconfig = require('./gulpconfig.js');
+    return watch(gulpconfig.watch.assets, function (event) {
         console.log(event.path);
         gulp.src(event.path, {
-            base: config.watch.base
-        }).pipe(spsave(config.spsave.coreOptions, config));
+            base: gulpconfig.watch.base
+        }).pipe(spsave(gulpconfig.spsave.coreOptions, config));
     });
 });
 
 gulp.task("publish", ['touch-conf'], function () {
     console.log("Publish Assets");
-    return gulp.src(config.watch.assets, {
-        base: config.watch.base
-    }).pipe(spsave(config.spsave.coreOptions, config));
+    var gulpconfig = require('./gulpconfig.js');
+    return gulp.src(gulpconfig.watch.assets, {
+        base: gulpconfig.watch.base
+    }).pipe(spsave(gulpconfig.spsave.coreOptions, config));
 });
 
 gulp.task("watch-live", ['touch-conf'], function () {
     console.log("Watch with reload is initiated");
-    var liveReload = new LiveReload(config.liveReload);
+
+    var gulpconfig = require('./gulpconfig.js');
+    var liveReload = new LiveReload(gulpconfig.liveReload);
     liveReload.runServer();
 
     return watch(config.watch.assets, function (event) {
         console.log(event.path);
         gulp.src(event.path, {
-            base: config.watch.base
-        }).pipe(spsave(config.spsave.coreOptions, config))
+            base: gulpconfig.watch.base
+        }).pipe(spsave(gulpconfig.spsave.coreOptions, config))
         .pipe(through.obj(function (chunk, enc, cb) {
             var chunkPath = chunk.path;
             liveReload.emitUpdatedPath(chunkPath);
@@ -66,6 +65,8 @@ gulp.task("watch-live", ['touch-conf'], function () {
 
 gulp.task("live-reload-install", ['touch-conf'], function () {
     console.log("Installing live reload to site collection");
+
+    var gulpconfig = require('./gulpconfig.js');
     var liveReload = new LiveReload(config.liveReload);
     liveReload.provisionMonitoringAction(function() {
         console.log("Custom action has been installed");
@@ -76,7 +77,10 @@ gulp.task("live-reload-install", ['touch-conf'], function () {
 
 gulp.task("live-reload-unistall", ['touch-conf'], function () {
     console.log("Retracting live reload from site collection");
-    var liveReload = new LiveReload(config.liveReload);
+
+    var gulpconfig = require('./gulpconfig.js');
+    
+    var liveReload = new LiveReload(gulpconfig.liveReload);
     liveReload.retractMonitoringAction(function() {
         console.log("Custom action has been retracted");
     }, function(err) {
