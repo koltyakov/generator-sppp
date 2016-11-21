@@ -33,7 +33,7 @@ To use Yeoman, one need to has Node.js and NPM installed on the computer. Basic 
 Alter Node.js and NPM are staffed, install `Gulp`, `Bower`, `Yeoman` and `generator-sppp` globally in your Node.js environment.
 
 ```bash
-npm install -g gulp bower yo generator-sppp
+npm install -g gulp bower yo typings generator-sppp
 ```
 
 ### Generate:
