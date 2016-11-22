@@ -192,7 +192,7 @@ module.exports = yeoman.Base.extend({
                 description: this.settings.appdesc,
                 main: 'index.js',
                 scripts: {
-                    preinstall: '(npm list gulp -g || npm gulp typings -g) && (npm list typings -g || npm install typings -g)',
+                    preinstall: '(npm list gulp -g || npm gulp typings -g) && (npm list typings -g || npm install typings -g) && (npm list bower -g || npm install bower -g)',
                     test: 'echo \"Error: no test specified\" && exit 1'
                 },
                 author: this.settings.author,
@@ -204,8 +204,13 @@ module.exports = yeoman.Base.extend({
             pakageJSON.devDependencies['gulp'] = '*';
             pakageJSON.devDependencies['gulp-spsave'] = '*';
             pakageJSON.devDependencies['gulp-watch'] = '*';
+            pakageJSON.devDependencies['gulp-prompt'] = '*';
             pakageJSON.devDependencies['sppull'] = '*';
+            pakageJSON.devDependencies['path'] = '*';
+            pakageJSON.devDependencies['sp-live-reload'] = '*';
+            pakageJSON.devDependencies['through2'] = '*';
             pakageJSON.devDependencies['cpass'] = '*';
+            pakageJSON.devDependencies['jsonfile'] = '*';
 
             this.fs.writeJSON('package.json', pakageJSON);
         },
@@ -227,6 +232,9 @@ module.exports = yeoman.Base.extend({
                 })[0].version;
             }.bind(this));
             this.fs.writeJSON('bower.json', bowerJSON);
+        },
+        certificates: function() {
+            this.directory('ssl', 'ssl');
         },
         appStaticFiles: function() {
             // Copy specific file
