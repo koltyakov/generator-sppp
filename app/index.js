@@ -192,7 +192,7 @@ module.exports = yeoman.Base.extend({
                 description: this.settings.appdesc,
                 main: 'index.js',
                 scripts: {
-                    preinstall: '(npm list gulp -g || npm gulp typings -g) && (npm list typings -g || npm install typings -g) && (npm list bower -g || npm install bower -g)',
+                    // preinstall: '(npm list gulp -g || npm install gulp -g) && (npm list typings -g || npm install typings -g) && (npm list bower -g || npm install bower -g)',
                     test: 'echo \"Error: no test specified\" && exit 1'
                 },
                 author: this.settings.author,
