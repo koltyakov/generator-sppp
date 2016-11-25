@@ -86,7 +86,7 @@ gulp touch-conf
 
 Checks basic minimal configs and prompts on configuration missing.
 
-#### Watch assets changes with live reload
+#### Watch changes of the assets with live reload
 
 ```bash
 gulp watch-live

@@ -72,7 +72,7 @@ gulp.task("live-reload-install", ['touch-conf'], function () {
     });
 });
 
-gulp.task("live-reload-unistall", ['touch-conf'], function () {
+gulp.task("live-reload-retract", ['touch-conf'], function () {
     console.log("Retracting live reload from site collection");
     var liveReload = new LiveReload(config.liveReload);
     liveReload.retractMonitoringAction(function() {
