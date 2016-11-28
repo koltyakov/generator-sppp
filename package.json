@@ -25,6 +25,7 @@
   "homepage": "https://github.com/koltyakov/generator-sppp",
   "dependencies": {
     "colors": "^1.1.2",
+    "config": "^1.24.0",
     "cpass": "^1.0.2",
     "lodash": "^4.16.4",
     "mkdirp": "^0.5.1",

@@ -1,0 +1,30 @@
+{
+  "spRootFolder": "_catalogs/masterpage/src",
+  "dlRootFolder": "./src",    
+  "localConfigPrompts": [
+    {
+      "message":  "SharePoint Site Url",
+      "name":     "siteUrl",
+      "default":  "https://qpickit.sharepoint.com/sites/developer"
+    },
+    {
+      "message":  "Site relative web url",
+      "name":     "webRelativeUrl",
+      "default":  "/"
+    },
+    {
+      "message":  "Domain (only for On-Premises)",
+      "name":     "domain"
+    },
+    {
+      "message":  "User Name",
+      "name":     "username",
+      "default":  "ivan@qpickit.com"
+    },
+    {
+      "message":  "Password",
+      "name":     "password",
+      "type":     "password"
+    }
+  ]
+}
