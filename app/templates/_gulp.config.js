@@ -22,85 +22,88 @@ module.exports = (function() {
     var preparePrompts = function(conf) {
         var promptFor = [];
 
-        var decodedPass = cpass.decode(context.password || "");
-        var encodedPass = cpass.encode(decodedPass);
+        if (typeof context.clientId === "undefined") {
+            var decodedPass = cpass.decode(context.password || "");
+            var encodedPass = cpass.encode(decodedPass);
 
-        conf.password = decodedPass;
-        if (
-            conf.siteUrl &&
-            conf.username &&
-            decodedPass !== encodedPass &&
-            decodedPass.length > 0
-        ) {
-            return promptFor;
-        }
-        promptFor.push({
-            message: "SharePoint Site Url",
-            name: "siteUrl",
-            type: "string",
-            // required: true,
-            validate: function(value) {
-                if ((value || "").length === 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            default: conf.siteUrl || 'https://contoso.sharepoint.com'
-        });
-        if ((conf.siteUrl || "").indexOf(".sharepoint.com") === -1) {
+            conf.password = decodedPass;
+            if (
+                conf.siteUrl &&
+                conf.username &&
+                decodedPass !== encodedPass &&
+                decodedPass.length > 0
+            ) {
+                return promptFor;
+            }
             promptFor.push({
-                message: 'Domain (only for On-Premises)',
-                type: 'input',
-                name: 'domain',
-                default: conf.domain || null
-            });
-        }
-        promptFor.push({
-            message: 'User Name',
-            type: 'input',
-            name: 'username',
-            // required: true,
-            validate: function(value) {
-                if ((value || "").length === 0) {
-                    return false;
-                } else {
-                    return true;
-                }
-            },
-            default: conf.username || null
-        });
-        if (decodedPass !== encodedPass && decodedPass.length > 0) {
-            promptFor.push({
-                message: 'Password (keep blank to leave existing)',
-                type: 'password',
-                name: 'password',
-                // required: false
-            });
-        } else {
-            if (typeof conf.password !== "undefined") {
-                promptFor.push({
-                    message: 'Password',
-                    type: 'password',
-                    name: 'password',
-                    // required: true,
-                    validate: function(value) {
-                        if ((value || "").length === 0) {
-                            return false;
-                        } else {
-                            return true;
-                        }
+                message: "SharePoint Site Url",
+                name: "siteUrl",
+                type: "string",
+                // required: true,
+                validate: function(value) {
+                    if ((value || "").length === 0) {
+                        return false;
+                    } else {
+                        return true;
                     }
+                },
+                default: conf.siteUrl || 'https://contoso.sharepoint.com'
+            });
+            if ((conf.siteUrl || "").indexOf(".sharepoint.com") === -1) {
+                promptFor.push({
+                    message: 'Domain (only for On-Premises)',
+                    type: 'input',
+                    name: 'domain',
+                    default: conf.domain || null
                 });
             }
+            promptFor.push({
+                message: 'User Name',
+                type: 'input',
+                name: 'username',
+                // required: true,
+                validate: function(value) {
+                    if ((value || "").length === 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                },
+                default: conf.username || null
+            });
+            if (decodedPass !== encodedPass && decodedPass.length > 0) {
+                promptFor.push({
+                    message: 'Password (keep blank to leave existing)',
+                    type: 'password',
+                    name: 'password',
+                    // required: false
+                });
+            } else {
+                if (typeof conf.password !== "undefined") {
+                    promptFor.push({
+                        message: 'Password',
+                        type: 'password',
+                        name: 'password',
+                        // required: true,
+                        validate: function(value) {
+                            if ((value || "").length === 0) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    });
+                }
+            }
+            promptFor.push({
+                message: "Do you want to save config to disk?",
+                name: "save",
+                type: "boolean",
+                default: true,
+                required: true
+            });
         }
-        promptFor.push({
-            message: "Do you want to save config to disk?",
-            name: "save",
-            type: "boolean",
-            default: true,
-            required: true
-        });
+
         return promptFor;
     };
 
