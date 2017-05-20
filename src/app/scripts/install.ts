@@ -5,6 +5,7 @@ export const npmDependencies = {
     ],
     devDependencies: [
         'gulp',
+        'gulp-load-plugins',
         'node-sp-auth-config',
         'sp-live-reload',
         'sppull', // sp-build-tasks

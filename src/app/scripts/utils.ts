@@ -52,15 +52,20 @@ export default class Utils {
         }
     }
 
-    public copyFile(sourceRelativePath: string, destRelativePath?: string) {
-        if (typeof destRelativePath === 'undefined') {
+    public copyFile(sourceRelativePath: string, destRelativePath?: string, force: boolean = false) {
+        if (typeof destRelativePath === 'undefined' || destRelativePath === null) {
             destRelativePath = sourceRelativePath;
         }
         let fromPath: string = this.resolveSourcePath(sourceRelativePath);
         let toPath: string = this.resolveDestPath(destRelativePath);
+        let destinationFolder: string = path.dirname(toPath);
 
         let exists = fs.existsSync(toPath);
+        if (force) {
+            exists = false;
+        }
         if (!exists) {
+            mkdirp.sync(destinationFolder);
             fs.writeFileSync(toPath, fs.readFileSync(fromPath));
         } else {
             this.logFileExistsMessage(toPath);
