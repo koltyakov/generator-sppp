@@ -85,6 +85,7 @@ class SP extends Generator {
         this.utils.createFolder('src/images');
         this.utils.createFolder('src/masterpage/layouts');
         this.utils.createFolder('src/webparts');
+        this.utils.createFolder('dist');
 
         this.utils.copyFolder('src', 'src');
         this.utils.copyFolder('config/ssl', 'config/ssl');
