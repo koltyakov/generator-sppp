@@ -9,7 +9,7 @@ const tsconfig = require('./tsconfig.json');
 
 // Clean generators folder
 gulp.task('clean', () => {
-    return del(['generators/**']);
+    return del(['app/**']);
 });
 
 // Compile TypeScript files
@@ -17,14 +17,14 @@ gulp.task('tsc', () => {
     return gulp
         .src(['./src/**/*.ts', '!**/templates/src/scripts/index.ts'])
         .pipe(tsc.createProject('tsconfig.json')())
-        .js.pipe(gulp.dest('./generators'));
+        .js.pipe(gulp.dest('./app'));
 });
 
 // Copy assets to generators folder
 gulp.task('assets', () => {
     return gulp
-        .src(['./src/app/templates/**/*']) // '!**/*.ts'
-        .pipe(gulp.dest('./generators/app/templates'));
+        .src(['./src/templates/**/*']) // '!**/*.ts'
+        .pipe(gulp.dest('./app/templates'));
 });
 
 // Prepublish build

@@ -25,7 +25,7 @@ class SP extends Generator {
     }
 
     private initializing() {
-        this.data.sppp = require('../../package.json');
+        this.data.sppp = require('../package.json');
 
         this.log(yosay(`Welcome to ${
             colors.yellow('SharePoint Pull-n-Push')
