@@ -15,7 +15,7 @@ gulp.task('clean', () => {
 // Compile TypeScript files
 gulp.task('tsc', () => {
     return gulp
-        .src(['./src/**/*.ts'])
+        .src(['./src/**/*.ts', '!**/templates/src/scripts/index.ts'])
         .pipe(tsc.createProject('tsconfig.json')())
         .js.pipe(gulp.dest('./generators'));
 });
@@ -23,7 +23,7 @@ gulp.task('tsc', () => {
 // Copy assets to generators folder
 gulp.task('assets', () => {
     return gulp
-        .src(['./src/app/templates/**/*', '!*.ts'])
+        .src(['./src/app/templates/**/*']) // '!**/*.ts'
         .pipe(gulp.dest('./generators/app/templates'));
 });
 

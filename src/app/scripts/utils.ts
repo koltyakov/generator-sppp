@@ -2,6 +2,7 @@ import * as Generator from 'yeoman-generator';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
+import * as colors from 'colors';
 
 export interface IUtilsSettings {
     yo: Generator;
@@ -21,17 +22,49 @@ export default class Utils {
         this.destinationPath = this.settings.yo.destinationPath();
     }
 
+    public writeJsonAsModuleSync(relativePath: string, jsonData: any) {
+        let absolutePath: string = this.resolveDestPath(relativePath);
+        let destinationFolder: string = path.dirname(absolutePath);
+        mkdirp.sync(destinationFolder);
+
+        let exists = fs.existsSync(absolutePath);
+        if (!exists) {
+            fs.writeFileSync(
+                absolutePath,
+                `module.exports = ${JSON.stringify(jsonData, null, 4)};\n`,
+                { encoding: 'utf8' }
+            );
+        } else {
+            this.logFileExistsMessage(absolutePath);
+        }
+    }
+
     public writeJsonSync(relativePath: string, jsonData: any) {
         let absolutePath: string = this.resolveDestPath(relativePath);
         let destinationFolder: string = path.dirname(absolutePath);
         mkdirp.sync(destinationFolder);
-        fs.writeFileSync(absolutePath, JSON.stringify(jsonData, null, 2), { encoding: 'utf8' });
+
+        let exists = fs.existsSync(absolutePath);
+        if (!exists) {
+            fs.writeFileSync(absolutePath, JSON.stringify(jsonData, null, 2), { encoding: 'utf8' });
+        } else {
+            this.logFileExistsMessage(absolutePath);
+        }
     }
 
-    public copyFile(sourceRelativePath: string, destRelativePath: string) {
+    public copyFile(sourceRelativePath: string, destRelativePath?: string) {
+        if (typeof destRelativePath === 'undefined') {
+            destRelativePath = sourceRelativePath;
+        }
         let fromPath: string = this.resolveSourcePath(sourceRelativePath);
         let toPath: string = this.resolveDestPath(destRelativePath);
-        fs.writeFileSync(toPath, fs.readFileSync(fromPath));
+
+        let exists = fs.existsSync(toPath);
+        if (!exists) {
+            fs.writeFileSync(toPath, fs.readFileSync(fromPath));
+        } else {
+            this.logFileExistsMessage(toPath);
+        }
     }
 
     public createFolder(folderRelativePath: string) {
@@ -49,7 +82,7 @@ export default class Utils {
     }
 
     private resolveSourcePath(relativePath: string): string {
-        return path.join(__dirname, 'templates', relativePath);
+        return path.join(__dirname, '..', 'templates', relativePath);
     }
 
     private copyRecursiveSync(src: string, dest: string) {
@@ -63,8 +96,22 @@ export default class Utils {
                 this.copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
             });
         } else {
-            fs.linkSync(src, dest);
+            try {
+                fs.linkSync(src, dest);
+            } catch (ex) {
+                if (ex.code === 'EEXIST') {
+                    this.logFileExistsMessage(dest);
+                } else {
+                    console.log(ex.message);
+                }
+            }
         }
+    }
+
+    private logFileExistsMessage(filePath: string) {
+        console.log(`File already exists ${
+            colors.red(filePath)
+        }, copying is skipped.`);
     }
 
 }

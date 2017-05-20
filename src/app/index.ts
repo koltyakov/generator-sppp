@@ -4,12 +4,13 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
+import { exec } from 'child_process';
 
-import Utils from './utils';
-import { npmDependencies } from './install';
-import { promptQuestions } from './prompts';
-import { createPackageJson, createAppJson } from './configurators';
-import { IGeneratorData, IAppConf, IAnswers } from './interfaces';
+import Utils from './scripts/utils';
+import { npmDependencies } from './scripts/install';
+import { promptQuestions } from './scripts/prompts';
+import * as configurators from './scripts/configurators';
+import { IGeneratorData, IAppConf, IAnswers } from './scripts/interfaces';
 
 class SP extends Generator {
 
@@ -28,7 +29,7 @@ class SP extends Generator {
 
         this.log(yosay(`Welcome to ${
             colors.yellow('SharePoint Pull-n-Push')
-        } generator (v. ${this.data.sppp.version})!`));
+        } generator (v.${this.data.sppp.version})!`));
 
         this.appname = kebabCase(this.appname);
         this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
@@ -51,8 +52,8 @@ class SP extends Generator {
 
     private configuring() {
         this.config.set('app.name', this.data.answers.name);
-        this.config.set('app.description', this.data.answers.name);
-        this.config.set('app.author', this.data.answers.name);
+        this.config.set('app.description', this.data.answers.description);
+        this.config.set('app.author', this.data.answers.author);
         this.config.set('conf.spFolder', this.data.answers.spFolder);
         this.config.set('conf.distFolder', this.data.answers.distFolder);
         this.config.save();
@@ -63,23 +64,46 @@ class SP extends Generator {
             colors.yellow.bold('Writing files')
         }`);
 
-        this.utils.writeJsonSync('package.json', createPackageJson(this.data));
-        this.utils.writeJsonSync('config/app.json', createAppJson(this.data));
+        this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
+        this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
 
-        this.utils.copyFile('_gulpfile.js', 'gulpfile.js');
+        this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
+        this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
+
+        this.utils.writeJsonAsModuleSync('.eslintrc.js', configurators.eslintJson(this.data));
+
+        this.utils.copyFile('gulpfile.js');
         this.utils.copyFile('gitignore', '.gitignore');
+        this.utils.copyFile('webpack.config.js');
 
-        this.utils.createFolder('src');
+        this.utils.createFolder('src/scripts');
+        this.utils.createFolder('src/libs');
+        this.utils.createFolder('src/styles');
+        this.utils.createFolder('src/fonts');
+        this.utils.createFolder('src/images');
+        this.utils.createFolder('src/masterpage/layouts');
+        this.utils.createFolder('src/webparts');
 
-        this.utils.copyFolder('ssl', 'config/ssl');
+        this.utils.copyFolder('src', 'src');
+        this.utils.copyFolder('config/ssl', 'config/ssl');
     }
 
     private install() {
         this.log(`\n${
             colors.yellow.bold('Installing dependencies')
-        }`);
-        this.yarnInstall(npmDependencies.dependencies, { 'save': true });
-        this.yarnInstall(npmDependencies.devDependencies, { 'save-dev': true });
+        }\n`);
+        const done = (this as any).async();
+
+        exec('yarn --version', (err, stout, sterr) => {
+            if (!err) {
+                this.yarnInstall(npmDependencies.dependencies, { 'save': true });
+                this.yarnInstall(npmDependencies.devDependencies, { 'save-dev': true });
+            } else {
+                this.npmInstall(npmDependencies.dependencies, { 'save': true });
+                this.npmInstall(npmDependencies.devDependencies, { 'save-dev': true });
+            }
+            done();
+        });
     }
 
     private end() {

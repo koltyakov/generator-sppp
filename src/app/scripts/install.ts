@@ -7,8 +7,10 @@ export const npmDependencies = {
         'gulp',
         'node-sp-auth-config',
         'sp-live-reload',
-        'sppull', // sp-gulp-tasks
+        'sppull', // sp-build-tasks
         'handlebars',
-        'typescript'
+        'typescript',
+        'webpack',
+        'awesome-typescript-loader'
     ]
 };
