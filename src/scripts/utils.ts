@@ -102,7 +102,8 @@ export default class Utils {
             });
         } else {
             try {
-                fs.linkSync(src, dest);
+                // fs.linkSync(src, dest);
+                fs.writeFileSync(dest, fs.readFileSync(src));
             } catch (ex) {
                 if (ex.code === 'EEXIST') {
                     this.logFileExistsMessage(dest);
