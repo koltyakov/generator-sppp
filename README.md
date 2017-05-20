@@ -40,10 +40,10 @@ Generated project allows immediately start developing SharePoint client-side sol
 
 To use Yeoman, one need to has Node.js and NPM installed on the computer. Basic installation process description can be found in [this blog post](https://www.linkedin.com/pulse/preparing-development-machine-client-side-sharepoint-mac-koltyakov?trk=pulse_spock-articles).
 
-Alter Node.js and NPM are staffed, install `Gulp`, `Bower`, `Yeoman` and `generator-sppp` globally in your Node.js environment.
+Alter Node.js and NPM are staffed, install `Gulp`, `Yeoman` and `generator-sppp` globally in your Node.js environment.
 
 ```bash
-npm install -g gulp bower yo typings generator-sppp
+npm install -g gulp yo generator-sppp
 ```
 
 ### Generate:
@@ -53,7 +53,7 @@ Make a new directory or clone a blank Git project of your own and navigate to th
 Inside project directory execulte:
 
 ```bash
-yo sppp [YourProjectName]
+yo sppp
 ```
 
 Then follow the the Yoman wizard instructions:
@@ -65,7 +65,7 @@ Then follow the the Yoman wizard instructions:
 Now you can run gulp [sppull](https://www.npmjs.com/package/sppull) task:
 
 ```bash
-gulp sppull-all
+gulp pull
 ```
 
 ![SPPull in action](http://koltyakov.ru/images/generator-sppp-demo-2.gif)
@@ -75,23 +75,29 @@ It will deliver all files from assets folder from SharePoint to local directory.
 Run gulp watch task before starting editing files:
 
 ```bash
-gulp watch-assets
+gulp watch
 ```
 
 On files change they are uploaded and published to SharePoint with use of [gulp-spsave](https://www.npmjs.com/package/gulp-spsave).
 
-For publishing all .src project files, `publish` task can be used:
+For publishing all .src project files, `push` task can be used:
 
 ```bash
-gulp publish
+gulp push
 ```
 
 ### Additional Gulp tasks:
 
+Available tasks list:
+
+```bash
+gulp --tasks
+```
+
 #### Config validation and prompting
 
 ```bash
-gulp touch-conf
+gulp config
 ```
 
 Checks basic minimal configs and prompts on configuration missing.
@@ -99,10 +105,10 @@ Checks basic minimal configs and prompts on configuration missing.
 #### Watch changes of the assets with live reload
 
 ```bash
-gulp watch-live
+gulp live
 ```
 
-Chech [sp-live-reload project page](https://github.com/koltyakov/sp-live-reload) more information.
+Check [sp-live-reload project page](https://github.com/koltyakov/sp-live-reload) more information.
 
 ## SharePoint communication layer
 
@@ -110,5 +116,7 @@ Chech [sp-live-reload project page](https://github.com/koltyakov/sp-live-reload)
 - [gulp-spsave](https://github.com/s-KaiNet/gulp-spsave) library is used for saving files to SharePoint
 - [sp-request](https://github.com/s-KaiNet/sp-request) and [node-sp-auth](https://github.com/s-KaiNet/node-sp-auth) are in charge for low level communication with SharePoint
 - [sp-live-reload](https://github.com/koltyakov/sp-live-reload) library is used for instantaneous page reload
+- [node-so-auth-config](https://github.com/koltyakov/node-so-auth-config) authentication config wizard
+- [sp-build-tasks](https://github.com/koltyakov/sp-build-tasks) build tasks tool-belt
 
-Communication layer settings are stored in `./config/_private.conf.json`, parameters settings description can be found [here](https://github.com/koltyakov/generator-sppp/tree/master/docs/authparameters.md).
+Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/koltyakov/generator-sppp/tree/master/docs/authparameters.md).
