@@ -11,26 +11,13 @@
 process.env.NODE_ENV = 'development';
 
 const gulp = require('gulp');
-const fs = require('fs');
 
-let plugins = require('gulp-load-plugins')({
-    pattern: [
-        'gulp-*', 'gulp.*',
-        'run-sequence', 'merge-stream',
-        'yargs', 'del'
-    ],
-    rename: {
-        'gulp-typescript': 'tsc',
-        'run-sequence': 'rns',
-        'merge-stream': 'merge'
-    }
+const spBuildTasks = new (require('sp-build-tasks'))({
+    privateConf: './config/private.json',
+    appConfig: './config/app.json',
+    taskPath: './build/tasks',
 });
 
-const taskPath = './build/tasks/';
-const taskList = fs.readdirSync(taskPath);
-
-taskList.forEach((taskFile) => {
-    require(taskPath + taskFile)(gulp, plugins);
-});
+spBuildTasks.initGulpTasks(gulp);
 
 // === (!) Do not modify this file directly (!) ===
