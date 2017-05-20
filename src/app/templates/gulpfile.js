@@ -12,12 +12,10 @@ process.env.NODE_ENV = 'development';
 
 const gulp = require('gulp');
 
-const spBuildTasks = new (require('sp-build-tasks'))({
+new (require('sp-build-tasks'))(gulp, {
     privateConf: './config/private.json',
     appConfig: './config/app.json',
-    taskPath: './build/tasks',
+    taskPath: './build/tasks'
 });
-
-spBuildTasks.initGulpTasks(gulp);
 
 // === (!) Do not modify this file directly (!) ===
