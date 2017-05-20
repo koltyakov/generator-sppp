@@ -1,4 +1,3 @@
-.vscode
-test
-typings
-config/.private.conf.js
+node_modules
+/src
+!/generators
