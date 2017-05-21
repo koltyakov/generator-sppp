@@ -89,6 +89,8 @@ class SP extends Generator {
 
         this.utils.copyFolder('src', 'src');
         this.utils.copyFolder('config/ssl', 'config/ssl');
+
+        this.log(`${colors.green('Done writing')}`);
     }
 
     private install() {
