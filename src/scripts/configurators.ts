@@ -40,7 +40,8 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
             'removeComments': true,
             'types': [
                 'node'
-            ]
+            ],
+            'outDir': './tmp'
         }
     };
 };
