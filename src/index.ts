@@ -102,7 +102,7 @@ class SP extends Generator {
         exec('yarn --version', (err, stout, sterr) => {
             if (!err) {
                 this.yarnInstall(npmDependencies.dependencies, { 'save': true });
-                this.yarnInstall(npmDependencies.devDependencies, { 'save-dev': true });
+                this.yarnInstall(npmDependencies.devDependencies, { 'dev': true });
             } else {
                 this.npmInstall(npmDependencies.dependencies, { 'save': true });
                 this.npmInstall(npmDependencies.devDependencies, { 'save-dev': true });
