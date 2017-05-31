@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import * as Generator from 'yeoman-generator';
 import { kebabCase } from 'lodash';
 
