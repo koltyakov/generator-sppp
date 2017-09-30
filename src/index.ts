@@ -115,6 +115,11 @@ class SP extends Generator {
         this.log(`\n${
             colors.yellow.bold('Installation successful!')
         }`);
+        this.log(`\n${
+            colors.gray(`Run \`${
+                colors.blue.bold('gulp config')
+            }\` to configure SharePoint connection.`)
+        }`);
     }
 
 }
