@@ -62,7 +62,7 @@ Inside project directory execulte:
 yo sppp
 ```
 
-Then follow the the Yoman wizard instructions:
+Then follow the the Yeoman wizard instructions:
 
 ![Generator in action](http://koltyakov.ru/images/generator-sppp-demo.gif)
 
