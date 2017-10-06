@@ -15,6 +15,11 @@ Yeoman generator for SharePoint - lets you quickly set up a project with sensibl
 
 Generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
 
+---
+# New in v.2.1.4
+
+- JSON schema is added to `./config/app.json` file.
+
 ----
 # New in v.2.0.0
 
@@ -113,6 +118,14 @@ gulp live
 ```
 
 Check [sp-live-reload project page](https://github.com/koltyakov/sp-live-reload) more information.
+
+## Tasks detail information
+
+Please check a reference in [this wiki page](https://github.com/koltyakov/sp-build-tasks/wiki/Tasks).
+
+## Build configuration details
+
+SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki section](https://github.com/koltyakov/sp-build-tasks/wiki/Build-options) of the project.
 
 ## SharePoint communication layer
 
