@@ -20,6 +20,7 @@ export interface IGeneratorData {
 }
 
 export interface IAppConf {
+    $schema?: string;
     spFolder: string;
     distFolder: string;
 }

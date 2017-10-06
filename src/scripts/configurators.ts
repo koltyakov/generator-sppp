@@ -21,6 +21,7 @@ export const packageJson = (metadata: IGeneratorData) => {
 
 export const configAppJson = (metadata: IGeneratorData) => {
     let appConf: IAppConf = {
+        $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
         spFolder: metadata.answers.spFolder,
         distFolder: metadata.answers.distFolder
     };
