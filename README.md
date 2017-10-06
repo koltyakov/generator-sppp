@@ -127,6 +127,8 @@ Please check a reference in [this wiki page](https://github.com/koltyakov/sp-bui
 
 SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki section](https://github.com/koltyakov/sp-build-tasks/wiki/Build-options) of the project.
 
+![app.json settings](https://raw.githubusercontent.com/koltyakov/sp-build-tasks/master/docs/schema.gif)
+
 ## SharePoint communication layer
 
 - [sppull](https://github.com/koltyakov/sppull) library is used for downloading files from SharePoint
