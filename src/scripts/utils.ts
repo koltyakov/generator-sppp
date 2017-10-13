@@ -39,13 +39,13 @@ export default class Utils {
         }
     }
 
-    public writeJsonSync(relativePath: string, jsonData: any) {
+    public writeJsonSync(relativePath: string, jsonData: any, force: boolean = false) {
         let absolutePath: string = this.resolveDestPath(relativePath);
         let destinationFolder: string = path.dirname(absolutePath);
         mkdirp.sync(destinationFolder);
 
         let exists = fs.existsSync(absolutePath);
-        if (!exists) {
+        if (!exists || force) {
             fs.writeFileSync(absolutePath, JSON.stringify(jsonData, null, 2), { encoding: 'utf8' });
         } else {
             this.logFileExistsMessage(absolutePath);

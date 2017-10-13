@@ -17,6 +17,10 @@ class SP extends Generator {
     private data: IGeneratorData = {};
     private utils: Utils;
 
+    private packageData: any;
+    private existingProject: boolean = false;
+    private isAngularProject: boolean = false;
+
     constructor(args: string | string[], options: any) {
         super(args, options);
         this.utils = new Utils({
@@ -25,6 +29,17 @@ class SP extends Generator {
     }
 
     private initializing() {
+        let packagePath: string = path.join(__dirname, 'package.json');
+        if (fs.existsSync(packagePath)) {
+            this.existingProject = true;
+            this.packageData = require(packagePath);
+        }
+
+        let angularCliPath: string = path.join(__dirname, '.angular-cli.json');
+        if (fs.existsSync(angularCliPath)) {
+            this.isAngularProject = true;
+        }
+
         this.data.sppp = require('../package.json');
 
         this.log(yosay(`Welcome to ${
@@ -64,7 +79,9 @@ class SP extends Generator {
             colors.yellow.bold('Writing files')
         }`);
 
-        this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
+        if (!this.existingProject) {
+            this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
+        }
         this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
 
         this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
@@ -77,17 +94,19 @@ class SP extends Generator {
         // this.utils.copyFile('webpack.config.js');
         this.utils.copyFile('build/tasks/example.js');
 
-        // this.utils.createFolder('build/tasks');
-        this.utils.createFolder('src/scripts');
-        this.utils.createFolder('src/libs');
-        this.utils.createFolder('src/styles');
-        this.utils.createFolder('src/fonts');
-        this.utils.createFolder('src/images');
-        this.utils.createFolder('src/masterpage/layouts');
-        this.utils.createFolder('src/webparts');
-        this.utils.createFolder('dist');
+        // Ignore folder structure for Angular project
+        if (!this.isAngularProject) {
+            this.utils.createFolder('src/scripts');
+            this.utils.createFolder('src/libs');
+            this.utils.createFolder('src/styles');
+            this.utils.createFolder('src/fonts');
+            this.utils.createFolder('src/images');
+            this.utils.createFolder('src/masterpage/layouts');
+            this.utils.createFolder('src/webparts');
+            this.utils.createFolder('dist');
+            this.utils.copyFolder('src', 'src');
+        }
 
-        this.utils.copyFolder('src', 'src');
         this.utils.copyFolder('config/ssl', 'config/ssl');
 
         this.log(`${colors.green('Done writing')}`);
@@ -99,6 +118,11 @@ class SP extends Generator {
         }\n`);
         const done = (this as any).async();
 
+        // Add dependency for Angular project
+        if (this.isAngularProject) {
+            npmDependencies.devDependencies.push('concurrently');
+        }
+
         exec('yarn --version', (err, stout, sterr) => {
             if (!err) {
                 this.yarnInstall(npmDependencies.dependencies, { 'save': true });
@@ -109,6 +133,13 @@ class SP extends Generator {
             }
             done();
         });
+    }
+
+    private addTasks() {
+        if (this.isAngularProject) {
+            this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
+            this.utils.writeJsonSync('package.json', this.packageData);
+        }
     }
 
     private end() {
