@@ -29,17 +29,6 @@ class SP extends Generator {
     }
 
     private initializing() {
-        let packagePath: string = path.join(__dirname, 'package.json');
-        if (fs.existsSync(packagePath)) {
-            this.existingProject = true;
-            this.packageData = require(packagePath);
-        }
-
-        let angularCliPath: string = path.join(__dirname, '.angular-cli.json');
-        if (fs.existsSync(angularCliPath)) {
-            this.isAngularProject = true;
-        }
-
         this.data.sppp = require('../package.json');
 
         this.log(yosay(`Welcome to ${
@@ -52,6 +41,24 @@ class SP extends Generator {
         this.config.set('app.name', this.appname);
         this.config.set('sppp.version', this.data.sppp.version);
         this.config.save();
+
+        // Check for existing project
+        (() => {
+            let packagePath: string = this.utils.resolveDestPath('package.json');
+            if (fs.existsSync(packagePath)) {
+                this.existingProject = true;
+                this.packageData = require(packagePath);
+            }
+            let angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
+            this.log(angularCliPath);
+            if (fs.existsSync(angularCliPath)) {
+                this.log(`\n${
+                    colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
+                }`);
+                this.isAngularProject = true;
+            }
+        })();
+
     }
 
     private prompting() {
@@ -123,6 +130,14 @@ class SP extends Generator {
             npmDependencies.devDependencies.push('concurrently');
         }
 
+        // Add angular tasks
+        (() => {
+            if (this.isAngularProject) {
+                this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
+                this.utils.writeJsonSync('package.json', this.packageData, true);
+            }
+        })();
+
         exec('yarn --version', (err, stout, sterr) => {
             if (!err) {
                 this.yarnInstall(npmDependencies.dependencies, { 'save': true });
@@ -133,13 +148,6 @@ class SP extends Generator {
             }
             done();
         });
-    }
-
-    private addTasks() {
-        if (this.isAngularProject) {
-            this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
-            this.utils.writeJsonSync('package.json', this.packageData);
-        }
     }
 
     private end() {

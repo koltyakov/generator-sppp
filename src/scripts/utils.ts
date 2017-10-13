@@ -82,11 +82,11 @@ export default class Utils {
         this.copyRecursiveSync(fromFolder, toFolder);
     }
 
-    private resolveDestPath(relativePath: string): string {
+    public resolveDestPath(relativePath: string): string {
         return path.join(this.destinationRoot, relativePath);
     }
 
-    private resolveSourcePath(relativePath: string): string {
+    public resolveSourcePath(relativePath: string): string {
         return path.join(__dirname, '..', 'templates', relativePath);
     }
 
