@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "lib": [ "es2015" ],
-        "sourceMap": true,
-        "declaration": true,
-        "moduleResolution": "node",
-        "noImplicitAny": false,
-        "removeComments": true,
-        "types": [
-            "node"
-        ]
-    }
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["es2015"],
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "types": [
+      "node"
+    ]
+  }
 }

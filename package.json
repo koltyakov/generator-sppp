@@ -38,10 +38,12 @@
     "@types/node": "^8.0.20",
     "@types/yeoman-generator": "^1.0.2",
     "del": "^3.0.0",
+    "eslint-config-standard": "^10.2.1",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.2.1",
     "run-sequence": "^2.1.0",
     "tslint": "^5.6.0",
+    "tslint-config-standard": "^7.0.0",
     "typescript": "^2.4.2"
   }
 }

@@ -1,9 +1,9 @@
 module.exports = (gulp, $) => {
-    'use strict';
+  'use strict';
 
-    gulp.task('example', (cb) => {
-        console.log('Example Gulp Task');
-        cb();
-    });
+  gulp.task('example', (cb) => {
+    console.log('Example Gulp Task');
+    cb();
+  });
 
 };

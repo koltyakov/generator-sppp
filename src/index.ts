@@ -14,152 +14,153 @@ import { IGeneratorData, IAppConf, IAnswers } from './scripts/interfaces';
 
 class SP extends Generator {
 
-    private data: IGeneratorData = {};
-    private utils: Utils;
+  private data: IGeneratorData = {};
+  private utils: Utils;
 
-    private packageData: any;
-    private existingProject: boolean = false;
-    private isAngularProject: boolean = false;
+  private packageData: any;
+  private existingProject: boolean = false;
+  private isAngularProject: boolean = false;
 
-    constructor(args: string | string[], options: any) {
-        super(args, options);
-        this.utils = new Utils({
-            yo: this
-        });
-    }
+  constructor(args: string | string[], options: any) {
+    super(args, options);
+    this.utils = new Utils({
+      yo: this
+    });
+  }
 
-    private initializing() {
-        this.data.sppp = require('../package.json');
+  private initializing() {
+    this.data.sppp = require('../package.json');
 
-        this.log(yosay(`Welcome to ${
-            colors.yellow('SharePoint Pull-n-Push')
-        } generator (v.${this.data.sppp.version})!`));
+    this.log(yosay(`Welcome to ${
+      colors.yellow('SharePoint Pull-n-Push')
+      } generator (v.${this.data.sppp.version})!`));
 
-        this.appname = kebabCase(this.appname);
-        this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
+    this.appname = kebabCase(this.appname);
+    this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
 
-        this.config.set('app.name', this.appname);
-        this.config.set('sppp.version', this.data.sppp.version);
-        this.config.save();
+    this.config.set('app.name', this.appname);
+    this.config.set('sppp.version', this.data.sppp.version);
+    this.config.save();
 
-        // Check for existing project
-        (() => {
-            let packagePath: string = this.utils.resolveDestPath('package.json');
-            if (fs.existsSync(packagePath)) {
-                this.existingProject = true;
-                this.packageData = require(packagePath);
-            }
-            let angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
-            this.log(angularCliPath);
-            if (fs.existsSync(angularCliPath)) {
-                this.log(`\n${
-                    colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
-                }`);
-                this.isAngularProject = true;
-            }
-        })();
-
-    }
-
-    private prompting() {
-        const done = (this as any).async();
-        promptQuestions(this.data, this).then((answers) => {
-            this.data.answers = {
-                ...this.data.answers,
-                ...answers
-            };
-            done();
-        });
-    }
-
-    private configuring() {
-        this.config.set('app.name', this.data.answers.name);
-        this.config.set('app.description', this.data.answers.description);
-        this.config.set('app.author', this.data.answers.author);
-        this.config.set('conf.spFolder', this.data.answers.spFolder);
-        this.config.set('conf.distFolder', this.data.answers.distFolder);
-        this.config.save();
-    }
-
-    private writing() {
+    // Check for existing project
+    (() => {
+      let packagePath: string = this.utils.resolveDestPath('package.json');
+      if (fs.existsSync(packagePath)) {
+        this.existingProject = true;
+        this.packageData = require(packagePath);
+      }
+      let angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
+      this.log(angularCliPath);
+      if (fs.existsSync(angularCliPath)) {
         this.log(`\n${
-            colors.yellow.bold('Writing files')
-        }`);
+          colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
+          }`);
+        this.isAngularProject = true;
+      }
+    })();
 
-        if (!this.existingProject) {
-            this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
-        }
-        this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
+  }
 
-        this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
-        this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
+  private prompting() {
+    const done = (this as any).async();
+    promptQuestions(this.data, this).then((answers) => {
+      this.data.answers = {
+        ...this.data.answers,
+        ...answers
+      };
+      done();
+    });
+  }
 
-        this.utils.writeJsonAsModuleSync('.eslintrc.js', configurators.eslintJson(this.data));
+  private configuring() {
+    this.config.set('app.name', this.data.answers.name);
+    this.config.set('app.description', this.data.answers.description);
+    this.config.set('app.author', this.data.answers.author);
+    this.config.set('conf.spFolder', this.data.answers.spFolder);
+    this.config.set('conf.distFolder', this.data.answers.distFolder);
+    this.config.save();
+  }
 
-        this.utils.copyFile('gulpfile.js', null, true);
-        this.utils.copyFile('gitignore', '.gitignore');
-        // this.utils.copyFile('webpack.config.js');
-        this.utils.copyFile('build/tasks/example.js');
+  private writing() {
+    this.log(`\n${
+      colors.yellow.bold('Writing files')
+      }`);
 
-        // Ignore folder structure for Angular project
-        if (!this.isAngularProject) {
-            this.utils.createFolder('src/scripts');
-            this.utils.createFolder('src/libs');
-            this.utils.createFolder('src/styles');
-            this.utils.createFolder('src/fonts');
-            this.utils.createFolder('src/images');
-            this.utils.createFolder('src/masterpage/layouts');
-            this.utils.createFolder('src/webparts');
-            this.utils.createFolder('dist');
-            this.utils.copyFolder('src', 'src');
-        }
+    if (!this.existingProject) {
+      this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
+    }
+    this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
 
-        this.utils.copyFolder('config/ssl', 'config/ssl');
+    this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
+    this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
 
-        this.log(`${colors.green('Done writing')}`);
+    this.utils.writeJsonAsModuleSync('.eslintrc', configurators.eslintJson(this.data));
+
+    this.utils.copyFile('gulpfile.js', null, true);
+    this.utils.copyFile('gitignore', '.gitignore');
+    this.utils.copyFile('editorconfig', '.editorconfig');
+    // this.utils.copyFile('webpack.config.js');
+    this.utils.copyFile('build/tasks/example.js');
+
+    // Ignore folder structure for Angular project
+    if (!this.isAngularProject) {
+      this.utils.createFolder('src/scripts');
+      this.utils.createFolder('src/libs');
+      this.utils.createFolder('src/styles');
+      this.utils.createFolder('src/fonts');
+      this.utils.createFolder('src/images');
+      this.utils.createFolder('src/masterpage/layouts');
+      this.utils.createFolder('src/webparts');
+      this.utils.createFolder('dist');
+      this.utils.copyFolder('src', 'src');
     }
 
-    private install() {
-        this.log(`\n${
-            colors.yellow.bold('Installing dependencies')
-        }\n`);
-        const done = (this as any).async();
+    this.utils.copyFolder('config/ssl', 'config/ssl');
 
-        // Add dependency for Angular project
-        if (this.isAngularProject) {
-            npmDependencies.devDependencies.push('concurrently');
-        }
+    this.log(`${colors.green('Done writing')}`);
+  }
 
-        // Add angular tasks
-        (() => {
-            if (this.isAngularProject) {
-                this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
-                this.utils.writeJsonSync('package.json', this.packageData, true);
-            }
-        })();
+  private install() {
+    this.log(`\n${
+      colors.yellow.bold('Installing dependencies')
+      }\n`);
+    const done = (this as any).async();
 
-        exec('yarn --version', (err, stout, sterr) => {
-            if (!err) {
-                this.yarnInstall(npmDependencies.dependencies, { 'save': true });
-                this.yarnInstall(npmDependencies.devDependencies, { 'dev': true });
-            } else {
-                this.npmInstall(npmDependencies.dependencies, { 'save': true });
-                this.npmInstall(npmDependencies.devDependencies, { 'save-dev': true });
-            }
-            done();
-        });
+    // Add dependency for Angular project
+    if (this.isAngularProject) {
+      npmDependencies.devDependencies.push('concurrently');
     }
 
-    private end() {
-        this.log(`\n${
-            colors.yellow.bold('Installation successful!')
-        }`);
-        this.log(`\n${
-            colors.gray(`Run \`${
-                colors.blue.bold('gulp config')
-            }\` to configure SharePoint connection.`)
-        }`);
-    }
+    // Add angular tasks
+    (() => {
+      if (this.isAngularProject) {
+        this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
+        this.utils.writeJsonSync('package.json', this.packageData, true);
+      }
+    })();
+
+    exec('yarn --version', (err, stout, sterr) => {
+      if (!err) {
+        this.yarnInstall(npmDependencies.dependencies, { 'save': true });
+        this.yarnInstall(npmDependencies.devDependencies, { 'dev': true });
+      } else {
+        this.npmInstall(npmDependencies.dependencies, { 'save': true });
+        this.npmInstall(npmDependencies.devDependencies, { 'save-dev': true });
+      }
+      done();
+    });
+  }
+
+  private end() {
+    this.log(`\n${
+      colors.yellow.bold('Installation successful!')
+      }`);
+    this.log(`\n${
+      colors.gray(`Run \`${
+        colors.blue.bold('gulp config')
+        }\` to configure SharePoint connection.`)
+      }`);
+  }
 
 }
 
