@@ -50,7 +50,7 @@ class SP extends Generator {
         this.packageData = require(packagePath);
       }
       let angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
-      this.log(angularCliPath);
+      // this.log(angularCliPath);
       if (fs.existsSync(angularCliPath)) {
         this.log(`\n${
           colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
