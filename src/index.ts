@@ -94,7 +94,7 @@ class SP extends Generator {
     this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
     this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
 
-    this.utils.writeJsonAsModuleSync('.eslintrc', configurators.eslintJson(this.data));
+    this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
 
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
