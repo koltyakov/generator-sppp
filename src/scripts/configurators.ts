@@ -39,6 +39,7 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
       moduleResolution: 'node',
       noImplicitAny: false,
       removeComments: true,
+      skipLibCheck: true,
       types: [
         'node'
       ],
@@ -64,7 +65,6 @@ export const eslintJson = (metadata?: IGeneratorData) => {
     plugins: [
       'standard',
       'promise'
-    ],
-    indent: ['error', 2]
+    ]
   };
 };

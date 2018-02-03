@@ -101,6 +101,7 @@ class SP extends Generator {
     this.utils.copyFile('editorconfig', '.editorconfig');
     // this.utils.copyFile('webpack.config.js');
     this.utils.copyFile('build/tasks/example.js');
+    this.utils.copyFile('build/tasks/customDataLoader.js');
 
     // Ignore folder structure for Angular project
     if (!this.isAngularProject) {
