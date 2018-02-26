@@ -1,0 +1,7 @@
+{
+  "files.exclude": {
+    "node_modules/": true,
+    "app/": true,
+    "yarn.lock": true
+  }
+}
