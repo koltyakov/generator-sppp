@@ -47,7 +47,6 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
         'dom'
       ],
       rootDir: 'src',
-      allowJs: true,
       jsx: 'react',
       sourceMap: true,
       declaration: true,
