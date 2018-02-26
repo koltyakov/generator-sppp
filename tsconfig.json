@@ -9,8 +9,13 @@
     "noImplicitAny": false,
     "removeComments": true,
     "skipLibCheck": true,
-    "types": [
-      "node"
-    ]
-  }
+    "types": ["node"],
+    "outDir": "./tmp"
+  },
+  "exclude": [
+    "node_modules",
+    "gulpfile.js",
+    "app",
+    "tmp"
+  ]
 }

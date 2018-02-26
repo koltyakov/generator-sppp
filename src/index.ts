@@ -84,11 +84,13 @@ class SP extends Generator {
   private writing() {
     this.log(`\n${
       colors.yellow.bold('Writing files')
-      }`);
+    }`);
 
+    // tslint:disable-next-line:no-unused-expression
     if (!this.existingProject) {
       this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
     }
+
     this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
 
     this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
@@ -104,6 +106,7 @@ class SP extends Generator {
     this.utils.copyFile('build/tasks/customDataLoader.js');
 
     // Ignore folder structure for Angular project
+    // tslint:disable-next-line:no-unused-expression
     if (!this.isAngularProject) {
       this.utils.createFolder('src/scripts');
       this.utils.createFolder('src/libs');
@@ -116,25 +119,25 @@ class SP extends Generator {
       this.utils.copyFolder('src', 'src');
     }
 
-    this.utils.copyFolder('.vscode', '.vscode');
+    this.utils.copyFolder('vscode', '.vscode');
     this.utils.copyFolder('config/ssl', 'config/ssl');
 
     this.log(`${colors.green('Done writing')}`);
   }
 
   private install() {
-    this.log(`\n${
-      colors.yellow.bold('Installing dependencies')
-      }\n`);
+    this.log(`\n${colors.yellow.bold('Installing dependencies')}\n`);
     const done = (this as any).async();
 
     // Add dependency for Angular project
+    // tslint:disable-next-line:no-unused-expression
     if (this.isAngularProject) {
       npmDependencies.devDependencies.push('concurrently');
     }
 
     // Add angular tasks
     (() => {
+      // tslint:disable-next-line:no-unused-expression
       if (this.isAngularProject) {
         this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
         this.utils.writeJsonSync('package.json', this.packageData, true);
@@ -142,6 +145,7 @@ class SP extends Generator {
     })();
 
     exec('yarn --version', (err, stout, sterr) => {
+      // tslint:disable-next-line:no-unused-expression
       if (!err) {
         this.yarnInstall(npmDependencies.dependencies, { 'save': true });
         this.yarnInstall(npmDependencies.devDependencies, { 'dev': true });
@@ -154,14 +158,8 @@ class SP extends Generator {
   }
 
   private end() {
-    this.log(`\n${
-      colors.yellow.bold('Installation successful!')
-      }`);
-    this.log(`\n${
-      colors.gray(`Run \`${
-        colors.blue.bold('gulp config')
-        }\` to configure SharePoint connection.`)
-      }`);
+    this.log(`\n${colors.yellow.bold('Installation successful!')}`);
+    this.log(`\n${colors.gray(`Run \`${colors.blue.bold('npm run config')}\` to configure SharePoint connection.`)}`);
   }
 
 }

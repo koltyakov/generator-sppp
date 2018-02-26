@@ -2,6 +2,7 @@
   "files.exclude": {
     "node_modules/": true,
     "app/": true,
-    "yarn.lock": true
+    "yarn.lock": true,
+    "tmp/": true
   }
 }

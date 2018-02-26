@@ -9,13 +9,13 @@ const tsconfig = require('./tsconfig.json');
 
 // Clean generators folder
 gulp.task('clean', () => {
-  return del(['app/**']);
+  return del(['app/**', 'tmp/**']);
 });
 
 // Compile TypeScript files
 gulp.task('tsc', () => {
   return gulp
-    .src(['./src/**/*.ts', '!**/templates/src/scripts/index.ts'])
+    .src(['./src/**/*.ts', '!**/templates/src/scripts/**/*.ts'])
     .pipe(tsc.createProject('tsconfig.json')())
     .js.pipe(gulp.dest('./app'));
 });
