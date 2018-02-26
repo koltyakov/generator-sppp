@@ -11,7 +11,12 @@ export const packageJson = (metadata: IGeneratorData) => {
     version: data.version,
     description: data.description,
     main: './dist/index.js',
-    scripts: {},
+    scripts: {
+      build: 'gulp build',
+      watch: 'gulp watch',
+      config: 'gulp config:force',
+      publish: 'gulp push:diff'
+    },
     author: data.author,
     license: data.license,
     dependencies: {},
@@ -23,7 +28,11 @@ export const configAppJson = (metadata: IGeneratorData) => {
   let appConf: IAppConf = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
     spFolder: metadata.answers.spFolder,
-    distFolder: metadata.answers.distFolder
+    distFolder: metadata.answers.distFolder,
+    bundleJSLibsFiles: [
+      './node_modules/es6-promise/dist/es6-promise.auto.min.js',
+      './node_modules/whatwg-fetch/fetch.js'
+    ]
   };
   return appConf;
 };
@@ -32,19 +41,36 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
   return {
     compilerOptions: {
       target: 'es5',
-      module: 'commonjs',
-      lib: ['es2017', 'dom'],
+      module: 'esnext',
+      lib: [
+        'es2017',
+        'dom'
+      ],
+      rootDir: 'src',
+      allowJs: true,
+      jsx: 'react',
       sourceMap: true,
       declaration: true,
       moduleResolution: 'node',
       noImplicitAny: false,
       removeComments: true,
+      experimentalDecorators: true,
       skipLibCheck: true,
       types: [
-        'node'
+        'node',
+        'sharepoint'
       ],
       outDir: './tmp'
-    }
+    },
+    exclude: [
+      'node_modules',
+      'bower_components',
+      'webpack.config.js',
+      'gulpfile.js',
+      'build',
+      'dist',
+      'tmp'
+    ]
   };
 };
 
@@ -52,7 +78,11 @@ export const tslintJson = (metadata?: IGeneratorData) => {
   return {
     extends: 'tslint-config-standard',
     rules: {
-      semicolon: [true, 'always', 'ignore-interfaces']
+      semicolon: [
+        true,
+        'always',
+        'ignore-interfaces'
+      ]
     }
   };
 };

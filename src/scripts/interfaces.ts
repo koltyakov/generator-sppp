@@ -1,3 +1,5 @@
+export { IAppConf } from 'sp-build-tasks';
+
 export interface IKeyVal {
   [key: string]: any;
 }
@@ -17,12 +19,6 @@ export interface IPackageJsonMetadata {
 export interface IGeneratorData {
   sppp?: IGeneratorMetadata;
   answers?: IAnswers;
-}
-
-export interface IAppConf {
-  $schema?: string;
-  spFolder: string;
-  distFolder: string;
 }
 
 export interface IAnswers {

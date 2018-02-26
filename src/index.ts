@@ -99,7 +99,7 @@ class SP extends Generator {
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
     this.utils.copyFile('editorconfig', '.editorconfig');
-    // this.utils.copyFile('webpack.config.js');
+    this.utils.copyFile('webpack.config.js');
     this.utils.copyFile('build/tasks/example.js');
     this.utils.copyFile('build/tasks/customDataLoader.js');
 
@@ -116,6 +116,7 @@ class SP extends Generator {
       this.utils.copyFolder('src', 'src');
     }
 
+    this.utils.copyFolder('.vscode', '.vscode');
     this.utils.copyFolder('config/ssl', 'config/ssl');
 
     this.log(`${colors.green('Done writing')}`);

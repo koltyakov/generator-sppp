@@ -1,16 +1,16 @@
 export const npmDependencies = {
   dependencies: [
-    // 'sp-pnp-js',
-    // 'sp-pnp-node'
+    '@pnp/common',
+    '@pnp/logging',
+    '@pnp/odata',
+    '@pnp/sp'
   ],
   devDependencies: [
-    // 'gulp',
-    // 'gulp-load-plugins',
-    // 'typescript',
-    // 'webpack',
-    // 'awesome-typescript-loader',
+    '@types/sharepoint',
     'sp-build-tasks',
     'tslint-config-standard',
-    'eslint-config-standard'
+    'eslint-config-standard',
+    'es6-promise',
+    'whatwg-fetch'
   ]
 };
