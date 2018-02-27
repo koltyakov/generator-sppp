@@ -41,7 +41,7 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
   return {
     compilerOptions: {
       target: 'es5',
-      module: 'esnext',
+      module: 'commonjs',
       lib: [
         'es2017',
         'dom'
