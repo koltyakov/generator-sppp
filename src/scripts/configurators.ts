@@ -59,7 +59,7 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
         'node',
         'sharepoint'
       ],
-      outDir: './tmp'
+      outDir: '../../tmp' // ts-loader issue workaround
     },
     exclude: [
       'node_modules',
