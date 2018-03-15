@@ -63,7 +63,6 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
     },
     exclude: [
       'node_modules',
-      'bower_components',
       'webpack.config.js',
       'gulpfile.js',
       'build',
