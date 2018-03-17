@@ -15,7 +15,8 @@ export const packageJson = (metadata: IGeneratorData) => {
       build: 'gulp build',
       watch: 'gulp watch',
       config: 'gulp config:force',
-      publish: 'gulp push:diff'
+      publish: 'gulp push:diff',
+      analyze: 'gulp analyze'
     },
     author: data.author,
     license: data.license,
