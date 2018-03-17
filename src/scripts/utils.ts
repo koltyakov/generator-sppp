@@ -115,9 +115,7 @@ export default class Utils {
   }
 
   private logFileExistsMessage(filePath: string) {
-    console.log(`File already exists ${
-      colors.red(filePath)
-      }, copying is skipped.`);
+    console.log(`File already exists ${colors.red(filePath)}, copying is skipped.`);
   }
 
 }
