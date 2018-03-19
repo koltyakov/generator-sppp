@@ -9,8 +9,6 @@ export const npmDependencies = {
     '@types/sharepoint',
     'sp-build-tasks',
     'tslint-config-standard',
-    'eslint-config-standard',
-    'es6-promise',
-    'whatwg-fetch'
+    'eslint-config-standard'
   ]
 };

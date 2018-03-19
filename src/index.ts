@@ -9,7 +9,7 @@ import { exec } from 'child_process';
 import Utils from './scripts/utils';
 import { npmDependencies } from './scripts/install';
 import { promptQuestions } from './scripts/prompts';
-import * as configurators from './scripts/configurators';
+import * as configurators from './scripts/configs';
 import { IGeneratorData, IAppConf, IAnswers } from './scripts/interfaces';
 
 class SP extends Generator {

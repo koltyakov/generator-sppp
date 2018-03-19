@@ -3,6 +3,15 @@ import { setupPnp } from './utils/odata';
 
 setupPnp();
 
-sp.web.select('Title').get().then(web => {
-  console.log(`Web: '${web.Title}'`);
+const container: HTMLElement = document.getElementById('example-cewp-container');
+
+Promise.all([
+  sp.web.select('Title').get(),
+  sp.web.lists.select('Title').get()
+]).then(([web, lists]) => {
+  container.innerHTML =
+    `<h2>Web title: ${web.Title}</h2>` +
+    `<ul>
+      ${lists.map(list => `<li>${list.Title}</li>`).join('')}
+    </ul>`;
 });
