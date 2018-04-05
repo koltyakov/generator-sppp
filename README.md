@@ -21,7 +21,7 @@ Generated project allows immediately start developing SharePoint client-side sol
 
 ---
 
-### New in v.2.1.*
+## New in v.2.1.*
 
 - JSON schema is added to `./config/app.json` file.
 
