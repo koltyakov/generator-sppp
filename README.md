@@ -13,12 +13,21 @@ Yeoman generator for SharePoint - lets you quickly set up a project with sensibl
 Generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
 
 ---
-# New in v.2.1.4
+
+## New in v.2.2.*
+
+- React project compatibility improvements
+- Update to Webpack 4
+
+---
+
+### New in v.2.1.*
 
 - JSON schema is added to `./config/app.json` file.
 
-----
-# New in v.2.0.0
+---
+
+## New in v.2.0.*
 
 - Code base has been migrated to TypeScript
 - Custom Gulp tasks support has been added
@@ -27,22 +36,24 @@ Generated project allows immediately start developing SharePoint client-side sol
 - SharePoint build tasks has been migrated to `sp-build-tasks`
 - Auth wizard system has been migrated to `node-sp-auth-config`
 
-----
-# New in v.1.5.0
+---
+
+## New in v.1.5.*
 
 - Live reload functionality is integrated
 - Dynamic configuration helpers
 
-----
+---
 
-## Supported SharePoint versions:
+## Supported SharePoint versions
+
 - SharePoint Online
 - SharePoint 2013
 - SharePoint 2016
 
-## How to use:
+## How to use
 
-### Install:
+### Install
 
 To use Yeoman, one need to has Node.js and NPM installed on the computer. Basic installation process description can be found in [this blog post](https://www.linkedin.com/pulse/preparing-development-machine-client-side-sharepoint-mac-koltyakov?trk=pulse_spock-articles).
 
@@ -52,7 +63,7 @@ Alter Node.js and NPM are staffed, install `Gulp`, `Yeoman` and `generator-sppp`
 npm install -g gulp yo generator-sppp
 ```
 
-### Generate:
+### Generate
 
 Make a new directory or clone a blank Git project of your own and navigate to the created folder.
 
@@ -92,7 +103,7 @@ For publishing all .src project files, `push` task can be used:
 gulp push
 ```
 
-### Additional Gulp tasks:
+### Additional Gulp tasks
 
 Available tasks list:
 
