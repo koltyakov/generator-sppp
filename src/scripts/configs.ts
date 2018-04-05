@@ -73,11 +73,8 @@ export const tslintJson = (metadata?: IGeneratorData) => {
   return {
     extends: 'tslint-config-standard',
     rules: {
-      semicolon: [
-        true,
-        'always',
-        'ignore-interfaces'
-      ]
+      semicolon: [ true, 'always', 'ignore-interfaces' ],
+      'space-before-function-paren': false
     }
   };
 };
