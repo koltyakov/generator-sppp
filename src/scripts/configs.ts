@@ -13,7 +13,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     main: './dist/index.js',
     scripts: {
       build: 'gulp build',
-      watch: 'gulp watch',
+      watch: 'gulp watch:dev',
       config: 'gulp config:force',
       publish: 'gulp push:diff',
       analyze: 'gulp analyze'
