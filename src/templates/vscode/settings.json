@@ -5,6 +5,7 @@
     "yarn.lock": true,
     "tmp/": true,
     "dist/": true,
+    "cache/": true
   },
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,

@@ -12,7 +12,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     description: data.description,
     main: './dist/index.js',
     scripts: {
-      build: 'gulp build',
+      build: 'gulp build:prod',
       watch: 'gulp watch:dev',
       config: 'gulp config:force',
       publish: 'gulp push:diff',
@@ -64,7 +64,8 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
       'gulpfile.js',
       'build',
       'dist',
-      'tmp'
+      'tmp',
+      'cache'
     ]
   };
 };
