@@ -1,21 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
-    "lib": ["es2015", "dom"],
-    "sourceMap": true,
-    "declaration": true,
+    "lib": ["es2017", "dom"],
+    "rootDir": "src",
+    "sourceMap": false,
+    "declaration": false,
     "moduleResolution": "node",
     "noImplicitAny": false,
     "removeComments": true,
+    "newLine": "LF",
     "skipLibCheck": true,
     "types": ["node"],
-    "outDir": "./tmp"
+    "outDir": "app"
   },
   "exclude": [
     "node_modules",
-    "gulpfile.js",
     "app",
-    "tmp"
+    "src/templates"
   ]
 }
