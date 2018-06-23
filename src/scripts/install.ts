@@ -1,14 +1,12 @@
 export const npmDependencies = {
   dependencies: [
-    '@pnp/common',
-    '@pnp/logging',
-    '@pnp/odata',
-    '@pnp/sp'
+    '@pnp/pnpjs'
   ],
   devDependencies: [
     '@types/sharepoint',
-    'sp-build-tasks',
+    'sp-build-tasks@beta',
     'tslint-config-standard',
-    'eslint-config-standard'
+    'eslint-config-standard',
+    'dotenv'
   ]
 };

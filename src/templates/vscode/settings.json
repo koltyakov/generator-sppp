@@ -3,6 +3,7 @@
     ".vscode": true,
     "node_modules/": true,
     "yarn.lock": true,
+    "package-lock.json": true,
     "tmp/": true,
     "dist/": true,
     "cache/": true
@@ -10,8 +11,5 @@
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,
   "editor.autoIndent": true,
-  "window.zoomLevel": 0,
-  "git.enableSmartCommit": true,
-  "git.confirmSync": false,
-  "git.autofetch": true
+  "window.zoomLevel": 0
 }

@@ -1,6 +1,5 @@
 import * as Generator from 'yeoman-generator';
 import { kebabCase } from 'lodash';
-import * as path from 'path';
 import * as fs from 'fs';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
@@ -10,7 +9,7 @@ import Utils from './scripts/utils';
 import { npmDependencies } from './scripts/install';
 import { promptQuestions } from './scripts/prompts';
 import * as configurators from './scripts/configs';
-import { IGeneratorData, IAppConf, IAnswers } from './scripts/interfaces';
+import { IGeneratorData } from './scripts/interfaces';
 
 class SP extends Generator {
 
@@ -28,12 +27,12 @@ class SP extends Generator {
     });
   }
 
-  private initializing() {
+  protected initializing() {
     this.data.sppp = require('../package.json');
 
     this.log(yosay(`Welcome to ${
       colors.yellow('SharePoint Pull-n-Push')
-      } generator (v.${this.data.sppp.version})!`));
+    } generator (v.${this.data.sppp.version})!`));
 
     this.appname = kebabCase(this.appname);
     this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
@@ -44,12 +43,12 @@ class SP extends Generator {
 
     // Check for existing project
     (() => {
-      let packagePath: string = this.utils.resolveDestPath('package.json');
+      const packagePath: string = this.utils.resolveDestPath('package.json');
       if (fs.existsSync(packagePath)) {
         this.existingProject = true;
         this.packageData = require(packagePath);
       }
-      let angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
+      const angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
       // this.log(angularCliPath);
       if (fs.existsSync(angularCliPath)) {
         this.log(`\n${
@@ -61,7 +60,7 @@ class SP extends Generator {
 
   }
 
-  private prompting() {
+  protected prompting() {
     const done = (this as any).async();
     promptQuestions(this.data, this).then((answers) => {
       this.data.answers = {
@@ -72,7 +71,7 @@ class SP extends Generator {
     });
   }
 
-  private configuring() {
+  protected configuring() {
     this.config.set('app.name', this.data.answers.name);
     this.config.set('app.description', this.data.answers.description);
     this.config.set('app.author', this.data.answers.author);
@@ -81,7 +80,7 @@ class SP extends Generator {
     this.config.save();
   }
 
-  private writing() {
+  protected writing() {
     this.log(`\n${
       colors.yellow.bold('Writing files')
     }`);
@@ -100,6 +99,7 @@ class SP extends Generator {
 
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
+    this.utils.copyFile('env', '.env');
     this.utils.copyFile('webpack.config.js');
     this.utils.copyFile('build/tasks/example.js');
     this.utils.copyFile('build/tasks/customDataLoader.js');
@@ -124,7 +124,7 @@ class SP extends Generator {
     this.log(`${colors.green('Done writing')}`);
   }
 
-  private install() {
+  protected install() {
     this.log(`\n${colors.yellow.bold('Installing dependencies')}\n`);
     const done = (this as any).async();
 
@@ -156,7 +156,7 @@ class SP extends Generator {
     });
   }
 
-  private end() {
+  protected end() {
     this.log(`\n${colors.yellow.bold('Installation successful!')}`);
     this.log(`\n${colors.gray(`Run \`${colors.blue.bold('npm run config')}\` to configure SharePoint connection.`)}`);
   }

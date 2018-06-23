@@ -12,22 +12,22 @@ export default class Utils {
 
   private settings: IUtilsSettings;
   private destinationRoot: string;
-  private destinationPath: string;
+  // private destinationPath: string;
 
   constructor(settings: IUtilsSettings) {
     this.settings = {
       ...settings
     };
     this.destinationRoot = this.settings.yo.destinationRoot();
-    this.destinationPath = this.settings.yo.destinationPath();
+    // this.destinationPath = this.settings.yo.destinationPath();
   }
 
   public writeJsonAsModuleSync(relativePath: string, jsonData: any) {
-    let absolutePath: string = this.resolveDestPath(relativePath);
-    let destinationFolder: string = path.dirname(absolutePath);
+    const absolutePath: string = this.resolveDestPath(relativePath);
+    const destinationFolder: string = path.dirname(absolutePath);
     mkdirp.sync(destinationFolder);
 
-    let exists = fs.existsSync(absolutePath);
+    const exists = fs.existsSync(absolutePath);
     if (!exists) {
       fs.writeFileSync(
         absolutePath,
@@ -40,11 +40,11 @@ export default class Utils {
   }
 
   public writeJsonSync(relativePath: string, jsonData: any, force: boolean = false) {
-    let absolutePath: string = this.resolveDestPath(relativePath);
-    let destinationFolder: string = path.dirname(absolutePath);
+    const absolutePath: string = this.resolveDestPath(relativePath);
+    const destinationFolder: string = path.dirname(absolutePath);
     mkdirp.sync(destinationFolder);
 
-    let exists = fs.existsSync(absolutePath);
+    const exists = fs.existsSync(absolutePath);
     if (!exists || force) {
       fs.writeFileSync(absolutePath, JSON.stringify(jsonData, null, 2), { encoding: 'utf8' });
     } else {
@@ -56,9 +56,9 @@ export default class Utils {
     if (typeof destRelativePath === 'undefined' || destRelativePath === null) {
       destRelativePath = sourceRelativePath;
     }
-    let fromPath: string = this.resolveSourcePath(sourceRelativePath);
-    let toPath: string = this.resolveDestPath(destRelativePath);
-    let destinationFolder: string = path.dirname(toPath);
+    const fromPath: string = this.resolveSourcePath(sourceRelativePath);
+    const toPath: string = this.resolveDestPath(destRelativePath);
+    const destinationFolder: string = path.dirname(toPath);
 
     let exists = fs.existsSync(toPath);
     if (force) {
@@ -77,8 +77,8 @@ export default class Utils {
   }
 
   public copyFolder(sourceRelativePath: string, destRelativePath: string) {
-    let fromFolder: string = this.resolveSourcePath(sourceRelativePath);
-    let toFolder: string = this.resolveDestPath(destRelativePath);
+    const fromFolder: string = this.resolveSourcePath(sourceRelativePath);
+    const toFolder: string = this.resolveDestPath(destRelativePath);
     this.copyRecursiveSync(fromFolder, toFolder);
   }
 
@@ -91,9 +91,9 @@ export default class Utils {
   }
 
   private copyRecursiveSync(src: string, dest: string) {
-    let exists = fs.existsSync(src);
-    let stats = exists && fs.statSync(src);
-    let isDirectory = exists && stats.isDirectory();
+    const exists = fs.existsSync(src);
+    const stats = exists && fs.statSync(src);
+    const isDirectory = exists && stats.isDirectory();
 
     if (exists && isDirectory) {
       mkdirp.sync(dest);

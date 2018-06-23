@@ -1,4 +1,4 @@
-export { IAppConf } from 'sp-build-tasks';
+export { IAppConfig } from 'sp-build-tasks';
 
 export interface IKeyVal {
   [key: string]: any;

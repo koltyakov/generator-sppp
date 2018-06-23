@@ -1,7 +1,7 @@
-import { IPackageJsonMetadata, IGeneratorData, IAppConf } from './interfaces';
+import { IPackageJsonMetadata, IGeneratorData, IAppConfig } from './interfaces';
 
 export const packageJson = (metadata: IGeneratorData) => {
-  let data: IPackageJsonMetadata = {
+  const data: IPackageJsonMetadata = {
     ...(metadata.answers as IPackageJsonMetadata),
     version: metadata.answers.version || '1.0.0',
     license: metadata.answers.license || 'MIT'
@@ -11,11 +11,12 @@ export const packageJson = (metadata: IGeneratorData) => {
     version: data.version,
     description: data.description,
     main: './dist/index.js',
+    private: true,
     scripts: {
-      build: 'gulp build:prod',
-      watch: 'gulp watch:dev',
-      config: 'gulp config:force',
-      publish: 'gulp push:diff',
+      build: 'gulp build --prod',
+      watch: 'gulp watch',
+      config: 'gulp config --init',
+      publish: 'gulp push --diff',
       analyze: 'gulp analyze'
     },
     author: data.author,
@@ -25,8 +26,8 @@ export const packageJson = (metadata: IGeneratorData) => {
   };
 };
 
-export const configAppJson = (metadata: IGeneratorData) => {
-  let appConf: IAppConf = {
+export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
+  const appConf: IAppConfig | any = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
     spFolder: metadata.answers.spFolder,
     distFolder: metadata.answers.distFolder
@@ -34,7 +35,7 @@ export const configAppJson = (metadata: IGeneratorData) => {
   return appConf;
 };
 
-export const tsconfigJson = (metadata?: IGeneratorData) => {
+export const tsconfigJson = (_metadata?: IGeneratorData) => {
   return {
     compilerOptions: {
       target: 'es5',
@@ -70,7 +71,7 @@ export const tsconfigJson = (metadata?: IGeneratorData) => {
   };
 };
 
-export const tslintJson = (metadata?: IGeneratorData) => {
+export const tslintJson = (_metadata?: IGeneratorData) => {
   return {
     extends: 'tslint-config-standard',
     rules: {
@@ -80,7 +81,7 @@ export const tslintJson = (metadata?: IGeneratorData) => {
   };
 };
 
-export const eslintJson = (metadata?: IGeneratorData) => {
+export const eslintJson = (_metadata?: IGeneratorData) => {
   return {
     extends: 'standard',
     ecmaVersion: 6,

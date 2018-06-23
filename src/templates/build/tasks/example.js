@@ -1,9 +1,8 @@
 //@ts-check
 
-module.exports = (gulp, $) => {
-  'use strict';
+module.exports = (gulp, $, settings) => {
 
-  gulp.task('example', (cb) => {
+  gulp.task('example', cb => {
     console.log('Example Gulp Task');
     cb();
   });

@@ -1,17 +1,11 @@
-# Dependencies
 /node_modules
-
-# Misc
 .DS_Store
-.env.local
-.env.*.local
-
+.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# SharePoint Build Specific
-
+# SharePoint build specific
 /config/private.*
 /dist
 /tmp
