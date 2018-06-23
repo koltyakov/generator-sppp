@@ -77,7 +77,7 @@ Then follow the the Yeoman wizard instructions:
 
 ![Generator in action](http://koltyakov.ru/images/generator-sppp-demo.gif)
 
-### Sync with SharePoint:
+### Sync with SharePoint
 
 Now you can run gulp [sppull](https://www.npmjs.com/package/sppull) task:
 
@@ -89,18 +89,18 @@ gulp pull
 
 It will deliver all files from assets folder from SharePoint to local directory.
 
-Run gulp watch task before starting editing files:
+Run npm watch task before starting editing files:
 
 ```bash
-gulp watch
+npm run watch
 ```
 
 On files change they are uploaded and published to SharePoint with use of [gulp-spsave](https://www.npmjs.com/package/gulp-spsave).
 
-For publishing all .src project files, `push` task can be used:
+For publishing files from `./dist` folder the `publish` task can be used:
 
 ```bash
-gulp push
+npm run publish
 ```
 
 ### Additional Gulp tasks
@@ -114,7 +114,7 @@ gulp --tasks
 #### Config validation and prompting
 
 ```bash
-gulp config
+npm run config
 ```
 
 Checks basic minimal configs and prompts on configuration missing.
