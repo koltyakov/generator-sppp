@@ -8,13 +8,8 @@
  *
  */
 
-'use strict';
-
 const gulp = require('gulp');
-const { default: SPBuild } = require('sp-build-tasks');
-const dotenv = require('dotenv');
-
-dotenv.load();
+require('dotenv').load();
 
 /**
  * You can redefine parameters in environment variables.
@@ -25,7 +20,7 @@ dotenv.load();
  *
  */
 
-new SPBuild(gulp, {
+new (require('sp-build-tasks').SPBuildTasks)(gulp, {
   privateConf: process.env.PRIVATE_JSON || './config/private.json',
   appConfig: process.env.APP_JSON || './config/app.json',
   taskPath: './tools/tasks'
