@@ -4,7 +4,7 @@ export const npmDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    'sp-build-tasks@beta',
+    'sp-build-tasks',
     'tslint-config-standard',
     'eslint-config-standard',
     'dotenv'
