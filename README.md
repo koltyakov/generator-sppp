@@ -12,39 +12,6 @@ Yeoman generator for SharePoint - lets you quickly set up a project with sensibl
 
 Generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
 
----
-
-## New in v.2.2.*
-
-- React project compatibility improvements
-- Update to Webpack 4
-
----
-
-## New in v.2.1.*
-
-- JSON schema is added to `./config/app.json` file.
-
----
-
-## New in v.2.0.*
-
-- Code base has been migrated to TypeScript
-- Custom Gulp tasks support has been added
-- Generator has been migrated to a new version of Yeoman framework
-- Yarn is integrated as a default package manager
-- SharePoint build tasks has been migrated to `sp-build-tasks`
-- Auth wizard system has been migrated to `node-sp-auth-config`
-
----
-
-## New in v.1.5.*
-
-- Live reload functionality is integrated
-- Dynamic configuration helpers
-
----
-
 ## Supported SharePoint versions
 
 - SharePoint Online
