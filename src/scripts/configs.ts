@@ -11,6 +11,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     version: data.version,
     description: data.description,
     main: './dist/index.js',
+    typings: './dist/index',
     private: true,
     scripts: {
       build: 'gulp build --prod',

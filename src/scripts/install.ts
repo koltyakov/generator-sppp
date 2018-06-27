@@ -6,7 +6,6 @@ export const npmDependencies = {
     '@types/sharepoint',
     'sp-build-tasks',
     'tslint-config-standard',
-    'eslint-config-standard',
-    'dotenv'
+    'eslint-config-standard'
   ]
 };

@@ -11,12 +11,9 @@ module.exports = customTask((gulp, $, settings) => {
 
 });
 
-
 // module.exports = (gulp, $, settings) => {
-
 //   gulp.task('example', cb => {
 //     console.log('Example Gulp Task');
 //     cb();
 //   });
-
 // };

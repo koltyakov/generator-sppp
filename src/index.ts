@@ -11,7 +11,7 @@ import { promptQuestions } from './scripts/prompts';
 import * as configurators from './scripts/configs';
 import { IGeneratorData } from './scripts/interfaces';
 
-class SP extends Generator {
+module.exports = class extends Generator {
 
   private data: IGeneratorData = {};
   private utils: Utils;
@@ -20,14 +20,12 @@ class SP extends Generator {
   private existingProject: boolean = false;
   private isAngularProject: boolean = false;
 
-  constructor(args: string | string[], options: any) {
+  public constructor(args, options) {
     super(args, options);
-    this.utils = new Utils({
-      yo: this
-    });
+    this.utils = new Utils({ yo: this });
   }
 
-  protected initializing() {
+  public initializing() {
     this.data.sppp = require('../package.json');
 
     this.log(yosay(`Welcome to ${
@@ -60,7 +58,7 @@ class SP extends Generator {
 
   }
 
-  protected prompting() {
+  public prompting() {
     const done = (this as any).async();
     promptQuestions(this.data, this).then((answers) => {
       this.data.answers = {
@@ -71,7 +69,7 @@ class SP extends Generator {
     });
   }
 
-  protected configuring() {
+  public configuring() {
     this.config.set('app.name', this.data.answers.name);
     this.config.set('app.description', this.data.answers.description);
     this.config.set('app.author', this.data.answers.author);
@@ -80,7 +78,7 @@ class SP extends Generator {
     this.config.save();
   }
 
-  protected writing() {
+  public writing() {
     this.log(`\n${
       colors.yellow.bold('Writing files')
     }`);
@@ -100,6 +98,7 @@ class SP extends Generator {
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
     this.utils.copyFile('env', '.env');
+    this.utils.copyFile('editorconfig', '.editorconfig');
     this.utils.copyFile('webpack.config.js');
     this.utils.copyFile('build/tasks/example.js');
     this.utils.copyFile('build/tasks/customDataLoader.js');
@@ -124,7 +123,7 @@ class SP extends Generator {
     this.log(`${colors.green('Done writing')}`);
   }
 
-  protected install() {
+  public install() {
     this.log(`\n${colors.yellow.bold('Installing dependencies')}\n`);
     const done = (this as any).async();
 
@@ -156,11 +155,9 @@ class SP extends Generator {
     });
   }
 
-  protected end() {
+  public end() {
     this.log(`\n${colors.yellow.bold('Installation successful!')}`);
     this.log(`\n${colors.gray(`Run \`${colors.blue.bold('npm run config')}\` to configure SharePoint connection.`)}`);
   }
 
-}
-
-module.exports = SP;
+};

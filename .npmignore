@@ -1,7 +1,7 @@
-node_modules
-/src
-!/app
-/.vscode
-/.github
+!app/
+node_modules/
+src/
+.vscode/
+.github/
 tsconfig.json
 tslint.json
