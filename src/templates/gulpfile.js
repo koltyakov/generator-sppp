@@ -9,18 +9,7 @@
  */
 
 const gulp = require('gulp');
-const fs = require('fs');
-
 require('dotenv').load();
-
-if (!fs.existsSync('./.env')) {
-  fs.writeFileSync(
-    './.env',
-    'PRIVATE_JSON=./.config/private.json' +
-    'APP_JSON=./config/app.json',
-    { encoding: 'utf-8' }
-  );
-}
 
 /**
  * You can redefine parameters in environment variables.
