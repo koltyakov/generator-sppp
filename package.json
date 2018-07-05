@@ -1,7 +1,7 @@
 {
   "name": "generator-sppp",
   "description": "SharePoint Pull-n-Push - Yeoman generator for client-side development",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": "Andrew Koltyakov <andrew.koltyakov@gmail.com>",
   "main": "./app/index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "@types/yeoman-generator": "^2.0.3",
     "copyfiles": "^2.0.0",
     "eslint-config-standard": "^11.0.0",
-    "sp-build-tasks": "^3.0.2",
+    "sp-build-tasks": "^3.0.5",
     "tslint": "^5.10.0",
     "tslint-config-standard": "^7.1.0",
     "typescript": "^2.9.2"

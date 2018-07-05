@@ -1,2 +1,2 @@
-PRIVATE_JSON=./.config/private.json
+PRIVATE_JSON=./config/private.json
 APP_JSON=./config/app.json
