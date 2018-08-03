@@ -1,17 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "target": "es5",
+    "module": "esnext",
     "lib": ["es2017", "dom"],
     "rootDir": "src",
+    "jsx": "react",
     "sourceMap": false,
     "declaration": false,
     "moduleResolution": "node",
     "noImplicitAny": false,
     "removeComments": true,
     "newLine": "LF",
+    "experimentalDecorators": true,
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": ["node", "sharepoint"],
     "outDir": "app"
   },
   "exclude": [
