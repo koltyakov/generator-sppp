@@ -40,7 +40,7 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
       dist: './dist/libs'
     }],
     webpackItemsMap: [
-      { name: 'Polyfills', entry: './src/scripts/utils/polyfills.ts', target: '../libs/polyfills.js', includePolyfills: false },
+      { name: 'Polyfills', entry: './src/scripts/utils/polyfills.ts', target: 'polyfills.js', includePolyfills: false },
       { name: 'Application', entry: './src/scripts/index.ts', target: 'app.js', includePolyfills: false }
     ]
   };
