@@ -29,4 +29,11 @@ export interface IAnswers {
   distFolder: string;
   version?: string;
   license?: string;
+  additional?: IAdditionalAnswers;
+}
+
+export interface IAdditionalAnswers {
+  sslCerts: boolean;
+  customTasks: boolean;
+  presets: string[];
 }

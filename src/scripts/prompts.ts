@@ -31,3 +31,26 @@ export const promptQuestions = (_data: IGeneratorData, yo: Generator): Promise<I
     default: yo.config.get('conf.distFolder') || './dist'
   }]) as Promise<IAnswers>;
 };
+
+export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator): Promise<IAnswers> => {
+  // Step 2: Additional questions
+  return yo.prompt([{
+    type: 'confirm',
+    name: 'additional.sslCerts',
+    message: 'Copy SSL certificates (for live reload with HTTPS)',
+    default: typeof yo.config.get('conf.additional.sslCerts') === 'undefined' ? false : true
+  }, {
+    type: 'confirm',
+    name: 'additional.customTasks',
+    message: 'Scaffold extention tasks',
+    default: typeof yo.config.get('conf.additional.customTasks') === 'undefined' ? true : false
+  }, {
+    type: 'checkbox',
+    name: 'additional.presets',
+    message: 'Apply following presets',
+    choices: [
+      { name: 'React', value: 'react' }
+    ],
+    default: yo.config.get('conf.additional.presets')
+  }]) as Promise<IAnswers>;
+};

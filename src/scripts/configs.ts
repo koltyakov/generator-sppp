@@ -16,9 +16,11 @@ export const packageJson = (metadata: IGeneratorData) => {
     scripts: {
       build: 'gulp build --prod',
       watch: 'gulp watch',
+      'watch:prod': 'gulp watch --prod',
       config: 'gulp config --init',
       publish: 'gulp push --diff',
-      analyze: 'gulp analyze'
+      analyze: 'gulp analyze',
+      lint: `tslint 'src/**/*.{ts,tsx}'`
     },
     author: data.author,
     license: data.license,
@@ -31,7 +33,13 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
   const appConf: IAppConfig = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
     spFolder: metadata.answers.spFolder,
-    distFolder: metadata.answers.distFolder
+    distFolder: metadata.answers.distFolder,
+    copyAssetsMap: [{
+      src: [
+        './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js'
+      ],
+      dist: './dist/libs'
+    }]
   };
   return appConf;
 };
@@ -91,5 +99,15 @@ export const eslintJson = (_metadata?: IGeneratorData) => {
       'standard',
       'promise'
     ]
+  };
+};
+
+export const prettierJson = (_metadata?: IGeneratorData) => {
+  return {
+    semi: true,
+    singleQuote: true,
+    trailingComma: 'none',
+    bracketSpacing: true,
+    parser: 'flow'
   };
 };

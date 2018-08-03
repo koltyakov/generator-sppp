@@ -9,3 +9,16 @@ export const npmDependencies = {
     'eslint-config-standard'
   ]
 };
+
+export const presetDependencies = {
+  react: {
+    dependencies: [
+      'react',
+      'react-dom'
+    ],
+    devDependencies: [
+      '@types/react',
+      '@types/react-dom'
+    ]
+  }
+};

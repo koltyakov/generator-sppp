@@ -3,13 +3,12 @@ import { kebabCase } from 'lodash';
 import * as fs from 'fs';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
-import { exec } from 'child_process';
 
 import Utils from './scripts/utils';
-import { npmDependencies } from './scripts/install';
-import { promptQuestions } from './scripts/prompts';
+import { npmDependencies, presetDependencies } from './scripts/install';
+import { promptQuestions, promptAdditionalQuestions } from './scripts/prompts';
 import * as configurators from './scripts/configs';
-import { IGeneratorData } from './scripts/interfaces';
+import { IGeneratorData, IAppConfig } from './scripts/interfaces';
 
 module.exports = class extends Generator {
 
@@ -47,7 +46,6 @@ module.exports = class extends Generator {
         this.packageData = require(packagePath);
       }
       const angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
-      // this.log(angularCliPath);
       if (fs.existsSync(angularCliPath)) {
         this.log(`\n${
           colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
@@ -60,13 +58,17 @@ module.exports = class extends Generator {
 
   public prompting() {
     const done = (this as any).async();
-    promptQuestions(this.data, this).then((answers) => {
-      this.data.answers = {
-        ...this.data.answers,
-        ...answers
-      };
+    (async () => {
+      // Step 1: General parameters
+      await promptQuestions(this.data, this).then(answers => {
+        this.data.answers = { ...this.data.answers, ...answers };
+      });
+      // Step 2: Additional questions
+      await promptAdditionalQuestions(this.data, this).then(answers => {
+        this.data.answers = { ...this.data.answers, ...answers };
+      });
       done();
-    });
+    })();
   }
 
   public configuring() {
@@ -75,6 +77,9 @@ module.exports = class extends Generator {
     this.config.set('app.author', this.data.answers.author);
     this.config.set('conf.spFolder', this.data.answers.spFolder);
     this.config.set('conf.distFolder', this.data.answers.distFolder);
+    Object.keys(this.data.answers.additional).forEach(key => {
+      this.config.set(`conf.additional.${key}`, this.data.answers.additional[key]);
+    });
     this.config.save();
   }
 
@@ -83,28 +88,42 @@ module.exports = class extends Generator {
       colors.yellow.bold('Writing files')
     }`);
 
-    // tslint:disable-next-line:no-unused-expression
     if (!this.existingProject) {
       this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
     }
 
-    this.utils.writeJsonSync('config/app.json', configurators.configAppJson(this.data));
+    let appJson: IAppConfig = configurators.configAppJson(this.data);
+    if (this.data.answers.additional.presets.indexOf('react') !== -1) {
+      appJson.copyAssetsMap = [
+        ...appJson.copyAssetsMap || [], {
+          src: [
+            './node_modules/react/umd/react.production.min.js',
+            './node_modules/react-dom/umd/react-dom.production.min.js'
+          ],
+          dist: './dist/libs'
+        }
+      ];
+    }
+    this.utils.writeJsonSync('config/app.json', appJson);
 
     this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
     this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
 
     this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
+    this.utils.writeJsonSync('.prettierrc', configurators.prettierJson(this.data));
 
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
     this.utils.copyFile('env', '.env');
     this.utils.copyFile('editorconfig', '.editorconfig');
     this.utils.copyFile('webpack.config.js');
-    this.utils.copyFile('build/tasks/example.js');
-    this.utils.copyFile('build/tasks/customDataLoader.js');
+
+    if (this.data.answers.additional.customTasks) {
+      this.utils.copyFile('build/tasks/example.js');
+      this.utils.copyFile('build/tasks/customDataLoader.js');
+    }
 
     // Ignore folder structure for Angular project
-    // tslint:disable-next-line:no-unused-expression
     if (!this.isAngularProject) {
       this.utils.createFolder('src/scripts');
       this.utils.createFolder('src/libs');
@@ -115,10 +134,16 @@ module.exports = class extends Generator {
       this.utils.createFolder('src/webparts');
       this.utils.createFolder('dist');
       this.utils.copyFolder('src', 'src');
+      if (this.data.answers.additional.presets.indexOf('react') !== -1) {
+        this.utils.copyFolder('presets/react', 'src');
+      }
     }
 
     this.utils.copyFolder('vscode', '.vscode');
-    this.utils.copyFolder('config/ssl', 'config/ssl');
+
+    if (this.data.answers.additional.sslCerts) {
+      this.utils.copyFolder('config/ssl', 'config/ssl');
+    }
 
     this.log(`${colors.green('Done writing')}`);
   }
@@ -127,32 +152,53 @@ module.exports = class extends Generator {
     this.log(`\n${colors.yellow.bold('Installing dependencies')}\n`);
     const done = (this as any).async();
 
-    // Add dependency for Angular project
-    // tslint:disable-next-line:no-unused-expression
     if (this.isAngularProject) {
+      // Add dependency for Angular project
       npmDependencies.devDependencies.push('concurrently');
+      // Add angular tasks
+      this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
+      this.utils.writeJsonSync('package.json', this.packageData, true);
     }
 
-    // Add angular tasks
-    (() => {
-      // tslint:disable-next-line:no-unused-expression
-      if (this.isAngularProject) {
-        this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
-        this.utils.writeJsonSync('package.json', this.packageData, true);
-      }
-    })();
+    (async () => {
+      let next = true;
+      let installer: any = null;
+      let depOptions: any = null;
+      let devDepOptions: any = null;
 
-    exec('yarn --version', (err, stout, sterr) => {
-      // tslint:disable-next-line:no-unused-expression
-      if (!err) {
-        this.yarnInstall(npmDependencies.dependencies, { 'save': true });
-        this.yarnInstall(npmDependencies.devDependencies, { 'dev': true });
-      } else {
-        this.npmInstall(npmDependencies.dependencies, { 'save': true });
-        this.npmInstall(npmDependencies.devDependencies, { 'save-dev': true });
-      }
+      next && await this.utils.execPromise('yarn --version').then(_ => {
+        installer = this.yarnInstall.bind(this);
+        depOptions = { 'save': true };
+        devDepOptions = { 'dev': true };
+        next = false;
+      }).catch(_ => next = true);
+
+      next && (() => {
+        installer = this.npmInstall.bind(this);
+        depOptions = { 'save': true };
+        devDepOptions = { 'save-dev': true };
+      })();
+
+      let dependencies = npmDependencies.dependencies;
+      let devDependencies = npmDependencies.devDependencies;
+
+      this.data.answers.additional.presets.forEach(preset => {
+        if (typeof presetDependencies[preset] !== 'undefined') {
+          const { dependencies: dep, devDependencies: devDep } = presetDependencies[preset];
+          if (dep) {
+            dependencies = [ ...dependencies, ...dep ];
+          }
+          if (devDep) {
+            devDependencies = [ ...devDependencies, ...devDep ];
+          }
+        }
+      });
+
+      installer(dependencies, depOptions);
+      installer(devDependencies, devDepOptions);
+
       done();
-    });
+    })();
   }
 
   public end() {

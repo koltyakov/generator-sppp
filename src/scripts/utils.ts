@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
 import * as colors from 'colors';
+import { exec } from 'child_process';
 
 export interface IUtilsSettings {
   yo: Generator;
@@ -88,6 +89,18 @@ export default class Utils {
 
   public resolveSourcePath(relativePath: string): string {
     return path.join(__dirname, '..', 'templates', relativePath);
+  }
+
+  public execPromise = (command: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      exec(command, (err, stdout) => {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(stdout);
+        }
+      });
+    });
   }
 
   private copyRecursiveSync(src: string, dest: string) {
