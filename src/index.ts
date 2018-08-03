@@ -96,6 +96,7 @@ module.exports = class extends Generator {
     if (this.data.answers.additional.presets.indexOf('react') !== -1) {
       appJson.copyAssetsMap = [
         ...appJson.copyAssetsMap || [], {
+          name: 'React',
           src: [
             './node_modules/react/umd/react.production.min.js',
             './node_modules/react-dom/umd/react-dom.production.min.js'
@@ -103,6 +104,10 @@ module.exports = class extends Generator {
           dist: './dist/libs'
         }
       ];
+      const webpackAppItem = (appJson.webpackItemsMap || []).filter(item => item.name === 'Application');
+      if (webpackAppItem.length === 1) {
+        webpackAppItem[0].name += 'x';
+      }
     }
     this.utils.writeJsonSync('config/app.json', appJson);
 

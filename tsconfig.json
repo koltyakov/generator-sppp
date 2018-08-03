@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
+    "target": "es6",
+    "module": "commonjs",
     "lib": ["es2017", "dom"],
     "rootDir": "src",
     "jsx": "react",
