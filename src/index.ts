@@ -106,7 +106,7 @@ module.exports = class extends Generator {
       ];
       const webpackAppItem = (appJson.webpackItemsMap || []).filter(item => item.name === 'Application');
       if (webpackAppItem.length === 1) {
-        webpackAppItem[0].name += 'x';
+        webpackAppItem[0].entry += 'x';
       }
     }
     this.utils.writeJsonSync('config/app.json', appJson);
