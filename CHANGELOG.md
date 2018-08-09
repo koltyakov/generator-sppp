@@ -2,6 +2,15 @@
 
 ---
 
+## New in v.3.1.*
+
+- Webpack externals config
+- Custom actions provisionging options
+- Excluding polyfills from bundles
+- React basic projects preset
+
+---
+
 ## New in v.3.0.*
 
 - Update to `sp-build-tasks` ver. 3.0.*
