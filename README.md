@@ -113,4 +113,4 @@ SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki sec
 - [node-so-auth-config](https://github.com/koltyakov/node-so-auth-config) authentication config wizard
 - [sp-build-tasks](https://github.com/koltyakov/sp-build-tasks) build tasks tool-belt
 
-Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/koltyakov/generator-sppp/tree/master/docs/authparameters.md).
+Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/s-KaiNet/node-sp-auth/wiki).
