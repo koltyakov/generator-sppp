@@ -15,8 +15,9 @@ Generated project allows immediately start developing SharePoint client-side sol
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint 2013
+- SharePoint 2019
 - SharePoint 2016
+- SharePoint 2013
 
 ## How to use
 
