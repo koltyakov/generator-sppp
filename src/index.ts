@@ -124,8 +124,8 @@ module.exports = class extends Generator {
     this.utils.copyFile('webpack.config.js');
 
     if (this.data.answers.additional.customTasks) {
-      this.utils.copyFile('build/tasks/example.js');
-      this.utils.copyFile('build/tasks/customDataLoader.js');
+      this.utils.copyFile('tools/tasks/example.js');
+      this.utils.copyFile('tools/tasks/customDataLoader.js');
     }
 
     // Ignore folder structure for Angular project

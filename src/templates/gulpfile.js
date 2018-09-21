@@ -23,7 +23,7 @@ require('dotenv').load();
 new (require('sp-build-tasks').SPBuildTasks)(gulp, {
   privateConf: process.env.PRIVATE_JSON || './config/private.json',
   appConfig: process.env.APP_JSON || './config/app.json',
-  taskPath: './tools/tasks'
+  taskPath: process.env.TASKS_PATH || './tools/tasks'
 });
 
 // === (!) Do not modify this file directly (!) ===
