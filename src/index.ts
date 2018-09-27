@@ -3,6 +3,7 @@ import { kebabCase } from 'lodash';
 import * as fs from 'fs';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
+import * as dargs from 'dargs';
 
 import Utils from './scripts/utils';
 import { npmDependencies, presetDependencies } from './scripts/install';
@@ -37,6 +38,11 @@ module.exports = class extends Generator {
     this.config.set('app.name', this.appname);
     this.config.set('sppp.version', this.data.sppp.version);
     this.config.save();
+
+    this.option('pnpm', {
+      description: 'If specified, will attempt to use PNPM package manager to install dependencies. Will fall back to Yarn and NPM, if PNPM is not found',
+      type: Boolean
+    });
 
     // Check for existing project
     (() => {
@@ -171,6 +177,19 @@ module.exports = class extends Generator {
       let depOptions: any = null;
       let devDepOptions: any = null;
 
+      if (this.options['pnpm']) {
+        next && await this.utils.execPromise('pnpm --version').then(_ => {
+          installer = ((dep: string[], opt) => {
+            let args = ['install'].concat(dep).concat(dargs(opt));
+            this.spawnCommandSync('pnpm', args);
+          });
+
+          depOptions = { 'save': true };
+          devDepOptions = { 'save-dev': true };
+          next = false;
+        }).catch(_ => next = true);
+      }
+
       next && await this.utils.execPromise('yarn --version').then(_ => {
         installer = this.yarnInstall.bind(this);
         depOptions = { 'save': true };
@@ -210,5 +229,4 @@ module.exports = class extends Generator {
     this.log(`\n${colors.yellow.bold('Installation successful!')}`);
     this.log(`\n${colors.gray(`Run \`${colors.blue.bold('npm run config')}\` to configure SharePoint connection.`)}`);
   }
-
 };
