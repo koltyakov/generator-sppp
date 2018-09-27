@@ -15,9 +15,7 @@ Generated project allows immediately start developing SharePoint client-side sol
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint 2019
-- SharePoint 2016
-- SharePoint 2013
+- SharePoint On-Prem (2019, 2016, 2013)
 
 ## How to use
 
@@ -44,6 +42,22 @@ yo sppp
 Then follow the the Yeoman wizard instructions:
 
 ![Generator in action](http://koltyakov.ru/images/generator-sppp-demo.gif)
+
+#### Package managers switch
+
+With `--package-manager` (or `--pm`), a package manager can be selected. Possible managers are: `pnpm`, `yarm` and `npm`. `npm` is used by default and also as a fallback option.
+
+Use `yarn`:
+
+```bash
+yo sppp --pm yarn
+```
+
+Use `pnpm`:
+
+```bash
+yo sppp --pm pnpm
+```
 
 ### Sync with SharePoint
 

@@ -2,6 +2,12 @@
 
 ---
 
+## New in v.3.1.8
+
+- Package manager selection (`npm`, `yarn`, `pnpm`), added `pnpm` support ([@olegrumiancev](https://github.com/olegrumiancev)) [PR](https://github.com/koltyakov/generator-sppp/pull/19)
+
+---
+
 ## New in v.3.1.*
 
 - Webpack externals config

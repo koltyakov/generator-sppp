@@ -39,9 +39,11 @@ module.exports = class extends Generator {
     this.config.set('sppp.version', this.data.sppp.version);
     this.config.save();
 
-    this.option('pnpm', {
-      description: 'If specified, will attempt to use PNPM package manager to install dependencies. Will fall back to Yarn and NPM, if PNPM is not found',
-      type: Boolean
+    this.option('package-manager', {
+      description: 'preferred package manager (npm, yarn, pnpm)',
+      type: String,
+      alias: 'pm',
+      default: 'npm'
     });
 
     // Check for existing project
@@ -177,29 +179,29 @@ module.exports = class extends Generator {
       let depOptions: any = null;
       let devDepOptions: any = null;
 
-      if (this.options['pnpm']) {
-        next && await this.utils.execPromise('pnpm --version').then(_ => {
-          installer = ((dep: string[], opt) => {
-            let args = ['install'].concat(dep).concat(dargs(opt));
-            this.spawnCommandSync('pnpm', args);
-          });
+      depOptions = { 'save': true };
 
-          depOptions = { 'save': true };
+      if (this.options['package-manager'] === 'pnpm') {
+        next && await this.utils.execPromise('pnpm --version').then(_ => {
+          installer = (dep: string[], opt) => {
+            const args = ['install'].concat(dep).concat(dargs(opt));
+            this.spawnCommandSync('pnpm', args);
+          };
           devDepOptions = { 'save-dev': true };
           next = false;
         }).catch(_ => next = true);
       }
 
-      next && await this.utils.execPromise('yarn --version').then(_ => {
-        installer = this.yarnInstall.bind(this);
-        depOptions = { 'save': true };
-        devDepOptions = { 'dev': true };
-        next = false;
-      }).catch(_ => next = true);
+      if (this.options['package-manager'] === 'yarn') {
+        next && await this.utils.execPromise('yarn --version').then(_ => {
+          installer = this.yarnInstall.bind(this);
+          devDepOptions = { 'dev': true };
+          next = false;
+        }).catch(_ => next = true);
+      }
 
       next && (() => {
         installer = this.npmInstall.bind(this);
-        depOptions = { 'save': true };
         devDepOptions = { 'save-dev': true };
       })();
 
@@ -229,4 +231,5 @@ module.exports = class extends Generator {
     this.log(`\n${colors.yellow.bold('Installation successful!')}`);
     this.log(`\n${colors.gray(`Run \`${colors.blue.bold('npm run config')}\` to configure SharePoint connection.`)}`);
   }
+
 };
