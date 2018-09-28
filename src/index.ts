@@ -20,9 +20,17 @@ module.exports = class extends Generator {
   private existingProject: boolean = false;
   private isAngularProject: boolean = false;
 
-  public constructor(args, options) {
+  constructor(args, options) {
     super(args, options);
     this.utils = new Utils({ yo: this });
+
+    // Custom options
+    this.option('package-manager', {
+      description: 'preferred package manager (npm, yarn, pnpm)',
+      type: String,
+      alias: 'pm',
+      default: 'npm'
+    });
   }
 
   public initializing() {
@@ -38,13 +46,6 @@ module.exports = class extends Generator {
     this.config.set('app.name', this.appname);
     this.config.set('sppp.version', this.data.sppp.version);
     this.config.save();
-
-    this.option('package-manager', {
-      description: 'preferred package manager (npm, yarn, pnpm)',
-      type: String,
-      alias: 'pm',
-      default: 'npm'
-    });
 
     // Check for existing project
     (() => {
