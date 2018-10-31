@@ -1,6 +1,6 @@
 export const npmDependencies = {
   dependencies: [
-    '@pnp/pnpjs@1.2.1'
+    '@pnp/pnpjs' // @1.2.1
   ],
   devDependencies: [
     '@types/sharepoint',
