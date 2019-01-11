@@ -3,6 +3,7 @@ import { kebabCase } from 'lodash';
 import * as fs from 'fs';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
+import * as dargs from 'dargs';
 
 import Utils from './scripts/utils';
 import { npmDependencies, presetDependencies } from './scripts/install';
@@ -19,9 +20,17 @@ module.exports = class extends Generator {
   private existingProject: boolean = false;
   private isAngularProject: boolean = false;
 
-  public constructor(args, options) {
+  constructor(args, options) {
     super(args, options);
     this.utils = new Utils({ yo: this });
+
+    // Custom options
+    this.option('package-manager', {
+      description: 'preferred package manager (npm, yarn, pnpm)',
+      type: String,
+      alias: 'pm',
+      default: 'npm'
+    });
   }
 
   public initializing() {
@@ -124,8 +133,8 @@ module.exports = class extends Generator {
     this.utils.copyFile('webpack.config.js');
 
     if (this.data.answers.additional.customTasks) {
-      this.utils.copyFile('build/tasks/example.js');
-      this.utils.copyFile('build/tasks/customDataLoader.js');
+      this.utils.copyFile('tools/tasks/example.js');
+      this.utils.copyFile('tools/tasks/customDataLoader.js');
     }
 
     // Ignore folder structure for Angular project
@@ -171,16 +180,29 @@ module.exports = class extends Generator {
       let depOptions: any = null;
       let devDepOptions: any = null;
 
-      next && await this.utils.execPromise('yarn --version').then(_ => {
-        installer = this.yarnInstall.bind(this);
-        depOptions = { 'save': true };
-        devDepOptions = { 'dev': true };
-        next = false;
-      }).catch(_ => next = true);
+      depOptions = { 'save': true };
+
+      if (this.options['package-manager'] === 'pnpm') {
+        next && await this.utils.execPromise('pnpm --version').then(_ => {
+          installer = (dep: string[], opt) => {
+            const args = ['install'].concat(dep).concat(dargs(opt));
+            this.spawnCommandSync('pnpm', args);
+          };
+          devDepOptions = { 'save-dev': true };
+          next = false;
+        }).catch(_ => next = true);
+      }
+
+      if (this.options['package-manager'] === 'yarn') {
+        next && await this.utils.execPromise('yarn --version').then(_ => {
+          installer = this.yarnInstall.bind(this);
+          devDepOptions = { 'dev': true };
+          next = false;
+        }).catch(_ => next = true);
+      }
 
       next && (() => {
         installer = this.npmInstall.bind(this);
-        depOptions = { 'save': true };
         devDepOptions = { 'save-dev': true };
       })();
 

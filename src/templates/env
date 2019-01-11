@@ -1,2 +1,3 @@
 PRIVATE_JSON=./config/private.json
+TASKS_PATH=./tools/tasks
 APP_JSON=./config/app.json

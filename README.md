@@ -15,8 +15,7 @@ Generated project allows immediately start developing SharePoint client-side sol
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint 2013
-- SharePoint 2016
+- SharePoint On-Prem (2019, 2016, 2013)
 
 ## How to use
 
@@ -43,6 +42,22 @@ yo sppp
 Then follow the the Yeoman wizard instructions:
 
 ![Generator in action](http://koltyakov.ru/images/generator-sppp-demo.gif)
+
+#### Package managers switch
+
+With `--package-manager` (or `--pm`), a package manager can be selected. Possible managers are: `pnpm`, `yarm` and `npm`. `npm` is used by default and also as a fallback option.
+
+Use `yarn`:
+
+```bash
+yo sppp --pm yarn
+```
+
+Use `pnpm`:
+
+```bash
+yo sppp --pm pnpm
+```
 
 ### Sync with SharePoint
 
@@ -113,4 +128,4 @@ SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki sec
 - [node-so-auth-config](https://github.com/koltyakov/node-so-auth-config) authentication config wizard
 - [sp-build-tasks](https://github.com/koltyakov/sp-build-tasks) build tasks tool-belt
 
-Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/koltyakov/generator-sppp/tree/master/docs/authparameters.md).
+Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/s-KaiNet/node-sp-auth/wiki).

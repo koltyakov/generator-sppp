@@ -2,6 +2,21 @@
 
 ---
 
+## New in v.3.1.8
+
+- Package manager selection (`npm`, `yarn`, `pnpm`), added `pnpm` support ([@olegrumiancev](https://github.com/olegrumiancev)) [PR](https://github.com/koltyakov/generator-sppp/pull/19)
+
+---
+
+## New in v.3.1.*
+
+- Webpack externals config
+- Custom actions provisionging options
+- Excluding polyfills from bundles
+- React basic projects preset
+
+---
+
 ## New in v.3.0.*
 
 - Update to `sp-build-tasks` ver. 3.0.*
