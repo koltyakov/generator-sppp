@@ -18,9 +18,10 @@ export const packageJson = (metadata: IGeneratorData) => {
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
       config: 'gulp config --init',
+      connect: 'npm run config',
       publish: 'gulp push --diff',
       analyze: 'gulp analyze',
-      lint: `tslint 'src/**/*.{ts,tsx}'`
+      lint: `tslint -p .`
     },
     author: data.author,
     license: data.license,
@@ -62,6 +63,7 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
       removeComments: true,
       experimentalDecorators: true,
       skipLibCheck: true,
+      strictNullChecks: true,
       types: [
         'node',
         'sharepoint'
