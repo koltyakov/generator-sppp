@@ -5,8 +5,8 @@
   "author": "Andrew Koltyakov <andrew.koltyakov@gmail.com>",
   "main": "./app/index.js",
   "scripts": {
-    "build": "rimraf ./app && npm run tslint && tsc -p . && copyfiles ./src/templates/**/* ./app --up 1",
-    "tslint": "tslint 'src/**/*.{ts,tsx}'"
+    "build": "rimraf ./app && npm run lint && tsc -p . && copyfiles ./src/templates/**/* ./app --up 1",
+    "lint": "tslint -p ."
   },
   "bugs": {
     "url": "https://github.com/koltyakov/generator-sppp/issues"

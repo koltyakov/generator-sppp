@@ -36,15 +36,17 @@ module.exports = class extends Generator {
   public initializing() {
     this.data.sppp = require('../package.json');
 
+    const spppVersion = this.data && this.data.sppp && this.data.sppp.version || 'unknown';
+
     this.log(yosay(`Welcome to ${
       colors.yellow('SharePoint Pull-n-Push')
-    } generator (v.${this.data.sppp.version})!`));
+    } generator (v.${spppVersion})!`));
 
     this.appname = kebabCase(this.appname);
     this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
 
     this.config.set('app.name', this.appname);
-    this.config.set('sppp.version', this.data.sppp.version);
+    this.config.set('sppp.version', spppVersion);
     this.config.save();
 
     // Check for existing project
@@ -77,17 +79,21 @@ module.exports = class extends Generator {
         this.data.answers = { ...this.data.answers, ...answers };
       });
       done();
-    })();
+    })()
+      .catch(error => {
+        this.log(`\n${colors.red.bold(error.message)}\n`);
+      });
   }
 
   public configuring() {
-    this.config.set('app.name', this.data.answers.name);
-    this.config.set('app.description', this.data.answers.description);
-    this.config.set('app.author', this.data.answers.author);
-    this.config.set('conf.spFolder', this.data.answers.spFolder);
-    this.config.set('conf.distFolder', this.data.answers.distFolder);
-    Object.keys(this.data.answers.additional).forEach(key => {
-      this.config.set(`conf.additional.${key}`, this.data.answers.additional[key]);
+    this.config.set('app.name', this.data.answers && this.data.answers.name);
+    this.config.set('app.description', this.data.answers && this.data.answers.description);
+    this.config.set('app.author', this.data.answers && this.data.answers.author);
+    this.config.set('conf.spFolder', this.data.answers && this.data.answers.spFolder);
+    this.config.set('conf.distFolder', this.data.answers && this.data.answers.distFolder);
+    const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
+    Object.keys(additional).forEach(key => {
+      this.config.set(`conf.additional.${key}`, additional[key]);
     });
     this.config.save();
   }
@@ -102,7 +108,8 @@ module.exports = class extends Generator {
     }
 
     let appJson: IAppConfig = configurators.configAppJson(this.data);
-    if (this.data.answers.additional.presets.indexOf('react') !== -1) {
+    if (this.data.answers && this.data.answers.additional
+      && this.data.answers.additional.presets.indexOf('react') !== -1) {
       appJson.copyAssetsMap = [
         ...appJson.copyAssetsMap || [], {
           name: 'React',
@@ -132,7 +139,8 @@ module.exports = class extends Generator {
     this.utils.copyFile('editorconfig', '.editorconfig');
     this.utils.copyFile('webpack.config.js');
 
-    if (this.data.answers.additional.customTasks) {
+    if (this.data.answers && this.data.answers.additional
+      && this.data.answers.additional.customTasks) {
       this.utils.copyFile('tools/tasks/example.js');
       this.utils.copyFile('tools/tasks/customDataLoader.js');
     }
@@ -148,14 +156,16 @@ module.exports = class extends Generator {
       this.utils.createFolder('src/webparts');
       this.utils.createFolder('dist');
       this.utils.copyFolder('src', 'src');
-      if (this.data.answers.additional.presets.indexOf('react') !== -1) {
+      if (this.data.answers && this.data.answers.additional
+        && this.data.answers.additional.presets.indexOf('react') !== -1) {
         this.utils.copyFolder('presets/react', 'src');
       }
     }
 
     this.utils.copyFolder('vscode', '.vscode');
 
-    if (this.data.answers.additional.sslCerts) {
+    if (this.data.answers && this.data.answers.additional
+      && this.data.answers.additional.sslCerts) {
       this.utils.copyFolder('config/ssl', 'config/ssl');
     }
 
@@ -209,7 +219,7 @@ module.exports = class extends Generator {
       let dependencies = npmDependencies.dependencies;
       let devDependencies = npmDependencies.devDependencies;
 
-      this.data.answers.additional.presets.forEach(preset => {
+      this.data.answers && this.data.answers.additional && this.data.answers.additional.presets.forEach(preset => {
         if (typeof presetDependencies[preset] !== 'undefined') {
           const { dependencies: dep, devDependencies: devDep } = presetDependencies[preset];
           if (dep) {
@@ -225,7 +235,10 @@ module.exports = class extends Generator {
       installer(devDependencies, devDepOptions);
 
       done();
-    })();
+    })()
+      .catch(error => {
+        this.log(`\n${colors.red.bold(error.message)}\n`);
+      });
   }
 
   public end() {

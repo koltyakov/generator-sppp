@@ -53,7 +53,7 @@ export default class Utils {
     }
   }
 
-  public copyFile(sourceRelativePath: string, destRelativePath?: string, force: boolean = false) {
+  public copyFile(sourceRelativePath: string, destRelativePath?: string | null, force: boolean = false) {
     if (typeof destRelativePath === 'undefined' || destRelativePath === null) {
       destRelativePath = sourceRelativePath;
     }
@@ -104,10 +104,12 @@ export default class Utils {
   }
 
   private copyRecursiveSync(src: string, dest: string) {
+    let isDirectory: boolean = false;
     const exists = fs.existsSync(src);
-    const stats = exists && fs.statSync(src);
-    const isDirectory = exists && stats.isDirectory();
-
+    if (exists) {
+      const stats = exists && fs.statSync(src);
+      isDirectory = exists && stats.isDirectory();
+    }
     if (exists && isDirectory) {
       mkdirp.sync(dest);
       fs.readdirSync(src).forEach((childItemName) => {
