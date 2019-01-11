@@ -14,20 +14,24 @@ export default class Example extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const lists = this.state.lists ? this.state.lists : [];
     return (
       <>
         {this.state.isLoading && (
           <div>Loading...</div>
         )}
-        {!this.state.isLoading && (
+        {!this.state.isLoading && !this.state.error && (
           <>
             <h2>Web title: {this.state.title}</h2>
             <ul>
-              {this.state.lists.map(list => {
+              {lists.map(list => {
                 return <li key={list.id}>{list.title}</li>;
               })}
             </ul>
           </>
+        )}
+        {!this.state.isLoading && this.state.error && (
+          <div style={{ color: 'red' }}>{this.state.error}</div>
         )}
       </>
     );
@@ -38,13 +42,20 @@ export default class Example extends React.Component<IProps, IState> {
     Promise.all([
       this.api.getWebTitle(),
       this.api.getLists()
-    ]).then(([title, lists]) => {
-      this.setState({
-        isLoading: false,
-        title,
-        lists
+    ])
+      .then(([title, lists]) => {
+        this.setState({
+          isLoading: false,
+          title,
+          lists
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false,
+          error: error.message
+        });
       });
-    });
   }
 
 }

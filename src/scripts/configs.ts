@@ -3,8 +3,8 @@ import { IPackageJsonMetadata, IGeneratorData, IAppConfig } from './interfaces';
 export const packageJson = (metadata: IGeneratorData) => {
   const data: IPackageJsonMetadata = {
     ...(metadata.answers as IPackageJsonMetadata),
-    version: metadata.answers.version || '1.0.0',
-    license: metadata.answers.license || 'MIT'
+    version: metadata.answers && metadata.answers.version || '1.0.0',
+    license: metadata.answers && metadata.answers.license || 'MIT'
   };
   return {
     name: data.name,
@@ -18,9 +18,10 @@ export const packageJson = (metadata: IGeneratorData) => {
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
       config: 'gulp config --init',
+      connect: 'npm run config',
       publish: 'gulp push --diff',
       analyze: 'gulp analyze',
-      lint: `tslint 'src/**/*.{ts,tsx}'`
+      lint: `tslint -p .`
     },
     author: data.author,
     license: data.license,
@@ -32,8 +33,8 @@ export const packageJson = (metadata: IGeneratorData) => {
 export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
   const appConf: IAppConfig = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
-    spFolder: metadata.answers.spFolder,
-    distFolder: metadata.answers.distFolder,
+    spFolder: metadata.answers && metadata.answers.spFolder || '_catalogs/masterpage/spf',
+    distFolder: metadata.answers && metadata.answers.distFolder || './dist',
     copyAssetsMap: [{
       name: 'PnPjs',
       src: [ './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js' ],
@@ -62,6 +63,7 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
       removeComments: true,
       experimentalDecorators: true,
       skipLibCheck: true,
+      strictNullChecks: true,
       types: [
         'node',
         'sharepoint'

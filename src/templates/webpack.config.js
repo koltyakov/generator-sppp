@@ -6,11 +6,19 @@ const configs = require('sp-build-tasks/dist/webpack/config');
 
 require('dotenv').load();
 
-const defineOptions = {
-  APP_CONFIG: JSON.stringify(
-    require(join(process.cwd(), process.env.APP_JSON || './config/app.json'))
-  )
-};
+const defineOptions = Object.assign(
+  // Options from ./config/app.json are passed to Define plugin
+  {
+    APP_CONFIG: JSON.stringify(
+      require(join(process.cwd(), process.env.APP_JSON || './config/app.json'))
+    )
+  },
+  // All environment variables which start with "SPPP_" are passed to Define plugin
+  Object.keys(process.env).filter(key => key.indexOf('SPPP_') === 0).reduce((res, key) => {
+    res[key] = process.env[key];
+    return res;
+  }, {})
+);
 
 configs.forEach(config => {
 
