@@ -4,7 +4,7 @@ const { join } = require('path');
 const { DefinePlugin } = require('webpack');
 const configs = require('sp-build-tasks/dist/webpack/config');
 
-require('dotenv').load();
+require('dotenv').config();
 
 const defineOptions = Object.assign(
   // Options from ./config/app.json are passed to Define plugin
