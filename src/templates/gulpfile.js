@@ -9,7 +9,7 @@
  */
 
 const gulp = require('gulp');
-require('dotenv').load();
+require('dotenv').config();
 
 /**
  * You can redefine parameters in environment variables.
