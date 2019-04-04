@@ -5,6 +5,7 @@ export const npmDependencies = {
   devDependencies: [
     '@types/sharepoint',
     'sp-build-tasks',
+    'concurrently',
     'tslint-config-standard',
     'eslint-config-standard'
   ]

@@ -14,11 +14,13 @@ export const packageJson = (metadata: IGeneratorData) => {
     typings: './dist/index',
     private: true,
     scripts: {
-      build: 'gulp build --prod',
+      start: 'concurrently --kill-others "webpack-dev-server" "gulp watch --devServer"',
+      build: 'npm run lint && npm run clean && gulp build --prod',
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
       config: 'gulp config --init',
       connect: 'npm run config',
+      clean: 'rimraf ./dist ./tmp ./cache',
       publish: 'gulp push --diff',
       analyze: 'gulp analyze',
       lint: `tslint -p .`
@@ -37,7 +39,10 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
     distFolder: metadata.answers && metadata.answers.distFolder || './dist',
     copyAssetsMap: [{
       name: 'PnPjs',
-      src: [ './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js' ],
+      src: [
+        './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js',
+        './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js.map'
+      ],
       dist: './dist/libs'
     }],
     webpackItemsMap: [
