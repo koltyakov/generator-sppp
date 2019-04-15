@@ -15,7 +15,7 @@ const defineOptions = Object.assign(
   },
   // All environment variables which start with "SPPP_" are passed to Define plugin
   Object.keys(process.env).filter(key => key.indexOf('SPPP_') === 0).reduce((res, key) => {
-    res[key] = process.env[key];
+    res[key] = JSON.stringify(process.env[key]);
     return res;
   }, {})
 );
