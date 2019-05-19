@@ -19,7 +19,19 @@ Generated project allows immediately start developing SharePoint client-side sol
 
 ## How to use
 
-### Install
+### Using NPX (without Yeoman and generator global installation)
+
+Create and navigane to project folder then run:
+
+```bash
+npx -p yo -p generator-sppp -c 'yo sppp'
+```
+
+NPM v6 is required.
+
+### Global install (classic approach)
+
+#### Install
 
 To use Yeoman, one need to has Node.js and NPM installed on the computer. Basic installation process description can be found in [this blog post](https://www.linkedin.com/pulse/preparing-development-machine-client-side-sharepoint-mac-koltyakov?trk=pulse_spock-articles).
 
@@ -29,7 +41,9 @@ Alter Node.js and NPM are staffed, install `Gulp`, `Yeoman` and `generator-sppp`
 npm install -g gulp-cli yo generator-sppp
 ```
 
-### Generate
+`gulp-cli` global installation can be omitted while using NPM tasks.
+
+#### Generate
 
 Make a new directory or clone a blank Git project of your own and navigate to the created folder.
 
