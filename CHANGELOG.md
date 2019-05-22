@@ -2,6 +2,14 @@
 
 ---
 
+## New in v.3.5.0
+
+- Office UI Fabric preset
+- Presets automation tests
+- Headless mode
+
+---
+
 ## New in v.3.3.0
 
 - Webpack Dev Server integration
