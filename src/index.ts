@@ -130,13 +130,9 @@ module.exports = class extends Generator {
     this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
     this.utils.writeJsonSync('tslint.json', configurators.tslintJson(this.data));
 
-    this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
-    this.utils.writeJsonSync('.prettierrc', configurators.prettierJson(this.data));
-
     this.utils.copyFile('gulpfile.js', null, true);
     this.utils.copyFile('gitignore', '.gitignore');
     this.utils.copyFile('env', '.env');
-    this.utils.copyFile('editorconfig', '.editorconfig');
     this.utils.copyFile('webpack.config.js');
 
     if (this.data.answers && this.data.answers.additional
@@ -156,9 +152,21 @@ module.exports = class extends Generator {
       this.utils.createFolder('src/webparts');
       this.utils.createFolder('dist');
       this.utils.copyFolder('src', 'src');
-      if (this.data.answers && this.data.answers.additional
-        && this.data.answers.additional.presets.indexOf('react') !== -1) {
-        this.utils.copyFolder('presets/react', 'src');
+      if (this.data.answers && this.data.answers.additional) {
+        const presets = this.data.answers.additional.presets;
+        if (presets.indexOf('react') !== -1) {
+          this.utils.copyFolder('presets/react', 'src');
+        }
+        if (presets.indexOf('eslint') !== -1) {
+          // this.utils.copyFolder('presets/eslint', 'src');
+          this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
+        }
+        if (presets.indexOf('prettier') !== -1) {
+          this.utils.writeJsonSync('.prettierrc', configurators.prettierJson(this.data));
+        }
+        if (presets.indexOf('editorconfig') !== -1) {
+          this.utils.copyFile('editorconfig', '.editorconfig');
+        }
       }
     }
 

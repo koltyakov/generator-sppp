@@ -1,13 +1,11 @@
 export const npmDependencies = {
   dependencies: [
-    '@pnp/pnpjs' // @1.3.1
+    '@pnp/pnpjs' // @1.3.2
   ],
   devDependencies: [
     '@types/sharepoint',
     'sp-build-tasks',
-    'concurrently',
-    'tslint-config-standard',
-    'eslint-config-standard'
+    'tslint-config-standard'
   ]
 };
 
@@ -20,6 +18,16 @@ export const presetDependencies = {
     devDependencies: [
       '@types/react',
       '@types/react-dom'
+    ]
+  },
+  eslint: {
+    devDependencies: [
+      'eslint',
+      'eslint-config-standard',
+      'eslint-plugin-import',
+      'eslint-plugin-node',
+      'eslint-plugin-promise',
+      'eslint-plugin-standard'
     ]
   }
 };

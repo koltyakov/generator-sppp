@@ -14,7 +14,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     typings: './dist/index',
     private: true,
     scripts: {
-      start: 'concurrently --kill-others "webpack-dev-server" "gulp watch --devServer"',
+      start: 'gulp serve',
       build: 'npm run lint && npm run clean && gulp build --prod',
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
