@@ -2,3 +2,5 @@ node_modules/
 app/
 
 .DS_Store
+
+tmp/
