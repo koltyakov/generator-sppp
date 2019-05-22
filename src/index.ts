@@ -5,10 +5,11 @@ import * as colors from 'colors';
 import * as yosay from 'yosay';
 import * as dargs from 'dargs';
 
-import Utils from './scripts/utils';
+import { Utils } from './scripts/utils';
 import { npmDependencies, presetDependencies } from './scripts/install';
 import { promptQuestions, promptAdditionalQuestions } from './scripts/prompts';
 import * as configurators from './scripts/configs';
+
 import { IGeneratorData, IAppConfig } from './scripts/interfaces';
 
 module.exports = class extends Generator {
@@ -19,11 +20,12 @@ module.exports = class extends Generator {
   private packageData: any;
   private existingProject: boolean = false;
   private isAngularProject: boolean = false;
+  private headless: boolean;
 
   constructor(args, options) {
     super(args, options);
     this.utils = new Utils({ yo: this });
-
+    this.headless = process.argv.slice(2).indexOf('--headless') !== -1;
     // Custom options
     this.option('package-manager', {
       description: 'preferred package manager (npm, yarn, pnpm)',
@@ -38,9 +40,7 @@ module.exports = class extends Generator {
 
     const spppVersion = this.data && this.data.sppp && this.data.sppp.version || 'unknown';
 
-    this.log(yosay(`Welcome to ${
-      colors.yellow('SharePoint Pull-n-Push')
-    } generator (v.${spppVersion})!`));
+    this.log(yosay(`Welcome to ${colors.yellow('SharePoint Pull-n-Push')} generator (v.${spppVersion})!`));
 
     this.appname = kebabCase(this.appname);
     this.appname = this.appname || this.config.get('appname') || 'sharepoint-app';
@@ -69,6 +69,9 @@ module.exports = class extends Generator {
 
   public prompting() {
     const done = (this as any).async();
+    if (this.headless) {
+      return done();
+    }
     (async () => {
       // Step 1: General parameters
       await promptQuestions(this.data, this).then(answers => {
@@ -76,13 +79,23 @@ module.exports = class extends Generator {
       });
       // Step 2: Additional questions
       await promptAdditionalQuestions(this.data, this).then(answers => {
-        this.data.answers = { ...this.data.answers, ...answers };
+        if (answers.additional) {
+          let presets = answers.additional.presets || [];
+          if (presets.indexOf('office-ui-fabric') !== -1 && presets.indexOf('react') === -1) {
+            presets = [ 'react', ...presets ];
+          }
+          answers.additional = {
+            ...answers.additional,
+            presets
+          };
+        }
+        this.data.answers = {
+          ...this.data.answers,
+          ...answers
+        };
       });
       done();
-    })()
-      .catch(error => {
-        this.log(`\n${colors.red.bold(error.message)}\n`);
-      });
+    })().catch(error => this.log(`\n${colors.red.bold(error.message)}\n`));
   }
 
   public configuring() {
