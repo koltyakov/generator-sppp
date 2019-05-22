@@ -1,0 +1,25 @@
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+- dev
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: npm install -g yo
+  displayName: 'global dependencies'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: npm run test
+  displayName: 'run tests'
