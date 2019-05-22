@@ -15,11 +15,19 @@
     "skipLibCheck": true,
     "types": ["node", "sharepoint"],
     "strictNullChecks": true,
-    "outDir": "app"
+    "outDir": "app",
+    "baseUrl": "src/",
+    "paths": {
+      "@utils/*": [ "templates/src/scripts/utils/*" ],
+      "@components/*": [ "templates/presets/react/scripts/components/*" ],
+      "@containers/*": [ "templates/presets/react/scripts/containers/*" ]
+    }
   },
   "exclude": [
     "node_modules",
     "app",
-    "src/templates"
+    "src/templates",
+    "tmp",
+    "test"
   ]
 }
