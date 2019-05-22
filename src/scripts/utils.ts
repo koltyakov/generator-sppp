@@ -9,7 +9,7 @@ export interface IUtilsSettings {
   yo: Generator;
 }
 
-export default class Utils {
+export class Utils {
 
   private settings: IUtilsSettings;
   private destinationRoot: string;

@@ -1,8 +1,10 @@
 import { sp } from '@pnp/sp';
-import { setupPnp } from './utils/odata';
-import { loadContext } from './utils/env';
 
-loadContext().then(_ => {
+import { loadContext } from '@utils/env';
+import { logger } from '@utils/logger';
+import { setupPnp } from '@utils/odata';
+
+loadContext().then(() => {
 
   setupPnp();
 
@@ -18,10 +20,10 @@ loadContext().then(_ => {
         container.innerHTML =
           `<h2>Web title: ${web.Title}</h2>` +
           `<ul>
-            ${lists.map(list => `<li>${list.Title}</li>`).join('')}
+            ${lists.map((list) => `<li>${list.Title}</li>`).join('')}
           </ul>`;
       })
-      .catch(error => {
+      .catch((error) => {
         container.innerHTML = `
           <div style="color: red;">
             ${error.message}
@@ -31,4 +33,4 @@ loadContext().then(_ => {
 
   }
 
-}).catch(console.warn);
+}).catch(logger.error);
