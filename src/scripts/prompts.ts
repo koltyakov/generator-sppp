@@ -29,7 +29,7 @@ export const promptQuestions = (_data: IGeneratorData, yo: Generator): Promise<I
     name: 'distFolder',
     message: 'Distribution Folder',
     default: yo.config.get('conf.distFolder') || './dist'
-  }]) as Promise<IAnswers>;
+  }]); // as Promise<IAnswers>;
 };
 
 export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator): Promise<IAnswers> => {
@@ -56,5 +56,5 @@ export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator):
       // { name: 'Editor Config', value: 'editorconfig' }
     ],
     default: yo.config.get('conf.additional.presets')
-  }]) as Promise<IAnswers>;
+  }]); // as Promise<IAnswers>;
 };

@@ -9,8 +9,6 @@ const presets = [
   { name: 'React + Office UI Fabric', preset: './presets/office-ui-fabric.json', proj: 'sppp-office-ui-fabric' }
 ];
 
-console.log('Debug message', { cwd: process.cwd(), dirname: __dirname });
-
 describe(`SPPP tests`, () => {
   for (const p of presets) {
     describe(`${p.name} preset`, () => {
