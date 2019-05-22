@@ -14,12 +14,10 @@ steps:
   displayName: 'Install Node.js'
 
 - script: npm install -g yo
-  displayName: 'global dependencies'
+  displayName: 'Global dependencies'
 
 - script: |
     npm install
     npm run build
-  displayName: 'npm install and build'
-
-- script: npm run test
-  displayName: 'run tests'
+    npm run tests
+  displayName: 'Build & Tests'
