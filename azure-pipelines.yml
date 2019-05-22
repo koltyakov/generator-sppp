@@ -19,5 +19,5 @@ steps:
 - script: |
     npm install
     npm run build
-    npm run tests
+    npm run test
   displayName: 'Build & Tests'
