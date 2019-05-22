@@ -1,7 +1,7 @@
-import * as React from './node_modules/react';
+import * as React from 'react';
 
-import { ErrorMessage } from './node_modules/@components/ErrorMessage';
-import { Loading } from './node_modules/@components/Loading';
+import { ErrorMessage } from '@components/ErrorMessage';
+import { Loading } from '@components/Loading';
 
 import Api from './operations';
 import { IProps, IState } from './IExample';
