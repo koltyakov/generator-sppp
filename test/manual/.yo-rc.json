@@ -1,0 +1,11 @@
+{
+  "generator-sppp": {
+    "app.description": "Project Descripttion",
+    "app.author": "Project Author",
+    "conf.spFolder": "_catalogs/masterpage/spf",
+    "conf.distFolder": "./dist",
+    "conf.additional.sslCerts": false,
+    "conf.additional.customTasks": true,
+    "conf.additional.presets": []
+  }
+}
