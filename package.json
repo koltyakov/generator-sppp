@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm run clean && npm run lint && tsc -p . && copyfiles ./src/templates/**/* ./app --up 1",
     "lint": "tslint -p .",
-    "test": "mocha --opts test/mocha.opts || ECHO.",
+    "test": "mocha --opts ./test/mocha.opts || ECHO.",
     "test:manual": "ts-node ./test/manual/run.ts",
     "clean": "rimraf ./test/manual/tmp ./test/tmp ./app"
   },
