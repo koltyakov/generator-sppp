@@ -1,6 +1,6 @@
 import { Web } from '@pnp/sp';
 
-import { IList } from './interfaces';
+import { IList } from './IExample';
 
 export default class Service {
 
@@ -16,7 +16,7 @@ export default class Service {
 
   public getLists(): Promise<IList[]> {
     return this.web.lists.select('Id,Title').get()
-      .then(lists => {
+      .then((lists) => {
         return lists.map(({ Id, Title }) => {
           return {
             id: Id,

@@ -1,9 +1,12 @@
 import * as React from 'react';
 
-import Api from './operations';
-import { IProps, IState } from './interfaces';
+import { ErrorMessage } from '@components/ErrorMessage';
+import { Loading } from '@components/Loading';
 
-export default class Example extends React.Component<IProps, IState> {
+import Api from './operations';
+import { IProps, IState } from './IExample';
+
+export class Example extends React.Component<IProps, IState> {
 
   private api: Api;
 
@@ -17,21 +20,15 @@ export default class Example extends React.Component<IProps, IState> {
     const lists = this.state.lists ? this.state.lists : [];
     return (
       <>
-        {this.state.isLoading && (
-          <div>Loading...</div>
-        )}
+        {this.state.isLoading && <Loading />}
+        {!this.state.isLoading && this.state.error && <ErrorMessage message={this.state.error} />}
         {!this.state.isLoading && !this.state.error && (
           <>
             <h2>Web title: {this.state.title}</h2>
             <ul>
-              {lists.map(list => {
-                return <li key={list.id}>{list.title}</li>;
-              })}
+              {lists.map((list) => <li key={list.id}>{list.title}</li>)}
             </ul>
           </>
-        )}
-        {!this.state.isLoading && this.state.error && (
-          <div style={{ color: 'red' }}>{this.state.error}</div>
         )}
       </>
     );
@@ -50,7 +47,7 @@ export default class Example extends React.Component<IProps, IState> {
           lists
         });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           isLoading: false,
           error: error.message
