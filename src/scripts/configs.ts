@@ -54,10 +54,11 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
 };
 
 export const tsconfigJson = (_metadata?: IGeneratorData) => {
+  const isReact = getPresets(_metadata).indexOf('react') !== -1;
   return {
     compilerOptions: {
       target: 'es5',
-      module: 'esnext',
+      module: 'commonjs',
       lib: [ 'es2017', 'dom' ],
       rootDir: 'src',
       jsx: 'react',
@@ -69,11 +70,19 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
       experimentalDecorators: true,
       skipLibCheck: true,
       strictNullChecks: true,
-      types: [
-        'node',
-        'sharepoint'
-      ],
-      outDir: 'tmp'
+      types: [ 'node', 'sharepoint' ],
+      outDir: 'tmp',
+      baseUrl: 'src/',
+      paths: {
+        '@config': [ 'scripts/config' ],
+        '@domain/*': [ 'scripts/domain/*' ],
+        '@api/*': [ 'scripts/api/*' ],
+        '@utils/*': [ 'scripts/utils/*' ],
+        ...isReact ? {
+          '@components/*': [ 'scripts/components/*' ],
+          '@containers/*': [ 'scripts/containers/*' ]
+        } : {}
+      }
     },
     exclude: [
       'node_modules',
@@ -82,17 +91,47 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
       'build',
       'dist',
       'tmp',
-      'cache'
+      'cache',
+      'tools',
+      'provisioning'
     ]
   };
 };
 
 export const tslintJson = (_metadata?: IGeneratorData) => {
+  const isReact = getPresets(_metadata).indexOf('react') !== -1;
   return {
-    extends: 'tslint-config-standard',
+    extends: [
+      'tslint:latest',
+      'tslint-config-standard',
+      ...isReact ? [ 'tslint-react' ] : []
+    ],
+    linterOptions: {
+      exclude: [
+        'config/**/*.js',
+        'tools/**/*.js',
+        'tools/**/*.ts',
+        'provisioning/**/*.js',
+        'node_modules/**/*.ts'
+      ]
+    },
     rules: {
-      semicolon: [ true, 'always', 'ignore-interfaces' ],
-      'space-before-function-paren': false
+      'quotemark': [true, 'single', 'jsx-single'],
+      'indent': [true, 'spaces', 2],
+      'semicolon': [true, 'always', 'ignore-interfaces'],
+      'ordered-imports': false,
+      'object-literal-sort-keys': false,
+      'space-before-function-paren': false,
+      'no-empty-interface': false,
+      'trailing-comma': true,
+      'no-implicit-dependencies': [true, [
+        '@utils', '@config', '@api', '@components', '@containers', '@domain',
+        'sp-rest-proxy', 'sp-build-tasks'
+      ]],
+      'jsx-no-lambda': false,
+      'jsx-no-multiline-js': false,
+      'arrow-parens': true,
+      'max-line-length': [ true, 120 ]
     }
   };
 };
@@ -114,4 +153,13 @@ export const prettierJson = (_metadata?: IGeneratorData) => {
     bracketSpacing: true,
     parser: 'flow'
   };
+};
+
+const getPresets = (_metadata?: IGeneratorData): string[] => {
+  const presets = _metadata
+    && _metadata.answers
+    && _metadata.answers.additional
+    && _metadata.answers.additional.presets
+    || [];
+  return presets;
 };

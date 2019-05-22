@@ -1,6 +1,9 @@
 export const npmDependencies = {
   dependencies: [
-    '@pnp/pnpjs' // @1.3.2
+    '@pnp/sp',
+    '@pnp/odata',
+    '@pnp/common',
+    '@pnp/logging'
   ],
   devDependencies: [
     '@types/sharepoint',
@@ -17,7 +20,14 @@ export const presetDependencies = {
     ],
     devDependencies: [
       '@types/react',
-      '@types/react-dom'
+      '@types/react-dom',
+      'tslint-react'
+    ]
+  },
+  'office-ui-fabric': {
+    dependencies: [
+      'office-ui-fabric-react',
+      '@uifabric/icons'
     ]
   },
   eslint: {

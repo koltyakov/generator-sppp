@@ -50,9 +50,10 @@ export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator):
     message: 'Apply following presets',
     choices: [
       { name: 'React', value: 'react' },
-      { name: 'ESLint', value: 'eslint' },
-      { name: 'Prettier', value: 'prettier' },
-      { name: 'Editor Config', value: 'editorconfig' }
+      { name: 'Office UI Fabric', value: 'office-ui-fabric' }
+      // { name: 'ESLint', value: 'eslint' },
+      // { name: 'Prettier', value: 'prettier' },
+      // { name: 'Editor Config', value: 'editorconfig' }
     ],
     default: yo.config.get('conf.additional.presets')
   }]) as Promise<IAnswers>;
