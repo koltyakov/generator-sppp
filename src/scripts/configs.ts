@@ -14,7 +14,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     typings: './dist/index',
     private: true,
     scripts: {
-      start: 'gulp serve',
+      start: 'gulp build --no-webpack && gulp serve',
       build: 'npm run lint && npm run clean && gulp build --prod',
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
@@ -33,18 +33,57 @@ export const packageJson = (metadata: IGeneratorData) => {
 };
 
 export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
+  const isReact = getPresets(metadata).indexOf('react') !== -1;
+  const isOfficeUI = getPresets(metadata).indexOf('office-ui-fabric') !== -1;
   const appConf: IAppConfig = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
     spFolder: metadata.answers && metadata.answers.spFolder || '_catalogs/masterpage/spf',
     distFolder: metadata.answers && metadata.answers.distFolder || './dist',
-    copyAssetsMap: [{
-      name: 'PnPjs',
-      src: [
-        './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js',
-        './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js.map'
-      ],
-      dist: './dist/libs'
-    }],
+    copyAssetsMap: [
+      {
+        name: 'Static assets',
+        src: [ './src/images', './src/fonts' ],
+        dist: './dist'
+      },
+      {
+        name: 'PnPjs',
+        src: [
+          './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js',
+          './node_modules/@pnp/pnpjs/dist/pnpjs.es5.umd.bundle.min.js.map'
+        ],
+        dist: './dist/libs'
+      },
+      ...isReact ? [
+        {
+          name: 'React',
+          src: [
+            './node_modules/react/umd/react.production.min.js',
+            './node_modules/react-dom/umd/react-dom.production.min.js'
+          ],
+          dist: './dist/libs'
+        }
+      ] : [],
+      ...isOfficeUI ? [
+        {
+          name: 'Office UI Fabric',
+          src: [
+            './node_modules/office-ui-fabric-react/dist/office-ui-fabric-react.min.js',
+            './node_modules/office-ui-fabric-react/dist/office-ui-fabric-react.min.js.map'
+          ],
+          dist: './dist/libs'
+        },
+        {
+          name: 'Office UI Fabric Fonts',
+          src: [ './node_modules/@uifabric/icons/fonts' ],
+          dist: './dist'
+        },
+        {
+          name: 'Office UI Fabric Styles',
+          src: [ './node_modules/office-ui-fabric-react/dist/css/fabric.min.css' ],
+          dist: './dist/styles'
+        }
+      ] : []
+    ],
     webpackItemsMap: [
       { name: 'Polyfills', entry: './src/scripts/utils/polyfills.ts', target: 'polyfills.js', includePolyfills: false },
       { name: 'Application', entry: './src/scripts/index.ts', target: 'app.js', includePolyfills: false }

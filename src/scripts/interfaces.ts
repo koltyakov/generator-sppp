@@ -36,4 +36,5 @@ export interface IAdditionalAnswers {
   sslCerts: boolean;
   customTasks: boolean;
   presets: string[];
+  confPresets: string[];
 }

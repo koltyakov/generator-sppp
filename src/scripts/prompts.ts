@@ -50,11 +50,18 @@ export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator):
     message: 'Apply following presets',
     choices: [
       { name: 'React', value: 'react' },
-      { name: 'Office UI Fabric', value: 'office-ui-fabric' }
-      // { name: 'ESLint', value: 'eslint' },
-      // { name: 'Prettier', value: 'prettier' },
-      // { name: 'Editor Config', value: 'editorconfig' }
+      { name: 'Office UI Fabric (includes React)', value: 'office-ui-fabric' }
     ],
     default: yo.config.get('conf.additional.presets')
+  }, {
+    type: 'checkbox',
+    name: 'additional.confPresets',
+    message: 'Apply following config presets',
+    choices: [
+      { name: 'ESLint', value: 'eslint' },
+      { name: 'Prettier', value: 'prettier' },
+      { name: 'Editor Config', value: 'editorconfig' }
+    ],
+    default: yo.config.get('conf.additional.confPresets')
   }]); // as Promise<IAnswers>;
 };

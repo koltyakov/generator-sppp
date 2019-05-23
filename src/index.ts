@@ -166,18 +166,22 @@ module.exports = class extends Generator {
       this.utils.createFolder('dist');
       this.utils.copyFolder('src', 'src');
       if (this.data.answers && this.data.answers.additional) {
+        // Presets
         const presets = this.data.answers.additional.presets;
         if (presets.indexOf('react') !== -1) {
           this.utils.copyFolder('presets/react', 'src');
         }
-        if (presets.indexOf('eslint') !== -1) {
+
+        // Secondary presets
+        const confPresets = this.data.answers.additional.confPresets;
+        if (confPresets.indexOf('eslint') !== -1) {
           // this.utils.copyFolder('presets/eslint', 'src');
           this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
         }
-        if (presets.indexOf('prettier') !== -1) {
+        if (confPresets.indexOf('prettier') !== -1) {
           this.utils.writeJsonSync('.prettierrc', configurators.prettierJson(this.data));
         }
-        if (presets.indexOf('editorconfig') !== -1) {
+        if (confPresets.indexOf('editorconfig') !== -1) {
           this.utils.copyFile('editorconfig', '.editorconfig');
         }
       }
