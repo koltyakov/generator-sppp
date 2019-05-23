@@ -203,7 +203,7 @@ module.exports = class extends Generator {
 
     if (this.isAngularProject) {
       // Add dependency for Angular project
-      npmDependencies.devDependencies.push('concurrently');
+      npmDependencies.devDependencies ? npmDependencies.devDependencies.push('concurrently') : npmDependencies.devDependencies = ['concurrently'];
       // Add angular tasks
       this.packageData.scripts.spdev = 'concurrently --kill-others \"ng build --watch\" \"gulp watch\"';
       this.utils.writeJsonSync('package.json', this.packageData, true);
@@ -219,7 +219,7 @@ module.exports = class extends Generator {
 
       if (this.options['package-manager'] === 'pnpm') {
         next && await this.utils.execPromise('pnpm --version').then(_ => {
-          installer = (dep: string[], opt) => {
+          installer = (dep: string | string[], opt) => {
             const args = ['install'].concat(dep).concat(dargs(opt));
             this.spawnCommandSync('pnpm', args);
           };
@@ -241,10 +241,15 @@ module.exports = class extends Generator {
         devDepOptions = { 'save-dev': true };
       })();
 
-      let dependencies = npmDependencies.dependencies;
-      let devDependencies = npmDependencies.devDependencies;
+      let dependencies = npmDependencies.dependencies || [];
+      let devDependencies = npmDependencies.devDependencies || [];
 
-      this.data.answers && this.data.answers.additional && this.data.answers.additional.presets.forEach(preset => {
+      const presets = [
+        ...this.data.answers && this.data.answers.additional && this.data.answers.additional.presets || [],
+        ...this.data.answers && this.data.answers.additional && this.data.answers.additional.confPresets || []
+      ];
+      presets.forEach(preset => {
+        // tslint:disable-next-line: strict-type-predicates
         if (typeof presetDependencies[preset] !== 'undefined') {
           const { dependencies: dep, devDependencies: devDep } = presetDependencies[preset];
           if (dep) {
@@ -256,8 +261,12 @@ module.exports = class extends Generator {
         }
       });
 
-      installer(dependencies, depOptions);
-      installer(devDependencies, devDepOptions);
+      const mapDep = (dep: string | [ string, string ]): string => {
+        return typeof dep === 'string' ? dep : dep.join('@');
+      };
+
+      installer(dependencies.map(mapDep), depOptions);
+      installer(devDependencies.map(mapDep), devDepOptions);
 
       done();
     })()

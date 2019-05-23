@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
-// import { expect } from 'chai';
+import { expect } from 'chai';
 
-import { runGenerator, runBuild, initFolder } from './index';
+import { runGenerator, runBuild, initFolder, wrapPromiseTest } from './index';
 
 const presets = [
   { name: 'Default', preset: './presets/default.json', proj: 'sppp-default' },
@@ -21,12 +21,12 @@ describe(`SPPP tests`, () => {
 
       it(`should generate project & restore dependencies`, function(done: Mocha.Done): void {
         this.timeout(3 * 60 * 1000);
-        runGenerator(__dirname, p.proj, true, true).then(() => done()).catch(done);
+        wrapPromiseTest(runGenerator(__dirname, p.proj, true, true), done);
       });
 
       it(`should validate linting rules & build project`, function(done: Mocha.Done): void {
         this.timeout(2 * 60 * 1000);
-        runBuild(__dirname, p.proj, true).then(() => done()).catch(done);
+        wrapPromiseTest(runBuild(__dirname, p.proj, true), done);
       });
 
     });
