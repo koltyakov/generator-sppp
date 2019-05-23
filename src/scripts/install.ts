@@ -1,33 +1,44 @@
-export const npmDependencies = {
+export interface IDependencies {
+  dependencies?: (string | [ string, string ])[],
+  devDependencies?: (string | [ string, string ])[]
+}
+
+export interface IPresetDependencies {
+  [preset: string]: IDependencies;
+}
+
+export const npmDependencies: IDependencies = {
   dependencies: [
-    '@pnp/sp',
-    '@pnp/odata',
-    '@pnp/common',
-    '@pnp/logging'
+    [ '@pnp/sp', '^1.3.2' ],
+    [ '@pnp/odata', '^1.3.2' ],
+    [ '@pnp/common', '^1.3.2' ],
+    [ '@pnp/logging', '^1.3.2' ]
   ],
   devDependencies: [
     '@types/sharepoint',
-    'sp-build-tasks',
-    'tslint-config-standard'
+    [ 'sp-build-tasks', '^3.7.0' ],
+    [ 'tslint-config-standard', '^8.0.1' ],
+    [ 'typescript', '^3.4.5' ],
+    [ 'tslint', '^5.16.0' ]
   ]
 };
 
-export const presetDependencies = {
+export const presetDependencies: IPresetDependencies = {
   react: {
     dependencies: [
-      'react',
-      'react-dom'
+      [ 'react', '^16.8.6' ],
+      [ 'react-dom', '^16.8.6' ]
     ],
     devDependencies: [
       '@types/react',
       '@types/react-dom',
-      'tslint-react'
+      [ 'tslint-react', '^4.0.0' ]
     ]
   },
   'office-ui-fabric': {
     dependencies: [
-      'office-ui-fabric-react',
-      '@uifabric/icons'
+      [ 'office-ui-fabric-react', '^6.185.0' ],
+      [ '@uifabric/icons', '^6.5.2' ]
     ]
   },
   eslint: {
