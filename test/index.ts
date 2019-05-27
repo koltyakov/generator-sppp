@@ -1,12 +1,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as rimraf from 'rimraf';
+import * as mkdirp from 'mkdirp';
 import { spawn } from 'child_process';
 
 export const initFolder = (rootFolder: string, projName: string, rcFilePath = './.yo-rc.json') => {
   const projFolder = path.join(rootFolder, `./tmp/${projName}`);
   rimraf.sync(projFolder);
-  fs.mkdirSync(projFolder, { recursive: true });
+  mkdirp.sync(projFolder);
+  // fs.mkdirSync(projFolder, { recursive: true });
   fs.copyFileSync(path.join(rootFolder, rcFilePath), path.join(projFolder, '.yo-rc.json'));
 };
 
