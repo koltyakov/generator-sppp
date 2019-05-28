@@ -22,6 +22,8 @@ const defineOptions = Object.assign(
 
 configs.forEach(config => {
 
+  delete config.output.publicPath; // use dynamic __webpack_public_path__
+
   // Define plugin
   config.plugins = config.plugins || [];
   config.plugins.push(new DefinePlugin(defineOptions));
