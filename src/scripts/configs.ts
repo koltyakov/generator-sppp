@@ -97,7 +97,7 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
   return {
     compilerOptions: {
       target: 'es5',
-      module: 'commonjs',
+      module: 'esnext',
       lib: [ 'es2017', 'dom' ],
       rootDir: 'src',
       jsx: 'react',
@@ -105,7 +105,7 @@ export const tsconfigJson = (_metadata?: IGeneratorData) => {
       declaration: true,
       moduleResolution: 'node',
       noImplicitAny: false,
-      removeComments: true,
+      removeComments: false,
       experimentalDecorators: true,
       skipLibCheck: true,
       strictNullChecks: true,
