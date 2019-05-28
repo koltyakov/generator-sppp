@@ -15,7 +15,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     private: true,
     scripts: {
       start: 'gulp build --no-webpack && gulp serve',
-      build: 'npm run lint && npm run clean && gulp build --prod',
+      build: 'npm run clean && npm run lint && gulp build --prod',
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
       config: 'gulp config --init',
@@ -165,7 +165,7 @@ export const tslintJson = (_metadata?: IGeneratorData) => {
       'trailing-comma': true,
       'no-implicit-dependencies': [true, [
         '@utils', '@config', '@api', '@components', '@containers', '@domain',
-        'sp-rest-proxy', 'sp-build-tasks'
+        'sp-rest-proxy', 'sp-build-tasks', '@pnp'
       ]],
       'jsx-no-lambda': false,
       'jsx-no-multiline-js': false,

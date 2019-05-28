@@ -29,6 +29,11 @@ configs.forEach(config => {
   // Exclude "heavy" 3rd parties
   config.externals = Object.assign(config.externals || {}, {
     '@pnp/sp': 'pnp',
+    '@pnp/odata': 'pnp',
+    '@pnp/logging': 'pnp',
+    '@pnp/common': 'pnp',
+    '@pnp/graph': 'pnp',
+    '@pnp/pnpjs': 'pnp',
     'office-ui-fabric-react': 'Fabric',
     'react': 'React',
     'react-dom': 'ReactDOM',

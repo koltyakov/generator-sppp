@@ -9,17 +9,14 @@ export interface IPresetDependencies {
 
 export const npmDependencies: IDependencies = {
   dependencies: [
-    [ '@pnp/sp', '^1.3.2' ],
-    [ '@pnp/odata', '^1.3.2' ],
-    [ '@pnp/common', '^1.3.2' ],
-    [ '@pnp/logging', '^1.3.2' ]
+    [ '@pnp/pnpjs', '^1.3.2' ]
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.7.0' ],
-    [ 'tslint-config-standard', '^8.0.1' ],
-    [ 'typescript', '^3.4.5' ],
-    [ 'tslint', '^5.16.0' ]
+    [ 'sp-build-tasks', '^3.7.2' ],
+    [ 'tslint-config-standard', '^8.0.1' ]
+    // [ 'typescript', '^3.4.5' ],
+    // [ 'tslint', '^5.16.0' ]
   ]
 };
 
