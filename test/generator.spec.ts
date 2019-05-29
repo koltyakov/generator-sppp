@@ -1,7 +1,8 @@
 import * as mocha from 'mocha';
 import { expect } from 'chai';
+import * as puppeteer from 'puppeteer';
 
-import { runGenerator, runBuild, initFolder, wrapPromiseTest } from './index';
+import { initFolder, runGenerator, runBuild, serve, wrapPromiseTest } from './utils';
 
 const presets = [
   { name: 'Default', preset: './presets/default.json', proj: 'sppp-default' },
@@ -20,13 +21,39 @@ describe(`SPPP tests`, () => {
       });
 
       it(`should generate project & restore dependencies`, function(done: Mocha.Done): void {
-        this.timeout(3 * 60 * 1000);
+        this.timeout(5 * 60 * 1000);
         wrapPromiseTest(runGenerator(__dirname, p.proj, true, true), done);
       });
 
       it(`should validate linting rules & build project`, function(done: Mocha.Done): void {
         this.timeout(2 * 60 * 1000);
         wrapPromiseTest(runBuild(__dirname, p.proj, true), done);
+      });
+
+      it(`should serve & work in browser`, function(done: Mocha.Done): void {
+        this.timeout(2 * 60 * 1000);
+        const headless = true;
+        const browserTests = async (): Promise<void> => {
+          const browser = await puppeteer.launch({ headless });
+          const page = await browser.newPage();
+          const port = 9090; // might be dynamic in future
+          const siteUrl = `http://localhost:${port}/webparts/example.cewp.html`;
+          await page.goto(siteUrl, { waitUntil: 'networkidle2' });
+          const content = await page.evaluate(() => {
+            const c = document.querySelector('#example-cewp-container');
+            return c ? c.innerHTML : null;
+          });
+          await browser.close();
+          if (content === null || content.trim().length === 0) {
+            throw new Error('Web app return no data, something wrong.');
+          }
+        };
+        wrapPromiseTest(serve({
+          rootFolder: __dirname,
+          projName: p.proj,
+          browserTests,
+          headless
+        }), done);
       });
 
     });

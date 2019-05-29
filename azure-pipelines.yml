@@ -5,6 +5,10 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  SPAUTH_ENV: 'production'
+  SPAUTH_FORCE: 'true'
+
 steps:
 - task: NodeTool@0
   inputs:
@@ -21,3 +25,6 @@ steps:
 
 - script: npm run test
   displayName: 'Run tests'
+    SPAUTH_SITEURL: $(ci.spo.siteurl)
+    SPAUTH_USERNAME: $(ci.spo.username)
+    SPAUTH_PASSWORD: $(ci.spo.password)

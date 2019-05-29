@@ -1,4 +1,4 @@
-import { runGenerator, initFolder } from '../index';
+import { runGenerator, initFolder } from '../utils';
 
 const headless = process.argv.slice(2).indexOf('--headless') !== -1;
 
