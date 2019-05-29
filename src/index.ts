@@ -58,9 +58,7 @@ module.exports = class extends Generator {
       }
       const angularCliPath: string = this.utils.resolveDestPath('.angular-cli.json');
       if (fs.existsSync(angularCliPath)) {
-        this.log(`\n${
-          colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')
-          }`);
+        this.log(`\n${colors.yellow.bold('Angular project is detected, SPPP will be installed above safely.\n')}`);
         this.isAngularProject = true;
       }
     })();
@@ -74,11 +72,11 @@ module.exports = class extends Generator {
     }
     (async () => {
       // Step 1: General parameters
-      await promptQuestions(this.data, this).then(answers => {
+      await promptQuestions(this.data, this).then((answers) => {
         this.data.answers = { ...this.data.answers, ...answers };
       });
       // Step 2: Additional questions
-      await promptAdditionalQuestions(this.data, this).then(answers => {
+      await promptAdditionalQuestions(this.data, this).then((answers) => {
         if (answers.additional) {
           let presets = answers.additional.presets || [];
           if (presets.indexOf('office-ui-fabric') !== -1 && presets.indexOf('react') === -1) {
@@ -95,34 +93,32 @@ module.exports = class extends Generator {
         };
       });
       done();
-    })().catch(error => this.log(`\n${colors.red.bold(error.message)}\n`));
+    })()
+      .catch((error) => this.log(`\n${colors.red.bold(error.message)}\n`));
   }
 
   public configuring() {
-    this.config.set('app.name', this.data.answers && this.data.answers.name);
-    this.config.set('app.description', this.data.answers && this.data.answers.description);
-    this.config.set('app.author', this.data.answers && this.data.answers.author);
-    this.config.set('conf.spFolder', this.data.answers && this.data.answers.spFolder);
-    this.config.set('conf.distFolder', this.data.answers && this.data.answers.distFolder);
-    const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
-    Object.keys(additional).forEach(key => {
-      this.config.set(`conf.additional.${key}`, additional[key]);
-    });
+    if (!this.headless) { // no answers in headless mode, all the data is taken from .yo-rc.json automatically
+      this.config.set('app.name', this.data.answers && this.data.answers.name);
+      this.config.set('app.description', this.data.answers && this.data.answers.description);
+      this.config.set('app.author', this.data.answers && this.data.answers.author);
+      this.config.set('conf.spFolder', this.data.answers && this.data.answers.spFolder);
+      this.config.set('conf.distFolder', this.data.answers && this.data.answers.distFolder);
+      const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
+      Object.keys(additional).forEach((key) => this.config.set(`conf.additional.${key}`, additional[key]));
+    }
     this.config.save();
   }
 
   public writing() {
-    this.log(`\n${
-      colors.yellow.bold('Writing files')
-    }`);
+    this.log(`\n${colors.yellow.bold('Writing files')}`);
 
     if (!this.existingProject) {
       this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
     }
 
     let appJson: IAppConfig = configurators.configAppJson(this.data);
-    if (this.data.answers && this.data.answers.additional
-      && this.data.answers.additional.presets.indexOf('react') !== -1) {
+    if (this.data.answers && this.data.answers.additional && this.data.answers.additional.presets.indexOf('react') !== -1) {
       appJson.copyAssetsMap = [
         ...appJson.copyAssetsMap || [], {
           name: 'React',
@@ -148,8 +144,7 @@ module.exports = class extends Generator {
     this.utils.copyFile('env', '.env');
     this.utils.copyFile('webpack.config.js');
 
-    if (this.data.answers && this.data.answers.additional
-      && this.data.answers.additional.customTasks) {
+    if (this.data.answers && this.data.answers.additional && this.data.answers.additional.customTasks) {
       this.utils.copyFile('tools/tasks/example.js');
       this.utils.copyFile('tools/tasks/customDataLoader.js');
     }
@@ -189,8 +184,7 @@ module.exports = class extends Generator {
 
     this.utils.copyFolder('vscode', '.vscode');
 
-    if (this.data.answers && this.data.answers.additional
-      && this.data.answers.additional.sslCerts) {
+    if (this.data.answers && this.data.answers.additional && this.data.answers.additional.sslCerts) {
       this.utils.copyFolder('config/ssl', 'config/ssl');
     }
 
@@ -218,22 +212,22 @@ module.exports = class extends Generator {
       depOptions = { 'save': true };
 
       if (this.options['package-manager'] === 'pnpm') {
-        next && await this.utils.execPromise('pnpm --version').then(_ => {
+        next && await this.utils.execPromise('pnpm --version').then(() => {
           installer = (dep: string | string[], opt) => {
             const args = ['install'].concat(dep).concat(dargs(opt));
             this.spawnCommandSync('pnpm', args);
           };
           devDepOptions = { 'save-dev': true };
           next = false;
-        }).catch(_ => next = true);
+        }).catch(() => next = true);
       }
 
       if (this.options['package-manager'] === 'yarn') {
-        next && await this.utils.execPromise('yarn --version').then(_ => {
+        next && await this.utils.execPromise('yarn --version').then(() => {
           installer = this.yarnInstall.bind(this);
           devDepOptions = { 'dev': true };
           next = false;
-        }).catch(_ => next = true);
+        }).catch(() => next = true);
       }
 
       next && (() => {
@@ -248,7 +242,7 @@ module.exports = class extends Generator {
         ...this.data.answers && this.data.answers.additional && this.data.answers.additional.presets || [],
         ...this.data.answers && this.data.answers.additional && this.data.answers.additional.confPresets || []
       ];
-      presets.forEach(preset => {
+      presets.forEach((preset) => {
         // tslint:disable-next-line: strict-type-predicates
         if (typeof presetDependencies[preset] !== 'undefined') {
           const { dependencies: dep, devDependencies: devDep } = presetDependencies[preset];
@@ -270,9 +264,7 @@ module.exports = class extends Generator {
 
       done();
     })()
-      .catch(error => {
-        this.log(`\n${colors.red.bold(error.message)}\n`);
-      });
+      .catch((error) => this.log(`\n${colors.red.bold(error.message)}\n`));
   }
 
   public end() {

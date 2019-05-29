@@ -73,11 +73,11 @@ export class Utils {
     }
   }
 
-  public createFolder(folderRelativePath: string) {
+  public createFolder(folderRelativePath: string): void {
     mkdirp.sync(this.resolveDestPath(folderRelativePath));
   }
 
-  public copyFolder(sourceRelativePath: string, destRelativePath: string) {
+  public copyFolder(sourceRelativePath: string, destRelativePath: string): void {
     const fromFolder: string = this.resolveSourcePath(sourceRelativePath);
     const toFolder: string = this.resolveDestPath(destRelativePath);
     this.copyRecursiveSync(fromFolder, toFolder);
@@ -129,7 +129,7 @@ export class Utils {
     }
   }
 
-  private logFileExistsMessage(filePath: string) {
+  private logFileExistsMessage(filePath: string): void {
     console.log(`File already exists ${colors.red(filePath)}, copying is skipped.`);
   }
 
