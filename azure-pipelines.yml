@@ -17,10 +17,13 @@ steps:
 - script: npm install -g yo
   displayName: 'Global dependencies'
 
+- script: npm install
+  displayName: 'Restore dependencies'
+
 - script: |
-    npm install
+    npm run lint
     npm run build
-  displayName: 'Dependencies & Build'
+  displayName: 'Lint & Build'
 
 - script: npm run test
   displayName: 'Run tests'

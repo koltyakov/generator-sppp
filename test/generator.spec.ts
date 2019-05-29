@@ -47,13 +47,12 @@ describe(`SPPP tests`, () => {
           const siteUrl = `http://localhost:${port}/webparts/example.cewp.html`;
           await page.goto(siteUrl, { waitUntil: 'networkidle2' });
 
-          await page.waitFor(1000);
-          await page.waitForSelector(containerSelector);
+          await page.waitForSelector(containerSelector, { timeout: 10000 });
 
-          const content = await page.evaluate(() => {
+          const content = await page.evaluate(({ containerSelector }) => {
             const c = document.querySelector(containerSelector);
             return c ? c.innerHTML : null;
-          });
+          }, { containerSelector });
           await browser.close();
           if (content === null || content.trim().length === 0) {
             throw new Error('Web app return no data, something wrong.');

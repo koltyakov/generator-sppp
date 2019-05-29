@@ -29,9 +29,11 @@ export const runScript = (script: string, headless = true): Promise<void> => {
   });
 };
 
-export const runInSeparateProcess = (script: string, waitForCondition: (data: string) => Promise<boolean>, headless = true): Promise<ChildProcess | null> => {
+export const runInSeparateProcess = (script: string, waitForCondition: (data: string) => Promise<boolean>, headless = true, timeout?: number): Promise<ChildProcess | null> => {
   let isResolved: boolean = false;
+  let processTimeout: NodeJS.Timeout;
   return new Promise((resolve, reject) => {
+
     const shellSyntaxCommand = `${script}\n`;
 
     const stdout = new PassThrough();
@@ -55,6 +57,7 @@ export const runInSeparateProcess = (script: string, waitForCondition: (data: st
         .then((condition) => {
           if (condition && !isResolved) {
             isResolved = true;
+            processTimeout && clearTimeout(processTimeout);
             resolve(shell);
           }
         })
@@ -74,6 +77,16 @@ export const runInSeparateProcess = (script: string, waitForCondition: (data: st
         reject(new Error(errors.join('\n')));
       }
     });
+
+    if (timeout) {
+      processTimeout = setTimeout(() => {
+        isResolved = true;
+        (shell ? killProcessTree(shell.pid) : Promise.resolve())
+          .then(() => reject(new Error(`Process was closed after a timeout of ${timeout}ms`)))
+          .catch(reject);
+      }, timeout);
+    }
+
   });
 };
 

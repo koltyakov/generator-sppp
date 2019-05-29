@@ -108,7 +108,7 @@ module.exports = class extends Generator {
       const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
       Object.keys(additional).forEach((key) => this.config.set(`conf.additional.${key}`, additional[key]));
       this.config.save();
-    } else {
+    } else { // autometicaly feel in answers from .yo-rc.json in CI mode
       const config = this.config.getAll();
       this.data.answers = {
         name: config['app.name'],
@@ -178,13 +178,18 @@ module.exports = class extends Generator {
       this.utils.copyFolder('src', 'src');
       if (this.data.answers && this.data.answers.additional) {
         // Presets
-        const presets = this.data.answers.additional.presets;
+        const presets = this.data.answers.additional.presets || [];
         if (presets.indexOf('react') !== -1) {
           this.utils.copyFolder('presets/react', 'src');
         }
 
+        if (presets.indexOf('office-ui-fabric') !== -1) {
+          this.utils.copyFolder('presets/react', 'src');
+          this.utils.copyFolder('presets/office-ui-fabric', 'src');
+        }
+
         // Secondary presets
-        const confPresets = this.data.answers.additional.confPresets;
+        const confPresets = this.data.answers.additional.confPresets || [];
         if (confPresets.indexOf('eslint') !== -1) {
           // this.utils.copyFolder('presets/eslint', 'src');
           this.utils.writeJsonSync('.eslintrc', configurators.eslintJson(this.data));
