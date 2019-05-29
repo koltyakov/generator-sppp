@@ -2,13 +2,8 @@ import * as mocha from 'mocha';
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 
-import { initFolder, runGenerator, runBuild, serve, wrapPromiseTest } from './utils';
-
-const presets = [
-  { name: 'Default', preset: './presets/default.json', proj: 'sppp-default' },
-  { name: 'React', preset: './presets/react.json', proj: 'sppp-react' },
-  { name: 'React + Office UI Fabric', preset: './presets/office-ui-fabric.json', proj: 'sppp-office-ui-fabric' }
-];
+import { initFolder, runGenerator, runBuild, serve, wrapPromiseTest, checkDeps } from './utils';
+import { presets } from './presets';
 
 describe(`SPPP tests`, () => {
   for (const p of presets) {
@@ -23,6 +18,16 @@ describe(`SPPP tests`, () => {
       it(`should generate project & restore dependencies`, function(done: Mocha.Done): void {
         this.timeout(5 * 60 * 1000);
         wrapPromiseTest(runGenerator(__dirname, p.proj, true, true), done);
+      });
+
+      it(`should validate some preset required dependencies`, function(done: Mocha.Done): void {
+        this.timeout(5 * 60 * 1000);
+        wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.delendencies), done);
+      });
+
+      it(`should validate some preset required dev dependencies`, function(done: Mocha.Done): void {
+        this.timeout(5 * 60 * 1000);
+        wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.devDependencies, true), done);
       });
 
       it(`should validate linting rules & build project`, function(done: Mocha.Done): void {

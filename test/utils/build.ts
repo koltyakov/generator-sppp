@@ -32,3 +32,16 @@ export const runBuild = (rootFolder: string, projectName: string, headless = fal
   const shellSyntaxCommand = `cd ${cdToPath} && npm run build\n`;
   return runScript(shellSyntaxCommand, headless);
 };
+
+export const checkDeps = (rootFolder: string, projectName: string, requiredDeps: string[], dev = false): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const projFolder = path.join(rootFolder, `./tmp/${projectName}`);
+    const pkg = require(path.join(projFolder, 'package.json'));
+    const pkgDeps = dev ? pkg.devDependencies : pkg.dependencies || {};
+    const missedDeps = requiredDeps.filter((d) => typeof pkgDeps[d] === 'undefined');
+    if (missedDeps.length > 0) {
+      return reject(new Error(`Some dependencies are missed: ${missedDeps.join(', ')}`));
+    }
+    return resolve();
+  });
+};

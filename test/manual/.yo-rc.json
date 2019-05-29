@@ -6,6 +6,6 @@
     "conf.distFolder": "./dist",
     "conf.additional.sslCerts": false,
     "conf.additional.customTasks": true,
-    "conf.additional.presets": []
+    "conf.additional.presets": [ "react", "office-ui-fabric" ]
   }
 }

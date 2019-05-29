@@ -6,20 +6,14 @@ export const runScript = (script: string, headless = true): Promise<void> => {
   return new Promise((resolve, reject) => {
     const shellSyntaxCommand = `${script}\n`;
 
-    const stdout = new PassThrough();
-    const stderr = new PassThrough();
-
     const shell = !headless
-      ? spawn('sh', ['-c', shellSyntaxCommand], { stdio: [ 'inherit', 'pipe', 'pipe' ] }) // user interactive
+      ? spawn('sh', ['-c', shellSyntaxCommand], { stdio: 'inherit' }) // user interactive
       : spawn('sh', ['-c', shellSyntaxCommand]); // headless
 
-    shell.stdout && shell.stdout.pipe(stdout);
-    shell.stderr && shell.stderr.pipe(stderr);
-
     const errors: string[] = [];
-    stderr.on('data', (data) => errors.push(data.toString()));
+    shell.stderr && shell.stderr.on('data', (data) => errors.push(data.toString()));
 
-    stdout.on('data', (data) => {
+    shell.stdout && shell.stdout.on('data', (data) => {
       if (!headless) {
         process.stdout.write(data);
       }
