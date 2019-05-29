@@ -83,6 +83,24 @@ export class Utils {
     this.copyRecursiveSync(fromFolder, toFolder);
   }
 
+  // public restoreYoRc(storage: Generator.Storage): void {
+  //   const yoPath = path.join(process.cwd(), './.yo-rc.json');
+  //   const spppPkg = require(path.join(__dirname, '../../package.json'));
+  //   if (fs.existsSync(yoPath)) {
+  //     try {
+  //       const rc = require(yoPath);
+  //       if (rc[spppPkg.name]) {
+  //         Object.keys(rc[spppPkg.name]).forEach((key) => {
+  //           if (key.indexOf('conf.') !== -1) {
+  //             storage.set(key, rc[spppPkg.name][key]);
+  //           }
+  //         });
+  //         storage.save();
+  //       }
+  //     } catch (ex) { /**/ }
+  //   }
+  // }
+
   public resolveDestPath(relativePath: string): string {
     return path.join(this.destinationRoot, relativePath);
   }

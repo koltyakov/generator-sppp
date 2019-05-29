@@ -4,6 +4,7 @@
     "semicolon": [true, "always", "ignore-interfaces"],
     "space-before-function-paren": false,
     "block-spacing": false,
-    "no-unused-expression": false
+    "no-unused-expression": false,
+    "trailing-comma": [true, {"multiline": "ignore", "singleline": "never"}]
   }
 }

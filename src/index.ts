@@ -1,6 +1,7 @@
 import * as Generator from 'yeoman-generator';
 import { kebabCase } from 'lodash';
 import * as fs from 'fs';
+import * as path from 'path';
 import * as colors from 'colors';
 import * as yosay from 'yosay';
 import * as dargs from 'dargs';
@@ -36,7 +37,7 @@ module.exports = class extends Generator {
   }
 
   public initializing() {
-    this.data.sppp = require('../package.json');
+    this.data.sppp = require(path.join(__dirname, '../package.json'));
 
     const spppVersion = this.data && this.data.sppp && this.data.sppp.version || 'unknown';
 
@@ -106,8 +107,23 @@ module.exports = class extends Generator {
       this.config.set('conf.distFolder', this.data.answers && this.data.answers.distFolder);
       const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
       Object.keys(additional).forEach((key) => this.config.set(`conf.additional.${key}`, additional[key]));
+      this.config.save();
+    } else {
+      const config = this.config.getAll();
+      this.data.answers = {
+        name: config['app.name'],
+        description: config['app.description'],
+        author: config['app.author'],
+        spFolder: config['conf.spFolder'],
+        distFolder: config['const.distFolder'],
+        additional: Object.keys(config)
+          .filter((key) => key.indexOf('conf.additional.') !== -1)
+          .reduce((res, key) => {
+            res[key.replace('conf.additional.', '')] = config[key];
+            return res;
+          }, {} as any)
+      };
     }
-    this.config.save();
   }
 
   public writing() {
