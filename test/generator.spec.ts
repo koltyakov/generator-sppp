@@ -45,10 +45,9 @@ describe(`SPPP tests`, () => {
           const page = await browser.newPage();
           const port = 9090; // might be dynamic in future
           const siteUrl = `http://localhost:${port}/webparts/example.cewp.html`;
-          await page.goto(siteUrl, { waitUntil: 'networkidle2' });
-
-          await page.waitForSelector(containerSelector, { timeout: 10000 });
-
+          await page.waitFor(1000);
+          await page.goto(siteUrl, { waitUntil: [ 'domcontentloaded', 'networkidle2' ] });
+          await page.waitForSelector(containerSelector);
           const content = await page.evaluate(({ containerSelector }) => {
             const c = document.querySelector(containerSelector);
             return c ? c.innerHTML : null;
