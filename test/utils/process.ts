@@ -31,7 +31,7 @@ export const runScript = (script: string, headless = true): Promise<void> => {
 
 export const runInSeparateProcess = (script: string, waitForCondition: (data: string) => Promise<boolean>, headless = true, timeout?: number): Promise<ChildProcess | null> => {
   let isResolved: boolean = false;
-  let processTimeout: NodeJS.Timeout;
+  let processTimeout: number;
   return new Promise((resolve, reject) => {
 
     const shellSyntaxCommand = `${script}\n`;
