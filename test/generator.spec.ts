@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import { expect } from 'chai';
 import * as puppeteer from 'puppeteer';
 
-import { initFolder, runGenerator, runBuild, serve, wrapPromiseTest, checkDeps } from './utils';
+import { initFolder, runGenerator, runBuild, serve, wrapPromiseTest, checkDeps, runNpmInstall } from './utils';
 import { presets } from './presets';
 
 describe(`SPPP tests`, () => {
@@ -15,9 +15,19 @@ describe(`SPPP tests`, () => {
         done();
       });
 
-      it(`should generate project & restore dependencies`, function(done: Mocha.Done): void {
+      // it(`should generate project & restore dependencies`, function(done: Mocha.Done): void {
+      //   this.timeout(10 * 60 * 1000);
+      //   wrapPromiseTest(runGenerator(__dirname, p.proj, true, false, true), done);
+      // });
+
+      it(`should generate project `, function(done: Mocha.Done): void {
+        this.timeout(1 * 60 * 1000);
+        wrapPromiseTest(runGenerator(__dirname, p.proj, true, true, true), done);
+      });
+
+      it(`should restore dependencies`, function(done: Mocha.Done): void {
         this.timeout(10 * 60 * 1000);
-        wrapPromiseTest(runGenerator(__dirname, p.proj, true, true), done);
+        wrapPromiseTest(runNpmInstall(__dirname, p.proj, true), done);
       });
 
       it(`should validate some preset required dependencies`, function(done: Mocha.Done): void {
@@ -36,7 +46,7 @@ describe(`SPPP tests`, () => {
       });
 
       it(`should serve & work in browser`, function(done: Mocha.Done): void {
-        this.timeout(3 * 60 * 1000);
+        this.timeout(10 * 60 * 1000);
         const headless = true;
         const browserTests = async (): Promise<void> => {
           const containerSelector = '#example-cewp-container';
@@ -46,14 +56,26 @@ describe(`SPPP tests`, () => {
           const port = 9090; // might be dynamic in future
           const siteUrl = `http://localhost:${port}/webparts/example.cewp.html`;
           await page.goto(siteUrl, { waitUntil: [ 'domcontentloaded', 'networkidle2' ] });
-          await page.waitFor(3000);
-          await page.waitForSelector(containerSelector);
-          const content = await page.evaluate(({ containerSelector }) => {
-            const c = document.querySelector(containerSelector);
-            return c ? c.innerHTML : null;
-          }, { containerSelector });
+
+          const checkContentWithRetries = async (retriesCnt: number): Promise<string> => {
+            const content = await page.evaluate((containerSelector) => {
+              const containerEl = document.querySelector(containerSelector);
+              return containerEl ? containerEl.innerHTML : null;
+            }, containerSelector);
+            if (content === null && retriesCnt > 0) {
+              retriesCnt -= 1;
+              await page.waitFor(3000);
+              return checkContentWithRetries(retriesCnt);
+            }
+            return content;
+          };
+
+          const content = await checkContentWithRetries(3);
+
           await browser.close();
-          if (content === null || content.trim().length === 0) {
+          if (content === null) {
+            throw new Error('App container was not found on the page.');
+          } else if (content.trim().length === 0) {
             throw new Error('Web app return no data, something wrong.');
           }
         };
@@ -62,7 +84,8 @@ describe(`SPPP tests`, () => {
           projName: p.proj,
           browserTests,
           headless,
-          timeout: 10 * 60 * 1000
+          timeout: 10 * 60 * 1000,
+          mochaContext: this
         }), done);
       });
 

@@ -13,16 +13,24 @@ export const initFolder = (rootFolder: string, projName: string, rcFilePath = '.
   fs.copyFileSync(path.join(rootFolder, rcFilePath), path.join(projFolder, '.yo-rc.json'));
 };
 
-export const runGenerator = (rootFolder: string, projName: string, headless = false, skipBuild = false): Promise<void> => {
+export const runGenerator = (rootFolder: string, projName: string, headless = false, skipInstall = false, skipBuild = false): Promise<void> => {
   const projFolder = path.join(rootFolder, `./tmp/${projName}`);
 
   const relRootPath = path.relative(projFolder, process.cwd()).replace(/\\/g, '/');
   const cdToPath = path.relative(process.cwd(), projFolder).replace(/\\/g, '/');
 
-  let shellSyntaxCommand = `cd ${cdToPath}`;
-  shellSyntaxCommand += headless ? `&& yo ${relRootPath} --headless` : `&& yo ${relRootPath}`;
+  let shellSyntaxCommand = `cd ${cdToPath} && yo ${relRootPath}`;
+  shellSyntaxCommand += headless ? ` --headless` : ``;
+  shellSyntaxCommand += skipInstall ? ` --skip-npm-install` : ``;
   shellSyntaxCommand += skipBuild ? '\n' : ' && npm run build\n';
 
+  return runScript(shellSyntaxCommand, headless);
+};
+
+export const runNpmInstall = (rootFolder: string, projectName: string, headless = false): Promise<void> => {
+  const projFolder = path.join(rootFolder, `./tmp/${projectName}`);
+  const cdToPath = path.relative(process.cwd(), projFolder).replace(/\\/g, '/');
+  const shellSyntaxCommand = `cd ${cdToPath} && npm install\n`;
   return runScript(shellSyntaxCommand, headless);
 };
 

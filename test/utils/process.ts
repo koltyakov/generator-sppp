@@ -31,7 +31,7 @@ export const runScript = (script: string, headless = true): Promise<void> => {
 
 export const runInSeparateProcess = (script: string, waitForCondition: (data: string) => Promise<boolean>, headless = true, timeout?: number): Promise<ChildProcess | null> => {
   let isResolved: boolean = false;
-  let processTimeout: number;
+  let processTimeout: any; // NodeJS.Timeout | number
   return new Promise((resolve, reject) => {
 
     const shellSyntaxCommand = `${script}\n`;
@@ -61,7 +61,12 @@ export const runInSeparateProcess = (script: string, waitForCondition: (data: st
             resolve(shell);
           }
         })
-        .catch(console.warn);
+        .catch(async (error) => {
+          isResolved = true;
+          processTimeout && clearTimeout(processTimeout);
+          await (shell ? killProcessTree(shell.pid) : Promise.resolve()).catch(console.warn);
+          reject(error)
+        });
     });
 
     shell.on('close', (code) => {

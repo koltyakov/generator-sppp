@@ -8,6 +8,7 @@ export interface IServeProps {
   browserTests: () => Promise<void>;
   headless?: boolean;
   timeout?: number;
+  mochaContext?: Mocha.Context;
 }
 
 export const serve = (props: IServeProps): Promise<void> => {
@@ -20,6 +21,13 @@ export const serve = (props: IServeProps): Promise<void> => {
     (data) => {
       if (data.indexOf(': Compiled successfully.') !== -1) {
         return Promise.resolve(true);
+      }
+      if (data.indexOf('SharePoint URL (') !== -1) {
+        if (props.mochaContext) {
+          props.mochaContext.skip();
+          return Promise.resolve(false);
+        }
+        return Promise.reject(new Error('No auth context found'));
       }
       return Promise.resolve(false);
     },
