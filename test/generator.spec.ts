@@ -62,7 +62,7 @@ describe(`SPPP tests`, () => {
               const containerEl = document.querySelector(containerSelector);
               return containerEl ? containerEl.innerHTML : null;
             }, containerSelector);
-            if (content === null && retriesCnt > 0) {
+            if ((content === null || content.trim().length === 0) && retriesCnt > 0) {
               retriesCnt -= 1;
               await page.waitFor(3000);
               return checkContentWithRetries(retriesCnt);
