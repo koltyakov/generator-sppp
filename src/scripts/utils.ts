@@ -53,6 +53,22 @@ export class Utils {
     }
   }
 
+  public readJsonSync(relativePath: string) {
+    const absolutePath: string = this.resolveDestPath(relativePath);
+    const destinationFolder: string = path.dirname(absolutePath);
+    mkdirp.sync(destinationFolder);
+
+    const exists = fs.existsSync(absolutePath);
+    let results: any = null;
+    if (exists) {
+      const data = fs.readFileSync(absolutePath, { encoding: 'utf8' });
+      try {
+        results = JSON.parse(data);
+      } catch (ex) { /**/ }
+    }
+    return results;
+  }
+
   public copyFile(sourceRelativePath: string, destRelativePath?: string | null, force: boolean = false) {
     if (typeof destRelativePath === 'undefined' || destRelativePath === null) {
       destRelativePath = sourceRelativePath;

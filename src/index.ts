@@ -22,11 +22,13 @@ module.exports = class extends Generator {
   private existingProject: boolean = false;
   private isAngularProject: boolean = false;
   private headless: boolean;
+  private skipNpmInstall: boolean;
 
   constructor(args, options) {
     super(args, options);
     this.utils = new Utils({ yo: this });
     this.headless = process.argv.slice(2).indexOf('--headless') !== -1;
+    this.skipNpmInstall = process.argv.slice(2).indexOf('--skip-npm-install') !== -1;
     // Custom options
     this.option('package-manager', {
       description: 'preferred package manager (npm, yarn, pnpm)',
@@ -108,14 +110,14 @@ module.exports = class extends Generator {
       const additional = this.data.answers && this.data.answers.additional ? this.data.answers.additional : [];
       Object.keys(additional).forEach((key) => this.config.set(`conf.additional.${key}`, additional[key]));
       this.config.save();
-    } else { // autometicaly feel in answers from .yo-rc.json in CI mode
+    } else { // automaticaly feel in answers from .yo-rc.json in CI mode
       const config = this.config.getAll();
       this.data.answers = {
         name: config['app.name'],
         description: config['app.description'],
         author: config['app.author'],
         spFolder: config['conf.spFolder'],
-        distFolder: config['const.distFolder'],
+        distFolder: config['conf.distFolder'],
         additional: Object.keys(config)
           .filter((key) => key.indexOf('conf.additional.') !== -1)
           .reduce((res, key) => {
@@ -145,10 +147,6 @@ module.exports = class extends Generator {
           dist: './dist/libs'
         }
       ];
-      // const webpackAppItem = (appJson.webpackItemsMap || []).filter(item => item.name === 'Application');
-      // if (webpackAppItem.length === 1) {
-      //   webpackAppItem[0].name += 'x';
-      // }
     }
     this.utils.writeJsonSync('config/app.json', appJson);
 
@@ -280,8 +278,32 @@ module.exports = class extends Generator {
         return typeof dep === 'string' ? dep : dep.join('@');
       };
 
-      installer(dependencies.map(mapDep), depOptions);
-      installer(devDependencies.map(mapDep), devDepOptions);
+      const pkgJson = this.utils.readJsonSync('package.json');
+      if (pkgJson) {
+        const reduceDependencies = (res: any = {}, dep: string | [ string, string ]): any => {
+          if (typeof dep === 'string') {
+            res[dep] = 'latest';
+          }
+          if (Array.isArray(dep) && dep.length === 2) {
+            res[dep[0]] = dep[1];
+          }
+          return res;
+        };
+        pkgJson.dependencies = {
+          ...(pkgJson.dependencies || {}),
+          ...dependencies.reduce(reduceDependencies, {})
+        };
+        pkgJson.devDependencies = {
+          ...(pkgJson.devDependencies || {}),
+          ...devDependencies.reduce(reduceDependencies, {})
+        };
+        this.utils.writeJsonSync('package.json', pkgJson, true);
+      }
+
+      if (!this.skipNpmInstall) {
+        installer(dependencies.map(mapDep), depOptions);
+        installer(devDependencies.map(mapDep), devDepOptions);
+      }
 
       done();
     })()
