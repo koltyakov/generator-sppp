@@ -25,11 +25,6 @@ describe(`SPPP tests`, () => {
         wrapPromiseTest(runGenerator(__dirname, p.proj, true, true, true), done);
       });
 
-      it(`should restore dependencies`, function(done: Mocha.Done): void {
-        this.timeout(10 * 60 * 1000);
-        wrapPromiseTest(runNpmInstall(__dirname, p.proj, true), done);
-      });
-
       it(`should validate some preset required dependencies`, function(done: Mocha.Done): void {
         this.timeout(3 * 1000);
         wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.delendencies), done);
@@ -38,6 +33,11 @@ describe(`SPPP tests`, () => {
       it(`should validate some preset required dev dependencies`, function(done: Mocha.Done): void {
         this.timeout(3 * 1000);
         wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.devDependencies, true), done);
+      });
+
+      it(`should restore dependencies`, function(done: Mocha.Done): void {
+        this.timeout(10 * 60 * 1000);
+        wrapPromiseTest(runNpmInstall(__dirname, p.proj, true), done);
       });
 
       it(`should validate linting rules & build project`, function(done: Mocha.Done): void {
