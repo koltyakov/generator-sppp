@@ -13,10 +13,30 @@ Yeoman generator for SharePoint - lets you quickly set up a project with sensibl
 
 Generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
 
+SPPP generated projects suite perfectly for SPA development scenarious having local serve workbench with SharePoint API proxy server intergated from OOTB. Starting a local server your app refreshes instantly on changes using hot reload and incremental build at the same time the app is fully powered with real data from the API without any extra configuration.
+
+React, PnPjs, Office UI Fabric, TypeScript, SCSS, Linting rules, polyfills, Webpack bundling, Live server, SharePoint interactive connection, [pipeline tasks](https://github.com/koltyakov/sp-build-tasks), all of these just work from the start. The batteries are included, but maybe you need congifuration changes? No problem, just override or provide yours, or extend a task, this is a part of the design.
+
+Don't need React or Office UI Fabric? Don't worry, these guys are installed as a presets only when you decided to.
+
+## Development scenarious
+
+- Webparts developement
+  - classic CEWPs
+  - SPA applications
+- Branding
+  - masterpages
+  - page layouts development
+- Custom actions (ScriptLink User Custom Action)
+- Custom scripts and portal libraries
+- Custom styles
+- Direct edit assets with Git backup (like in SPD days, or [SPGo](https://marketplace.visualstudio.com/items?itemName=SiteGo.spgo) but using CLI)
+
 ## Supported SharePoint versions
 
 - SharePoint Online
-- SharePoint On-Prem (2019, 2016, 2013)
+- SharePoint On-Prem (2019/2016/2013)
+- SharePoint 2010 (limited support)
 
 ## How to use
 
@@ -56,7 +76,7 @@ yo sppp
 
 Then follow the the Yeoman wizard instructions:
 
-![Generator in action](http://koltyakov.ru/images/generator-sppp-demo.gif)
+![Generator in action](./assets/sppp01.gif)
 
 #### Package managers switch
 
@@ -73,6 +93,22 @@ Use `pnpm`:
 ```bash
 yo sppp --pm pnpm
 ```
+
+### Define connection with SharePoint
+
+```bash
+npm run connect
+```
+
+![Connect with SharePoint](./assets/sppp01.gif)
+
+### Dev Server & API Proxy
+
+```bash
+npm run start
+```
+
+![Dev Server](./assets/sppp01.gif)
 
 ### Sync with SharePoint
 
@@ -107,14 +143,6 @@ Available tasks list:
 ```bash
 gulp --tasks
 ```
-
-#### Config validation and prompting
-
-```bash
-npm run config
-```
-
-Checks basic minimal configs and prompts on configuration missing.
 
 #### Watch changes of the assets with live reload
 
