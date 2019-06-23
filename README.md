@@ -7,6 +7,7 @@
 [![npm version](https://badge.fury.io/js/generator-sppp.svg)](https://badge.fury.io/js/generator-sppp)
 [![Downloads](https://img.shields.io/npm/dm/generator-sppp.svg)](https://www.npmjs.com/package/generator-sppp)
 ![Build Status](https://dev.azure.com/koltyakov/SPNode/_apis/build/status/generator-sppp?branchName=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp?ref=badge_shield)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
 Yeoman generator for SharePoint - lets you quickly set up a project with sensible defaults for pulling and pushing files between SharePoint asset library and local projects sources.
@@ -172,3 +173,7 @@ SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki sec
 - [sp-build-tasks](https://github.com/koltyakov/sp-build-tasks) build tasks tool-belt
 
 Communication layer settings are stored in `./config/private.json`, parameters settings description can be found [here](https://github.com/s-KaiNet/node-sp-auth/wiki).
+
+## License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp?ref=badge_large)
