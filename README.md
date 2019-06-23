@@ -100,7 +100,7 @@ yo sppp --pm pnpm
 npm run connect
 ```
 
-![Connect with SharePoint](./assets/sppp01.gif)
+![Connect with SharePoint](./assets/sppp02.gif)
 
 ### Dev Server & API Proxy
 
@@ -108,7 +108,7 @@ npm run connect
 npm run start
 ```
 
-![Dev Server](./assets/sppp01.gif)
+![Dev Server](./assets/sppp03.gif)
 
 ### Sync with SharePoint
 
