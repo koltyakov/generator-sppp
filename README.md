@@ -1,4 +1,4 @@
-# generator-sppp (SharePoint Pull-n-Push Generator)
+# SPPP Generator
 
 > [Yeoman](http://yeoman.io/) generator for SharePoint client-side applications
 
