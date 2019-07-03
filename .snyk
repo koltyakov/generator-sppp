@@ -6,4 +6,18 @@ ignore:
     - yeoman-generator > shelljs:
         reason: None given
         expires: '2019-07-26T13:41:45.652Z'
-patch: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-450202:
+    - lodash:
+        patched: '2019-07-03T21:18:06.870Z'
+    - yeoman-generator > lodash:
+        patched: '2019-07-03T21:18:06.870Z'
+    - yeoman-generator > async > lodash:
+        patched: '2019-07-03T21:18:06.870Z'
+    - yeoman-generator > yeoman-environment > lodash:
+        patched: '2019-07-03T21:18:06.870Z'
+    - yeoman-generator > yeoman-environment > grouped-queue > lodash:
+        patched: '2019-07-03T21:18:06.870Z'
+    - yeoman-generator > yeoman-environment > inquirer > lodash:
+        patched: '2019-07-03T21:18:06.870Z'
