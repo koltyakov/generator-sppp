@@ -9,7 +9,9 @@
     "lint": "tslint -p .",
     "test": "mocha --opts ./test/mocha.opts || ECHO.",
     "test:manual": "ts-node ./test/manual/run.ts",
-    "clean": "rimraf ./test/manual/tmp ./test/tmp ./app"
+    "clean": "rimraf ./test/manual/tmp ./test/tmp ./app",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "bugs": {
     "url": "https://github.com/koltyakov/generator-sppp/issues"
@@ -33,7 +35,8 @@
     "dargs": "^7.0.0",
     "lodash": "^4.17.11",
     "yeoman-generator": "^4.0.1",
-    "yosay": "^2.0.2"
+    "yosay": "^2.0.2",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@pnp/pnpjs": "^1.3.3",
@@ -61,5 +64,6 @@
     "tslint": "^5.18.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.5.2"
-  }
+  },
+  "snyk": true
 }
