@@ -19,6 +19,8 @@ steps:
 
 - script: npm install
   displayName: 'Restore dependencies'
+  env:
+    SNYK_TOKEN: $(ci.snyk.token)
 
 - script: |
     npm run lint
