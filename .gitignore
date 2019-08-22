@@ -2,3 +2,4 @@ node_modules/
 app/
 tmp/
 .DS_Store
+.env
