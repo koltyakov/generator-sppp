@@ -33,3 +33,4 @@ steps:
     SPAUTH_SITEURL: $(ci.spo.siteurl)
     SPAUTH_USERNAME: $(ci.spo.username)
     SPAUTH_PASSWORD: $(ci.spo.password)
+  timeoutInMinutes: 15
