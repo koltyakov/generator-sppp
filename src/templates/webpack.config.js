@@ -2,7 +2,7 @@
 
 const { join } = require('path');
 const { DefinePlugin } = require('webpack');
-const configs = require('sp-build-tasks/dist/webpack/config');
+const configs = require('sp-build-tasks/dist/webpack/config/v2');
 
 require('dotenv').config();
 
