@@ -11,7 +11,8 @@ const defineOptions = Object.assign(
   {
     APP_CONFIG: JSON.stringify(
       require(join(process.cwd(), process.env.APP_JSON || './config/app.json'))
-    )
+    ),
+    SPPP_ASSETS_LOCATION: JSON.stringify('SPWeb')
   },
   // All environment variables which start with "SPPP_" are passed to Define plugin
   Object.keys(process.env).filter(key => key.indexOf('SPPP_') === 0).reduce((res, key) => {
