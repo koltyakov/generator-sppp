@@ -13,7 +13,7 @@ export const npmDependencies: IDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.11.2' ],
+    [ 'sp-build-tasks', '^3.11.3' ],
     [ 'tslint-config-standard', '^8.0.1' ]
   ]
 };
