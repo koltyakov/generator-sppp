@@ -17,10 +17,8 @@ steps:
 - script: npm install -g yo
   displayName: 'Global dependencies'
 
-- script: npm install
+- script: npm ci
   displayName: 'Restore dependencies'
-  env:
-    SNYK_TOKEN: $(ci.snyk.token)
 
 - script: |
     npm run lint
