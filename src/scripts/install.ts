@@ -13,7 +13,7 @@ export const npmDependencies: IDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.11.6' ],
+    [ 'sp-build-tasks', '^3.11.7' ],
     [ 'tslint-config-standard', '^9.0.0' ]
   ]
 };
@@ -32,7 +32,7 @@ export const presetDependencies: IPresetDependencies = {
   },
   'office-ui-fabric': {
     dependencies: [
-      [ 'office-ui-fabric-react', '^7.71.0' ],
+      [ 'office-ui-fabric-react', '^7.80.0' ],
       [ '@uifabric/icons', '^7.3.0' ]
     ]
   },
