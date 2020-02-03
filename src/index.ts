@@ -232,8 +232,9 @@ module.exports = class extends Generator {
 
       if (this.options['package-manager'] === 'pnpm') {
         next && await this.utils.execPromise('pnpm --version').then(() => {
-          installer = (dep: string | string[], opt) => {
-            const args = ['install'].concat(dep).concat(dargs(opt));
+          installer = (dep: string | string[], opt: any) => {
+            opt = { ...opt, 'shamefully-hoist': true };
+            const args = ['add'].concat(dep).concat(dargs(opt));
             this.spawnCommandSync('pnpm', args);
           };
           devDepOptions = { 'save-dev': true };
