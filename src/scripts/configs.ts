@@ -142,7 +142,6 @@ export const tslintJson = (_metadata?: IGeneratorData) => {
   return {
     extends: [
       'tslint:latest',
-      'tslint-config-standard',
       ...isReact ? [ 'tslint-react' ] : []
     ],
     linterOptions: {
