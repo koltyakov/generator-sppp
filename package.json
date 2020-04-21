@@ -53,7 +53,7 @@
     "mocha": "^7.1.1",
     "office-ui-fabric-react": "^7.107.1",
     "ps-tree": "^1.2.0",
-    "puppeteer": "^3.0.0",
+    "puppeteer": "^2.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "recursive-copy": "^2.0.10",
