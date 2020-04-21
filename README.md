@@ -10,19 +10,19 @@
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoltyakov%2Fgenerator-sppp?ref=badge_shield)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/sharepoint-node/Lobby)
 
-Yeoman generator for SharePoint - lets you quickly set up a project with sensible defaults for pulling and pushing files between SharePoint asset library and local projects sources.
+Yeoman generator for SharePoint - lets you quickly set up a project with sensible defaults for pulling and pushing files between SharePoint asset library and local project's sources.
 
-Generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
+The generated project allows immediately start developing SharePoint client-side solutions in Visual Studio Code or any other editor with instant publishing changes to SharePoint web site and downloading specific assets from SP Document library folder to local project assets which can be enforced with Git Diff algorithm for tracking changes.
 
-SPPP generated projects suite perfectly for SPA development scenarious having local serve workbench with SharePoint API proxy server intergated from OOTB. Starting a local server your app refreshes instantly on changes using hot reload and incremental build at the same time the app is fully powered with real data from the API without any extra configuration.
+SPPP generated projects suite perfectly for SPA development scenarios having local serve workbench with SharePoint API proxy server integrated from OOTB. Starting a local server your app refreshes instantly on changes using hot reload and incremental build at the same time the app is fully powered with real data from the API without any extra configuration.
 
-React, PnPjs, Office UI Fabric, TypeScript, SCSS, Linting rules, polyfills, Webpack bundling, Live server, SharePoint interactive connection, [pipeline tasks](https://github.com/koltyakov/sp-build-tasks), all of these just work from the start. The batteries are included, but maybe you need congifuration changes? No problem, just override or provide yours, or extend a task, this is a part of the design.
+React, PnPjs, Office UI Fabric, TypeScript, SCSS, Linting rules, polyfills, Webpack bundling, Live server, SharePoint interactive connection, [pipeline tasks](https://github.com/koltyakov/sp-build-tasks), all of these just work from the start. The batteries are included, but maybe you need configuration changes? No problem, just override or provide yours, or extend a task, this is a part of the design.
 
 Don't need React or Office UI Fabric? Don't worry, these guys are installed as a presets only when you decided to.
 
-## Development scenarious
+## Development scenarios
 
-- Webparts developement
+- Web-parts development
   - classic CEWPs
   - SPA applications
 - Branding
@@ -43,7 +43,7 @@ Don't need React or Office UI Fabric? Don't worry, these guys are installed as a
 
 ### Using NPX (without Yeoman and generator global installation)
 
-Create and navigane to project folder then run:
+Create and navigate to project folder then run:
 
 ```bash
 npx -p yo -p generator-sppp -c 'yo sppp'
@@ -55,7 +55,7 @@ NPM v6 is required.
 
 #### Install
 
-To use Yeoman, one need to has Node.js and NPM installed on the computer. Basic installation process description can be found in [this blog post](https://www.linkedin.com/pulse/preparing-development-machine-client-side-sharepoint-mac-koltyakov?trk=pulse_spock-articles).
+To use Yeoman, one need to has Node.js and NPM installed on the computer. A basic installation process description can be found in [this blog post](https://www.linkedin.com/pulse/preparing-development-machine-client-side-sharepoint-mac-koltyakov?trk=pulse_spock-articles).
 
 Alter Node.js and NPM are staffed, install `Gulp`, `Yeoman` and `generator-sppp` globally in your Node.js environment.
 
@@ -69,13 +69,13 @@ npm install -g gulp-cli yo generator-sppp
 
 Make a new directory or clone a blank Git project of your own and navigate to the created folder.
 
-Inside project directory execulte:
+Inside project directory execute:
 
 ```bash
 yo sppp
 ```
 
-Then follow the the Yeoman wizard instructions:
+Then follow the Yeoman wizard instructions:
 
 ![Generator in action](./assets/sppp01.gif)
 
@@ -121,7 +121,7 @@ gulp pull
 
 ![SPPull in action](http://koltyakov.ru/images/generator-sppp-demo-2.gif)
 
-It will deliver all files from assets folder from SharePoint to local directory.
+It will deliver all files from the assets folder in SharePoint to the local directory.
 
 Run npm watch task before starting editing files:
 
