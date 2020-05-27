@@ -9,11 +9,11 @@ export interface IPresetDependencies {
 
 export const npmDependencies: IDependencies = {
   dependencies: [
-    [ '@pnp/pnpjs', '^1.3.9' ]
+    [ '@pnp/pnpjs', '^1.3.11' ]
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.15.0' ]
+    [ 'sp-build-tasks', '^3.15.4' ]
   ]
 };
 
@@ -26,13 +26,13 @@ export const presetDependencies: IPresetDependencies = {
     devDependencies: [
       '@types/react',
       '@types/react-dom',
-      [ 'tslint-react', '^4.2.0' ]
+      [ 'tslint-react', '^5.0.0' ]
     ]
   },
   'office-ui-fabric': {
     dependencies: [
-      [ 'office-ui-fabric-react', '^7.105.0' ],
-      [ '@uifabric/icons', '^7.3.20' ]
+      [ 'office-ui-fabric-react', '^7.115.4' ],
+      [ '@uifabric/icons', '^7.3.45' ]
     ]
   },
   eslint: {
