@@ -34,34 +34,39 @@ export const promptQuestions = (_data: IGeneratorData, yo: Generator): Promise<I
 
 export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator): Promise<IAnswers> => {
   // Step 2: Additional questions
-  return yo.prompt([{
-    type: 'confirm',
-    name: 'additional.sslCerts',
-    message: 'Copy SSL certificates (for live reload with HTTPS)',
-    default: typeof yo.config.get('conf.additional.sslCerts') === 'undefined' ? false : true
-  }, {
-    type: 'confirm',
-    name: 'additional.customTasks',
-    message: 'Scaffold extention tasks',
-    default: typeof yo.config.get('conf.additional.customTasks') === 'undefined' ? true : false
-  }, {
-    type: 'checkbox',
-    name: 'additional.presets',
-    message: 'Apply following presets',
-    choices: [
-      { name: 'React', value: 'react' },
-      { name: 'Office UI Fabric (includes React)', value: 'office-ui-fabric' }
-    ],
-    default: yo.config.get('conf.additional.presets')
-  }, {
-    type: 'checkbox',
-    name: 'additional.confPresets',
-    message: 'Apply following config presets',
-    choices: [
-      { name: 'ESLint', value: 'eslint' },
-      { name: 'Prettier', value: 'prettier' },
-      { name: 'Editor Config', value: 'editorconfig' }
-    ],
-    default: yo.config.get('conf.additional.confPresets')
-  }]); // as Promise<IAnswers>;
+  return yo.prompt([
+    {
+      type: 'confirm',
+      name: 'additional.sslCerts',
+      message: 'Copy SSL certificates (for live reload with HTTPS)',
+      default: typeof yo.config.get('conf.additional.sslCerts') === 'undefined' ? false : true
+    },
+    {
+      type: 'confirm',
+      name: 'additional.customTasks',
+      message: 'Scaffold extention tasks',
+      default: typeof yo.config.get('conf.additional.customTasks') === 'undefined' ? true : false
+    },
+    {
+      type: 'checkbox',
+      name: 'additional.presets',
+      message: 'Apply following presets',
+      choices: [
+        { name: 'React', value: 'react' },
+        { name: 'Office UI Fabric (includes React)', value: 'office-ui-fabric' }
+      ],
+      default: yo.config.get('conf.additional.presets')
+    },
+    // {
+    //   type: 'checkbox',
+    //   name: 'additional.confPresets',
+    //   message: 'Apply following config presets',
+    //   choices: [
+    //     { name: 'ESLint', value: 'eslint' },
+    //     { name: 'Prettier', value: 'prettier' },
+    //     { name: 'Editor Config', value: 'editorconfig' }
+    //   ],
+    //   default: yo.config.get('conf.additional.confPresets')
+    // }
+  ]); // as Promise<IAnswers>;
 };
