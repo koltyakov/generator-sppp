@@ -135,19 +135,19 @@ module.exports = class extends Generator {
       this.utils.writeJsonSync('package.json', configurators.packageJson(this.data));
     }
 
-    let appJson: IAppConfig = configurators.configAppJson(this.data);
-    if (this.data.answers && this.data.answers.additional && this.data.answers.additional.presets.indexOf('react') !== -1) {
-      appJson.copyAssetsMap = [
-        ...appJson.copyAssetsMap || [], {
-          name: 'React',
-          src: [
-            './node_modules/react/umd/react.production.min.js',
-            './node_modules/react-dom/umd/react-dom.production.min.js'
-          ],
-          dist: './dist/libs'
-        }
-      ];
-    }
+    const appJson: IAppConfig = configurators.configAppJson(this.data);
+    // if (this.data.answers && this.data.answers.additional && this.data.answers.additional.presets.indexOf('react') !== -1) {
+    //   appJson.copyAssetsMap = [
+    //     ...appJson.copyAssetsMap || [], {
+    //       name: 'React',
+    //       src: [
+    //         './node_modules/react/umd/react.production.min.js',
+    //         './node_modules/react-dom/umd/react-dom.production.min.js'
+    //       ],
+    //       dist: './dist/libs'
+    //     }
+    //   ];
+    // }
     this.utils.writeJsonSync('config/app.json', appJson);
 
     this.utils.writeJsonSync('tsconfig.json', configurators.tsconfigJson(this.data));
