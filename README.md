@@ -163,6 +163,10 @@ SPPP is powered with `sp-build-tasks`, build configs can be found in a [wiki sec
 
 ![app.json settings](https://raw.githubusercontent.com/koltyakov/sp-build-tasks/master/docs/schema.gif)
 
+## Configuring CI/CD
+
+Checkout [this end-to-end sample](https://github.com/koltyakov/sppp-cicd-sample).
+
 ## SharePoint communication layer
 
 - [sppull](https://github.com/koltyakov/sppull) library is used for downloading files from SharePoint
