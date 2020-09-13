@@ -13,10 +13,12 @@ export const initFolder = (rootFolder: string, projName: string, rcFilePath = '.
 
   // Copy private.json if exists (for local testing scenarios, use `npm run connect` to create private.json)
   const privateJson = path.join(process.cwd(), './config/private.json');
-  if (fs.statSync(privateJson).isFile()) {
-    mkdirp.sync(path.join(projFolder, './config'));
-    fs.copyFileSync(privateJson, path.join(projFolder, './config/private.json'));
-  }
+  try {
+    if (fs.statSync(privateJson).isFile()) {
+      mkdirp.sync(path.join(projFolder, './config'));
+      fs.copyFileSync(privateJson, path.join(projFolder, './config/private.json'));
+    }
+  } catch (ex) { /**/ }
 };
 
 export const runGenerator = (rootFolder: string, projName: string, headless = false, skipInstall = false, skipBuild = false): Promise<void> => {
