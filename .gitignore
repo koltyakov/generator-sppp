@@ -3,3 +3,4 @@ app/
 tmp/
 .DS_Store
 .env
+config/private.json

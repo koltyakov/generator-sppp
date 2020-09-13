@@ -11,44 +11,38 @@ export interface IServeProps {
   mochaContext?: Mocha.Context;
 }
 
-export const serve = (props: IServeProps): Promise<void> => {
+export const serve = async (props: IServeProps): Promise<void> => {
   const projFolder = path.join(props.rootFolder, `./tmp/${props.projName}`);
   const cdToPath = path.relative(process.cwd(), projFolder).replace(/\\/g, '/');
   const command = `cd ${cdToPath} && npm run start`;
 
-  return runInSeparateProcess(
+  const shell = await runInSeparateProcess(
     command,
-    (data) => {
+    (data: string): Promise<{ skip: boolean; stop: boolean; }> => {
       if (data.indexOf(': Compiled successfully.') !== -1) {
-        return Promise.resolve(true);
+        return Promise.resolve({ skip: true, stop: false });
       }
+      if (data.indexOf(': Compiled with warnings.') !== -1) {
+        return Promise.resolve({ skip: true, stop: false });
+      }
+      // Skip if creds are prompted
       if (data.indexOf('SharePoint URL (') !== -1) {
         if (props.mochaContext) {
-          props.mochaContext.skip();
-          return Promise.resolve(false);
+          return Promise.resolve({ skip: true, stop: true });
         }
         return Promise.reject(new Error('No auth context found'));
       }
-      return Promise.resolve(false);
+      return Promise.resolve({ skip: false, stop: false });
     },
     typeof props.headless !== 'undefined' ? props.headless : true,
     props.timeout
-  )
-    .then((shell) => {
-      return Promise.all([
-        props.browserTests().catch((error) => error),
-        shell
-      ]);
-    })
-    .then(([ testResults, shell ]) => {
-      return Promise.all([
-        testResults,
-        shell ? killProcessTree(shell.pid) : null
-      ]);
-    })
-    .then(([ testResults ]) => {
-      if (testResults) {
-        throw new Error(testResults);
-      }
-    });
+  );
+  if (shell === null) {
+    return props.mochaContext?.skip();
+  }
+  const testResults = await props.browserTests().catch((error) => error);
+  await killProcessTree(shell.pid);
+  if (testResults) {
+    throw new Error(testResults);
+  }
 };

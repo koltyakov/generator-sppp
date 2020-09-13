@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc -p . && node ./tools/copyTemplates",
     "lint": "tslint -p .",
+    "connect": "node ./tools/connectSP",
     "test": "mocha --config ./test/.mocharc.json || ECHO.",
     "test:manual": "ts-node ./test/manual/run.ts",
     "clean": "rimraf ./test/manual/tmp ./test/tmp ./app"

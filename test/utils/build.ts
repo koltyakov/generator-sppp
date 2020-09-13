@@ -9,8 +9,14 @@ export const initFolder = (rootFolder: string, projName: string, rcFilePath = '.
   const projFolder = path.join(rootFolder, `./tmp/${projName}`);
   rimraf.sync(projFolder);
   mkdirp.sync(projFolder);
-  // fs.mkdirSync(projFolder, { recursive: true });
   fs.copyFileSync(path.join(rootFolder, rcFilePath), path.join(projFolder, '.yo-rc.json'));
+
+  // Copy private.json if exists (for local testing scenarios, use `npm run connect` to create private.json)
+  const privateJson = path.join(process.cwd(), './config/private.json');
+  if (fs.statSync(privateJson).isFile()) {
+    mkdirp.sync(path.join(projFolder, './config'));
+    fs.copyFileSync(privateJson, path.join(projFolder, './config/private.json'));
+  }
 };
 
 export const runGenerator = (rootFolder: string, projName: string, headless = false, skipInstall = false, skipBuild = false): Promise<void> => {

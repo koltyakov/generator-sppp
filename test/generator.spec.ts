@@ -48,6 +48,7 @@ describe(`SPPP tests`, () => {
       it(`should serve & work in browser`, function(done: Mocha.Done): void {
         this.timeout(10 * 60 * 1000);
         const headless = true;
+
         const browserTests = async (): Promise<void> => {
           const containerSelector = '#example-cewp-container';
 
@@ -58,11 +59,11 @@ describe(`SPPP tests`, () => {
           await page.goto(siteUrl, { waitUntil: [ 'domcontentloaded', 'networkidle2' ] });
 
           const checkContentWithRetries = async (retriesCnt: number): Promise<string> => {
-            const content = await page.evaluate((containerSelector) => {
-              const containerEl = document.querySelector(containerSelector);
+            const data: string | null = await page.evaluate((selector: string) => {
+              const containerEl = document.querySelector(selector);
               return containerEl ? containerEl.innerHTML : null;
             }, containerSelector);
-            if ((content === null || content.trim().length === 0) && retriesCnt > 0) {
+            if ((data === null || data.trim().length === 0) && retriesCnt > 0) {
               retriesCnt -= 1;
               await page.waitForFunction(() => {
                 return new Promise((resolve) => {
@@ -71,7 +72,7 @@ describe(`SPPP tests`, () => {
               });
               return checkContentWithRetries(retriesCnt);
             }
-            return content;
+            return data || '';
           };
 
           const content = await checkContentWithRetries(3);
@@ -83,6 +84,7 @@ describe(`SPPP tests`, () => {
             throw new Error('Web app return no data, something wrong.');
           }
         };
+
         wrapPromiseTest(serve({
           rootFolder: __dirname,
           projName: p.proj,

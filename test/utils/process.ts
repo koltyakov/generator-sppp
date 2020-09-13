@@ -1,5 +1,6 @@
 import { spawn, ChildProcess } from 'child_process';
 import { PassThrough } from 'stream';
+// tslint:disable-next-line: no-implicit-dependencies
 import * as psTree from 'ps-tree';
 
 export const runScript = (script: string, headless = true): Promise<void> => {
@@ -29,7 +30,7 @@ export const runScript = (script: string, headless = true): Promise<void> => {
   });
 };
 
-export const runInSeparateProcess = (script: string, waitForCondition: (data: string) => Promise<boolean>, headless = true, timeout?: number): Promise<ChildProcess | null> => {
+export const runInSeparateProcess = (script: string, resultsParser: (data: string) => Promise<{ skip: boolean; stop: boolean; }>, headless = true, timeout?: number): Promise<ChildProcess | null> => {
   let isResolved: boolean = false;
   let processTimeout: any; // NodeJS.Timeout | number
   return new Promise((resolve, reject) => {
@@ -51,21 +52,30 @@ export const runInSeparateProcess = (script: string, waitForCondition: (data: st
 
     stdout.on('data', (data) => {
       if (!headless) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
       }
-      waitForCondition(data.toString())
-        .then((condition) => {
-          if (condition && !isResolved) {
+      resultsParser(data.toString())
+        .then(async ({ skip, stop }) => {
+          if (stop) {
+            if (shell) {
+              await killProcessTree(shell.pid);
+              isResolved = true;
+              processTimeout && clearTimeout(processTimeout);
+              return resolve(null);
+            }
+          }
+          if (skip && !isResolved) {
             isResolved = true;
             processTimeout && clearTimeout(processTimeout);
-            resolve(shell);
+            return resolve(shell);
           }
         })
         .catch(async (error) => {
           isResolved = true;
           processTimeout && clearTimeout(processTimeout);
+          // tslint:disable-next-line: no-console
           await (shell ? killProcessTree(shell.pid) : Promise.resolve()).catch(console.warn);
-          reject(error)
+          reject(error);
         });
     });
 
