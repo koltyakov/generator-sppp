@@ -64,7 +64,11 @@ describe(`SPPP tests`, () => {
             }, containerSelector);
             if ((content === null || content.trim().length === 0) && retriesCnt > 0) {
               retriesCnt -= 1;
-              await page.waitFor(3000);
+              await page.waitForFunction(() => {
+                return new Promise((resolve) => {
+                  setTimeout(resolve, 3000);
+                });
+              });
               return checkContentWithRetries(retriesCnt);
             }
             return content;
