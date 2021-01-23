@@ -10,7 +10,7 @@ describe(`SPPP tests`, () => {
     describe(`${p.name} preset`, () => {
 
       before('initiate folder', function(done: Mocha.Done): void {
-        this.timeout(30 * 1000);
+        this.timeout(60 * 1000);
         initFolder(__dirname, p.proj, p.preset);
         done();
       });
