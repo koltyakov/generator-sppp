@@ -1,5 +1,5 @@
 import { initializeIcons } from '@uifabric/icons';
-import { setIconOptions } from 'office-ui-fabric-react';
+import { setIconOptions } from '@fluentui/react';
 import { getAssetsPath } from '@utils/assets';
 
 setIconOptions({ disableWarnings: true });

@@ -18,11 +18,11 @@ export const presets = [
     }
   },
   {
-    name: 'React + Office UI Fabric',
-    preset: './presets/office-ui-fabric.json',
-    proj: 'sppp-office-ui-fabric',
+    name: 'React + Fluent UI',
+    preset: './presets/fluentui.json',
+    proj: 'sppp-fluentui',
     checkFor: {
-      delendencies: [ 'react', 'react-dom', '@uifabric/icons', 'office-ui-fabric-react' ],
+      delendencies: [ 'react', 'react-dom', '@uifabric/icons', '@fluentui/react' ],
       devDependencies: [ 'sp-build-tasks', 'tslint-react' ]
     }
   }

@@ -34,7 +34,7 @@ export const packageJson = (metadata: IGeneratorData) => {
 
 export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
   const isReact = getPresets(metadata).indexOf('react') !== -1;
-  const isOfficeUI = getPresets(metadata).indexOf('office-ui-fabric') !== -1;
+  const isFluentUI = getPresets(metadata).indexOf('fluentui') !== -1;
   const appConf: IAppConfig = {
     $schema: '../node_modules/sp-build-tasks/schema/v1/sppp.json',
     spFolder: metadata.answers && metadata.answers.spFolder || '_catalogs/masterpage/spf',
@@ -63,12 +63,12 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
           dist: './dist/libs'
         }
       ] : [],
-      ...isOfficeUI ? [
+      ...isFluentUI ? [
         {
-          name: 'Office UI Fabric',
+          name: 'Fluent UI (Office UI Fabric)',
           src: [
-            './node_modules/office-ui-fabric-react/dist/office-ui-fabric-react.min.js',
-            './node_modules/office-ui-fabric-react/dist/office-ui-fabric-react.min.js.map'
+            './node_modules/@fluentui/react/dist/fluentui-react.min.js',
+            './node_modules/@fluentui/react/dist/fluentui-react.min.js.map'
           ],
           dist: './dist/libs'
         },
@@ -78,8 +78,8 @@ export const configAppJson = (metadata: IGeneratorData): IAppConfig => {
           dist: './dist'
         },
         {
-          name: 'Office UI Fabric Styles',
-          src: [ './node_modules/office-ui-fabric-react/dist/css/fabric.min.css' ],
+          name: 'Fluent UI (Office UI Fabric) Styles',
+          src: [ './node_modules/@fluentui/react/dist/css/fabric.min.css' ],
           dist: './dist/styles'
         }
       ] : []

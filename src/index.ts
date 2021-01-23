@@ -82,7 +82,7 @@ module.exports = class extends Generator {
       await promptAdditionalQuestions(this.data, this).then((answers) => {
         if (answers.additional) {
           let presets = answers.additional.presets || [];
-          if (presets.indexOf('office-ui-fabric') !== -1 && presets.indexOf('react') === -1) {
+          if (presets.indexOf('fluentui') !== -1 && presets.indexOf('react') === -1) {
             presets = [ 'react', ...presets ];
           }
           answers.additional = {
@@ -181,9 +181,9 @@ module.exports = class extends Generator {
           this.utils.copyFolder('presets/react', 'src');
         }
 
-        if (presets.indexOf('office-ui-fabric') !== -1) {
+        if (presets.indexOf('fluentui') !== -1) {
           this.utils.copyFolder('presets/react', 'src');
-          this.utils.copyFolder('presets/office-ui-fabric', 'src');
+          this.utils.copyFolder('presets/fluentui', 'src');
         }
 
         // Secondary presets

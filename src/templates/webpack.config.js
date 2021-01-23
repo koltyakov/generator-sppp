@@ -37,7 +37,7 @@ configs.forEach(config => {
     '@pnp/common': 'pnp',
     '@pnp/graph': 'pnp',
     '@pnp/pnpjs': 'pnp',
-    'office-ui-fabric-react': 'Fabric',
+    '@fluentui/react': 'FluentUIReact',
     'react': 'React',
     'react-dom': 'ReactDOM',
     'moment': 'moment',

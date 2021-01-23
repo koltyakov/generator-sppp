@@ -29,7 +29,7 @@ export const promptQuestions = (_data: IGeneratorData, yo: Generator): Promise<I
     name: 'distFolder',
     message: 'Distribution Folder',
     default: yo.config.get('conf.distFolder') || './dist'
-  }]); // as Promise<IAnswers>;
+  }]);
 };
 
 export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator): Promise<IAnswers> => {
@@ -53,7 +53,7 @@ export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator):
       message: 'Apply following presets',
       choices: [
         { name: 'React', value: 'react' },
-        { name: 'Office UI Fabric (includes React)', value: 'office-ui-fabric' }
+        { name: 'Fluent UI (includes React)', value: 'fluentui' }
       ],
       default: yo.config.get('conf.additional.presets')
     },
@@ -68,5 +68,5 @@ export const promptAdditionalQuestions = (_data: IGeneratorData, yo: Generator):
     //   ],
     //   default: yo.config.get('conf.additional.confPresets')
     // }
-  ]); // as Promise<IAnswers>;
+  ]);
 };

@@ -13,15 +13,15 @@ export const npmDependencies: IDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.17.1' ]
+    [ 'sp-build-tasks', '^3.18.0' ]
   ]
 };
 
 export const presetDependencies: IPresetDependencies = {
   react: {
     dependencies: [
-      [ 'react', '^16.13.1' ],
-      [ 'react-dom', '^16.13.1' ]
+      [ 'react', '^17.0.1' ],
+      [ 'react-dom', '^17.0.1' ]
     ],
     devDependencies: [
       '@types/react',
@@ -29,20 +29,10 @@ export const presetDependencies: IPresetDependencies = {
       [ 'tslint-react', '^5.0.0' ]
     ]
   },
-  'office-ui-fabric': {
+  fluentui: {
     dependencies: [
-      [ 'office-ui-fabric-react', '^7.144.2' ],
-      [ '@uifabric/icons', '^7.5.8' ]
-    ]
-  },
-  eslint: {
-    devDependencies: [
-      'eslint',
-      'eslint-config-standard',
-      'eslint-plugin-import',
-      'eslint-plugin-node',
-      'eslint-plugin-promise',
-      'eslint-plugin-standard'
+      [ '@fluentui/react', '^7.156.0' ],
+      [ '@uifabric/icons', '^7.5.18' ]
     ]
   }
 };
