@@ -13,15 +13,15 @@ export const npmDependencies: IDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.18.0' ]
+    [ 'sp-build-tasks', '^3.18.2' ]
   ]
 };
 
 export const presetDependencies: IPresetDependencies = {
   react: {
     dependencies: [
-      [ 'react', '^17.0.1' ],
-      [ 'react-dom', '^17.0.1' ]
+      [ 'react', '^17.0.2' ],
+      [ 'react-dom', '^17.0.2' ]
     ],
     devDependencies: [
       '@types/react',
@@ -31,8 +31,8 @@ export const presetDependencies: IPresetDependencies = {
   },
   fluentui: {
     dependencies: [
-      [ '@fluentui/react', '^7.156.0' ],
-      [ '@uifabric/icons', '^7.5.18' ]
+      [ '@fluentui/react', '^8.17.4' ],
+      [ '@uifabric/icons', '^7.5.23' ]
     ]
   }
 };
