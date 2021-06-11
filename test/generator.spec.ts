@@ -21,32 +21,26 @@ describe(`SPPP tests`, () => {
       // });
 
       it(`should generate project `, function(done: Mocha.Done): void {
-        this.timeout(1 * 60 * 1000);
         wrapPromiseTest(runGenerator(__dirname, p.proj, true, true, true), done);
-      });
+      }).timeout(1 * 60 * 1000);
 
       it(`should validate some preset required dependencies`, function(done: Mocha.Done): void {
-        this.timeout(3 * 1000);
         wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.delendencies), done);
-      });
+      }).timeout(3 * 1000);
 
       it(`should validate some preset required dev dependencies`, function(done: Mocha.Done): void {
-        this.timeout(3 * 1000);
         wrapPromiseTest(checkDeps(__dirname, p.proj, p.checkFor.devDependencies, true), done);
-      });
+      }).timeout(3 * 1000);
 
       it(`should restore dependencies`, function(done: Mocha.Done): void {
-        this.timeout(10 * 60 * 1000);
         wrapPromiseTest(runNpmInstall(__dirname, p.proj, true), done);
-      });
+      }).timeout(10 * 60 * 1000);
 
       it(`should validate linting rules & build project`, function(done: Mocha.Done): void {
-        this.timeout(10 * 60 * 1000);
         wrapPromiseTest(runBuild(__dirname, p.proj, true), done);
-      });
+      }).timeout(10 * 60 * 1000);
 
       it(`should serve & work in browser`, function(done: Mocha.Done): void {
-        this.timeout(10 * 60 * 1000);
         const headless = true;
 
         const browserTests = async (): Promise<void> => {
@@ -93,7 +87,7 @@ describe(`SPPP tests`, () => {
           timeout: 10 * 60 * 1000,
           mochaContext: this
         }), done);
-      });
+      }).timeout(10 * 60 * 1000);
 
     });
   }
