@@ -14,7 +14,7 @@ export const packageJson = (metadata: IGeneratorData) => {
     typings: './dist/index',
     private: true,
     scripts: {
-      start: 'gulp build --no-webpack && gulp serve',
+      start: 'gulp build --no-webpack && cross-env NODE_OPTIONS=--openssl-legacy-provider gulp serve',
       build: 'npm run clean && npm run lint && gulp build --prod',
       watch: 'gulp watch',
       'watch:prod': 'gulp watch --prod',
