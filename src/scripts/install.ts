@@ -13,7 +13,7 @@ export const npmDependencies: IDependencies = {
   ],
   devDependencies: [
     '@types/sharepoint',
-    [ 'sp-build-tasks', '^3.20.0' ],
+    [ 'sp-build-tasks', '^3.21.0' ],
     [ 'cross-env', '^7.0.3' ]
   ]
 };
