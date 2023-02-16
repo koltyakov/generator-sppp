@@ -11,13 +11,13 @@ variables:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '14.x'
+    versionSpec: '18.x'
   displayName: 'Install Node.js'
 
 - script: npm install -g yo
   displayName: 'Global dependencies'
 
-- script: npm ci
+- script: npm ci --force
   displayName: 'Restore dependencies'
 
 - script: |
