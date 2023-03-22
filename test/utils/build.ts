@@ -27,7 +27,7 @@ export const runGenerator = (rootFolder: string, projName: string, headless = fa
   const relRootPath = path.relative(projFolder, process.cwd()).replace(/\\/g, '/');
   const cdToPath = path.relative(process.cwd(), projFolder).replace(/\\/g, '/');
 
-  let shellSyntaxCommand = `cd ${cdToPath} && yo ${relRootPath}`;
+  let shellSyntaxCommand = `cd ${cdToPath} && npx yo ${relRootPath}`;
   shellSyntaxCommand += headless ? ` --headless` : ``;
   shellSyntaxCommand += skipInstall ? ` --skip-npm-install` : ``;
   shellSyntaxCommand += skipBuild ? '\n' : ' && npm run build\n';
