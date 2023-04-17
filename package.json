@@ -52,7 +52,7 @@
     "@uifabric/icons": "^7.5.23",
     "chai": "^4.2.0",
     "mkdirp": "^1.0.4",
-    "mocha": "^8.1.3",
+    "mocha": "^10.2.0",
     "ps-tree": "^1.2.0",
     "puppeteer": "^19.6.3",
     "react": "^17.0.2",
