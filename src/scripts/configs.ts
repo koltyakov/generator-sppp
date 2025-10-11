@@ -30,10 +30,10 @@ export const packageJson = (metadata: IGeneratorData) => {
     dependencies: {},
     devDependencies: {},
     engines: {
-      node: '>=14.0.0 <17.0.0'
+      node: '>=14.0.0 <19.0.0'
     },
     volta: {
-      node: '16.19.1'
+      node: '18.20.8'
     }
   };
 };

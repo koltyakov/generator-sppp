@@ -118,7 +118,11 @@ export const killProcessTree = (pid: number, signal: string = 'SIGKILL'): Promis
         try {
           process.kill(tpid, signal);
         } catch (ex) {
-          errors.push(ex.message);
+          if (ex instanceof Error) {
+            errors.push(ex.message);
+          } else {
+            errors.push(String(ex));
+          }
         }
       });
       if (errors.length > 0) {

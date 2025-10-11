@@ -24,8 +24,10 @@ export const initFolder = (rootFolder: string, projName: string, rcFilePath = '.
 export const runGenerator = (rootFolder: string, projName: string, headless = false, skipInstall = false, skipBuild = false): Promise<void> => {
   const projFolder = path.join(rootFolder, `./tmp/${projName}`);
 
-  const relRootPath = path.relative(projFolder, process.cwd()).replace(/\\/g, '/');
+  // const relRootPath = path.relative(projFolder, process.cwd()).replace(/\\/g, '/');
+  const relRootPath = path.join(process.cwd(), 'app');
   const cdToPath = path.relative(process.cwd(), projFolder).replace(/\\/g, '/');
+
 
   let shellSyntaxCommand = `cd ${cdToPath} && npx yo ${relRootPath}`;
   shellSyntaxCommand += headless ? ` --headless` : ``;
